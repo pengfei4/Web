@@ -1,0 +1,1178 @@
+/* ============================================================
+   中秋节专题网站 - 二级页面通用样式
+   "月满中华·情系中秋"
+   ============================================================ */
+
+/* ---- 页面 Hero 横幅 ---- */
+.page-hero {
+  position: relative;
+  height: 50vh;
+  min-height: 380px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  background: linear-gradient(180deg,
+    rgba(10, 14, 39, 0.3) 0%,
+    rgba(10, 14, 39, 0.6) 50%,
+    var(--deep-blue) 100%);
+}
+
+.page-hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse at 70% 30%, rgba(245, 210, 122, 0.12) 0%, transparent 50%),
+    radial-gradient(ellipse at 30% 60%, rgba(232, 115, 74, 0.08) 0%, transparent 40%);
+  pointer-events: none;
+}
+
+.page-hero .hero-content {
+  text-align: center;
+  position: relative;
+  z-index: 2;
+  animation: fadeInUp 1s ease;
+}
+
+.page-hero .hero-icon {
+  font-size: 3.5rem;
+  margin-bottom: 15px;
+  display: block;
+  animation: float 5s ease-in-out infinite;
+}
+
+.page-hero h1 {
+  font-family: var(--font-title);
+  font-size: 3rem;
+  color: var(--moon-gold);
+  letter-spacing: 6px;
+  margin-bottom: 10px;
+  text-shadow: 0 0 40px rgba(245, 210, 122, 0.3);
+}
+
+.page-hero .hero-desc {
+  font-family: var(--font-poetry);
+  font-size: 1.2rem;
+  color: var(--text-secondary);
+  letter-spacing: 3px;
+}
+
+/* 背景装饰云纹 */
+.page-hero .cloud-pattern {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 80px;
+  background:
+    radial-gradient(ellipse at 20% 100%, rgba(255,255,255,0.04) 0%, transparent 50%),
+    radial-gradient(ellipse at 60% 100%, rgba(255,255,255,0.03) 0%, transparent 40%),
+    radial-gradient(ellipse at 85% 100%, rgba(255,255,255,0.04) 0%, transparent 45%);
+  pointer-events: none;
+}
+
+/* ---- 内容区域 ---- */
+.page-content {
+  max-width: var(--container-width);
+  margin: 0 auto;
+  padding: 60px 20px;
+  position: relative;
+}
+
+/* ---- 直线轴时间轴（节日起源） ---- */
+.era-timeline-wrapper {
+  position: relative;
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 60px 0 80px;
+}
+
+/* SVG 直线轴层 */
+.era-axis-svg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 1;
+}
+.era-axis-svg .axis-line {
+  fill: none;
+  stroke: var(--moon-gold);
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-dasharray: 2500;
+  stroke-dashoffset: 2500;
+  transition: stroke-dashoffset 0.15s linear;
+  filter: drop-shadow(0 0 6px rgba(245,210,122,0.5));
+}
+.era-axis-svg .axis-glow {
+  fill: none;
+  stroke: rgba(245,210,122,0.2);
+  stroke-width: 6;
+  stroke-linecap: round;
+  stroke-dasharray: 2500;
+  stroke-dashoffset: 2500;
+  transition: stroke-dashoffset 0.15s linear;
+}
+
+/* 时代卡片容器 */
+.era-cards {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  gap: 80px;
+}
+
+/* 单张时代卡片 */
+.era-card {
+  position: relative;
+  width: 48%;
+  max-width: 560px;
+  background: var(--card-bg);
+  border: 1px solid var(--border-subtle);
+  border-radius: 16px;
+  padding: 35px 40px;
+  transition: all 0.5s cubic-bezier(0.4,0,0.2,1);
+  opacity: 0.4;
+  transform: translateY(20px);
+}
+.era-card.active {
+  opacity: 1;
+  transform: translateY(0);
+  border-color: var(--border-glow);
+  box-shadow: 0 8px 35px rgba(245,210,122,0.1);
+}
+
+/* ---- 卡片折叠/伸展（抛物线穿针驱动） ---- */
+.era-card .era-collapsible {
+  transition: max-height 0.7s cubic-bezier(0.4,0,0.2,1),
+              opacity 0.5s cubic-bezier(0.4,0,0.2,1);
+  overflow: hidden;
+}
+
+/* 折叠态：内容隐藏，卡片更紧凑 */
+.era-card.collapsed .era-collapsible {
+  max-height: 0;
+  opacity: 0;
+}
+
+/* 穿针态：内容伸展 */
+.era-card.pierced .era-collapsible {
+  max-height: 3500px;
+  opacity: 1;
+}
+
+/* 折叠态卡片微调 */
+.era-card.collapsed {
+  padding-bottom: 25px;
+}
+.era-card.pierced {
+  padding-bottom: 35px;
+}
+
+/* 折叠指示线 — 抛物线未穿过时显示 */
+.era-card.collapsed::after {
+  content: '';
+  display: block;
+  width: 50px;
+  height: 1px;
+  background: var(--border-glow);
+  margin: 18px auto 0;
+  transition: all 0.5s ease;
+  opacity: 0.6;
+}
+.era-card.pierced::after {
+  opacity: 0;
+  width: 0;
+}
+/* 奇数卡片靠左，偶数卡片靠右 */
+.era-card:nth-child(odd) {
+  margin-left: 0;
+  margin-right: auto;
+}
+.era-card:nth-child(even) {
+  margin-left: auto;
+  margin-right: 0;
+}
+
+/* 针眼节点 — 已隐藏 */
+.era-card .needle-eye {
+  display: none;
+}
+
+/* 卡片内容 */
+.era-card .era-badge {
+  display: inline-block;
+  padding: 5px 16px;
+  background: rgba(245,210,122,0.1);
+  border: 1px solid var(--border-subtle);
+  border-radius: 20px;
+  font-family: var(--font-title);
+  font-size: 0.85rem;
+  color: var(--moon-gold);
+  letter-spacing: 2px;
+  margin-bottom: 14px;
+}
+.era-card .era-year {
+  font-family: var(--font-title);
+  font-size: 2.4rem;
+  color: var(--moon-gold);
+  letter-spacing: 3px;
+  margin-bottom: 6px;
+  line-height: 1;
+}
+.era-card .era-title {
+  font-size: 1.25rem;
+  color: var(--text-primary);
+  font-weight: bold;
+  margin-bottom: 16px;
+  letter-spacing: 1px;
+}
+.era-card .era-desc {
+  color: var(--text-secondary);
+  font-size: 0.95rem;
+  line-height: 2;
+  margin-bottom: 14px;
+}
+.era-card .era-desc p + p { margin-top: 10px; }
+
+/* 古籍引用块 */
+.era-card .era-quote {
+  background: rgba(245,210,122,0.04);
+  border-left: 3px solid var(--moon-gold);
+  padding: 14px 20px;
+  margin-top: 18px;
+  border-radius: 0 8px 8px 0;
+  font-family: var(--font-poetry);
+  color: var(--text-primary);
+  font-size: 1rem;
+  letter-spacing: 1.5px;
+  line-height: 1.9;
+  transition: all 0.6s ease;
+}
+.era-card .era-quote .quote-source {
+  display: block;
+  text-align: right;
+  color: var(--text-muted);
+  font-size: 0.8rem;
+  margin-top: 6px;
+  font-family: var(--font-body);
+}
+
+/* 时代插图装饰 */
+.era-card .era-illustration {
+  position: absolute;
+  font-size: 4rem;
+  opacity: 0.2;
+  pointer-events: none;
+}
+.era-card:nth-child(odd) .era-illustration { right: -60px; top: -20px; }
+.era-card:nth-child(even) .era-illustration { left: -60px; top: -20px; }
+
+/* ====== 时代背景主题 ====== */
+body.era-ancient {
+  background: linear-gradient(180deg, #05081a 0%, #0a0e27 40%, #0d1025 100%);
+}
+body.era-ancient::before {
+  content: ''; position: fixed; inset: 0; pointer-events: none; z-index: -1;
+  background: radial-gradient(ellipse at 70% 25%, rgba(232,115,74,0.06) 0%, transparent 60%);
+  transition: opacity 1.2s ease;
+}
+
+body.era-han {
+  background: linear-gradient(180deg, #060a1e 0%, #0c1228 40%, #0e1428 100%);
+}
+body.era-han::before {
+  content: ''; position: fixed; inset: 0; pointer-events: none; z-index: -1;
+  background: radial-gradient(ellipse at 60% 30%, rgba(245,210,122,0.08) 0%, transparent 55%);
+  transition: opacity 1.2s ease;
+}
+
+body.era-tang {
+  background: linear-gradient(180deg, #080c24 0%, #101838 40%, #121a3a 100%);
+}
+body.era-tang::before {
+  content: ''; position: fixed; inset: 0; pointer-events: none; z-index: -1;
+  background:
+    radial-gradient(ellipse at 55% 28%, rgba(245,210,122,0.1) 0%, transparent 50%),
+    radial-gradient(ellipse at 80% 60%, rgba(200,160,220,0.05) 0%, transparent 45%);
+  transition: opacity 1.2s ease;
+}
+
+body.era-song {
+  background: linear-gradient(180deg, #0a0e26 0%, #141a36 40%, #151d38 100%);
+}
+body.era-song::before {
+  content: ''; position: fixed; inset: 0; pointer-events: none; z-index: -1;
+  background:
+    radial-gradient(ellipse at 50% 30%, rgba(245,210,122,0.1) 0%, transparent 45%),
+    radial-gradient(ellipse at 30% 70%, rgba(232,115,74,0.06) 0%, transparent 40%),
+    radial-gradient(ellipse at 75% 55%, rgba(240,199,94,0.05) 0%, transparent 40%);
+  transition: opacity 1.2s ease;
+}
+
+body.era-weijin {
+  background: linear-gradient(180deg, #060d1e 0%, #0e162e 40%, #101830 100%);
+}
+body.era-weijin::before {
+  content: ''; position: fixed; inset: 0; pointer-events: none; z-index: -1;
+  background:
+    radial-gradient(ellipse at 55% 28%, rgba(180,210,160,0.07) 0%, transparent 55%),
+    radial-gradient(ellipse at 35% 65%, rgba(200,180,140,0.05) 0%, transparent 45%);
+  transition: opacity 1.2s ease;
+}
+
+body.era-yuan {
+  background: linear-gradient(180deg, #080e24 0%, #111a34 40%, #131c38 100%);
+}
+body.era-yuan::before {
+  content: ''; position: fixed; inset: 0; pointer-events: none; z-index: -1;
+  background:
+    radial-gradient(ellipse at 50% 30%, rgba(245,210,122,0.09) 0%, transparent 50%),
+    radial-gradient(ellipse at 70% 60%, rgba(220,160,100,0.06) 0%, transparent 45%);
+  transition: opacity 1.2s ease;
+}
+
+body.era-ming {
+  background: linear-gradient(180deg, #0c1028 0%, #181e3c 40%, #1a2040 100%);
+}
+body.era-ming::before {
+  content: ''; position: fixed; inset: 0; pointer-events: none; z-index: -1;
+  background:
+    radial-gradient(ellipse at 50% 30%, rgba(245,210,122,0.1) 0%, transparent 50%),
+    radial-gradient(ellipse at 40% 65%, rgba(212,68,59,0.06) 0%, transparent 45%),
+    radial-gradient(ellipse at 70% 50%, rgba(201,169,110,0.06) 0%, transparent 40%);
+  transition: opacity 1.2s ease;
+}
+
+body.era-qing {
+  background: linear-gradient(180deg, #0a0e2a 0%, #151d42 40%, #182044 100%);
+}
+body.era-qing::before {
+  content: ''; position: fixed; inset: 0; pointer-events: none; z-index: -1;
+  background:
+    radial-gradient(ellipse at 50% 25%, rgba(245,210,122,0.11) 0%, transparent 45%),
+    radial-gradient(ellipse at 65% 55%, rgba(200,160,220,0.06) 0%, transparent 45%),
+    radial-gradient(ellipse at 35% 70%, rgba(212,68,59,0.04) 0%, transparent 40%);
+  transition: opacity 1.2s ease;
+}
+
+body.era-recent {
+  background: linear-gradient(180deg, #0d122a 0%, #192044 40%, #1b2248 100%);
+}
+body.era-recent::before {
+  content: ''; position: fixed; inset: 0; pointer-events: none; z-index: -1;
+  background:
+    radial-gradient(ellipse at 45% 25%, rgba(245,210,122,0.11) 0%, transparent 45%),
+    radial-gradient(ellipse at 60% 50%, rgba(245,210,122,0.06) 0%, transparent 40%),
+    radial-gradient(ellipse at 50% 75%, rgba(240,199,94,0.05) 0%, transparent 50%);
+  transition: opacity 1.2s ease;
+}
+
+body.era-modern {
+  background: linear-gradient(180deg, #0e1228 0%, #1a2240 40%, #1c2444 100%);
+}
+body.era-modern::before {
+  content: ''; position: fixed; inset: 0; pointer-events: none; z-index: -1;
+  background:
+    radial-gradient(ellipse at 50% 25%, rgba(245,210,122,0.12) 0%, transparent 45%),
+    radial-gradient(ellipse at 30% 55%, rgba(245,210,122,0.05) 0%, transparent 40%),
+    radial-gradient(ellipse at 70% 55%, rgba(245,210,122,0.05) 0%, transparent 40%),
+    radial-gradient(ellipse at 50% 80%, rgba(240,199,94,0.04) 0%, transparent 50%);
+  transition: opacity 1.2s ease;
+}
+
+/* ---- 响应式 ---- */
+@media (max-width: 768px) {
+  .era-card { width: 90%; margin: 0 auto !important; }
+  .era-card .needle-eye { display: none; }
+  .era-axis-svg { display: none; }
+  .era-card .era-illustration { display: none; }
+  .era-card .era-year { font-size: 1.8rem; }
+
+  /* 移动端无曲线，始终展示全部内容 */
+  .era-card.collapsed .era-collapsible {
+    max-height: none;
+    opacity: 1;
+  }
+  .era-card.collapsed::after {
+    display: none;
+  }
+}
+
+/* ---- 3D 翻转卡片（民间习俗） ---- */
+.flip-cards-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 25px;
+}
+
+.flip-card {
+  height: 300px;
+  perspective: 1000px;
+}
+
+.flip-card-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+  transform-style: preserve-3d;
+}
+
+.flip-card:hover .flip-card-inner {
+  transform: rotateY(180deg);
+}
+
+.flip-card-front,
+.flip-card-back {
+  position: absolute;
+  inset: 0;
+  backface-visibility: hidden;
+  border-radius: 12px;
+  border: 1px solid var(--border-subtle);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 25px;
+  overflow: hidden;
+}
+
+.flip-card-front {
+  background: var(--card-bg);
+}
+
+.flip-card-front .fc-icon {
+  font-size: 3rem;
+  margin-bottom: 15px;
+}
+
+.flip-card-front .fc-title {
+  font-family: var(--font-title);
+  font-size: 1.4rem;
+  color: var(--moon-gold);
+  letter-spacing: 3px;
+}
+
+.flip-card-back {
+  background: linear-gradient(135deg, rgba(20, 24, 54, 0.95), rgba(30, 35, 60, 0.95));
+  transform: rotateY(180deg);
+  text-align: center;
+}
+
+.flip-card-back .fc-desc {
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+  line-height: 1.8;
+}
+
+.flip-card-back .fc-more {
+  margin-top: 15px;
+  color: var(--moon-gold);
+  font-size: 0.85rem;
+  letter-spacing: 1px;
+  cursor: pointer;
+}
+
+/* ---- 传说故事卡片 ---- */
+.legend-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 30px;
+}
+
+.legend-card {
+  background: var(--card-bg);
+  border: 1px solid var(--border-subtle);
+  border-radius: 12px;
+  padding: 35px;
+  display: flex;
+  gap: 25px;
+  align-items: flex-start;
+  transition: all var(--transition-normal);
+}
+
+.legend-card:hover {
+  border-color: var(--border-glow);
+  transform: translateY(-3px);
+  box-shadow: 0 8px 30px rgba(245, 210, 122, 0.12);
+}
+
+.legend-card .lc-illustration {
+  width: 140px;
+  height: 140px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 4rem;
+  background: radial-gradient(circle at 40% 35%, rgba(245, 210, 122, 0.2), transparent 70%);
+  border: 2px solid var(--border-glow);
+  box-shadow: 0 0 30px rgba(245, 210, 122, 0.15);
+}
+
+.legend-card .lc-info h3 {
+  font-family: var(--font-title);
+  font-size: 1.5rem;
+  color: var(--moon-gold);
+  letter-spacing: 3px;
+  margin-bottom: 12px;
+}
+
+.legend-card .lc-info p {
+  color: var(--text-secondary);
+  font-size: 0.95rem;
+  line-height: 1.9;
+}
+
+/* ---- 诗词卡片 ---- */
+.poetry-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+  gap: 25px;
+}
+
+.poetry-card {
+  background: var(--card-bg);
+  border: 1px solid var(--border-subtle);
+  border-radius: 12px;
+  padding: 30px;
+  cursor: pointer;
+  transition: all var(--transition-normal);
+  position: relative;
+  overflow: hidden;
+}
+
+.poetry-card:hover {
+  border-color: var(--border-glow);
+  box-shadow: 0 8px 30px rgba(245, 210, 122, 0.12);
+}
+
+.poetry-card .poem-title {
+  font-family: var(--font-title);
+  font-size: 1.3rem;
+  color: var(--moon-gold);
+  letter-spacing: 2px;
+  margin-bottom: 5px;
+}
+
+.poetry-card .poem-author {
+  font-size: 0.9rem;
+  color: var(--text-muted);
+  margin-bottom: 15px;
+}
+
+.poetry-card .poem-lines {
+  font-family: var(--font-poetry);
+  font-size: 1.1rem;
+  color: var(--text-primary);
+  line-height: 2.2;
+  letter-spacing: 1px;
+}
+
+.poetry-card .poem-full {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.6s ease, margin-top 0.6s ease;
+  color: var(--text-secondary);
+  line-height: 2;
+  margin-top: 0;
+}
+
+.poetry-card.expanded .poem-full {
+  max-height: 500px;
+  margin-top: 20px;
+}
+
+/* ---- 图集画廊 ---- */
+.gallery-filter {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  margin-bottom: 35px;
+  flex-wrap: wrap;
+}
+
+.gallery-filter .filter-btn {
+  padding: 8px 24px;
+  border-radius: 20px;
+  border: 1px solid var(--border-subtle);
+  background: transparent;
+  color: var(--text-secondary);
+  cursor: pointer;
+  font-family: var(--font-title);
+  letter-spacing: 2px;
+  transition: all var(--transition-normal);
+}
+
+.gallery-filter .filter-btn:hover,
+.gallery-filter .filter-btn.active {
+  border-color: var(--moon-gold);
+  color: var(--moon-gold);
+  background: rgba(245, 210, 122, 0.08);
+}
+
+.gallery-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 20px;
+}
+
+.gallery-item {
+  border-radius: 12px;
+  overflow: hidden;
+  cursor: pointer;
+  position: relative;
+  aspect-ratio: 4/3;
+  background: var(--card-bg);
+  border: 1px solid var(--border-subtle);
+  transition: all var(--transition-normal);
+}
+
+.gallery-item:hover {
+  border-color: var(--border-glow);
+  transform: scale(1.02);
+  box-shadow: 0 8px 30px rgba(245, 210, 122, 0.2);
+}
+
+.gallery-item .gi-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, transparent 50%, rgba(10,14,39,0.9) 100%);
+  display: flex;
+  align-items: flex-end;
+  padding: 20px;
+  opacity: 0;
+  transition: opacity var(--transition-normal);
+}
+
+.gallery-item:hover .gi-overlay { opacity: 1; }
+
+.gallery-item .gi-title {
+  color: var(--moon-gold);
+  font-family: var(--font-title);
+  letter-spacing: 2px;
+}
+
+/* Lightbox */
+.lightbox {
+  position: fixed;
+  inset: 0;
+  background: rgba(10, 14, 39, 0.95);
+  z-index: 10000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity var(--transition-normal);
+}
+
+.lightbox.active {
+  opacity: 1;
+  pointer-events: all;
+}
+
+.lightbox img {
+  max-width: 90vw;
+  max-height: 85vh;
+  border-radius: 8px;
+  box-shadow: 0 0 60px rgba(245, 210, 122, 0.2);
+}
+
+.lightbox-close {
+  position: absolute;
+  top: 30px;
+  right: 30px;
+  width: 40px;
+  height: 40px;
+  cursor: pointer;
+  color: var(--text-primary);
+  font-size: 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: color var(--transition-fast);
+}
+
+.lightbox-close:hover { color: var(--moon-gold); }
+
+/* ---- 祝福墙 ---- */
+.blessing-container {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.blessing-input-area {
+  background: var(--card-bg);
+  border: 1px solid var(--border-subtle);
+  border-radius: 12px;
+  padding: 30px;
+  margin-bottom: 40px;
+  text-align: center;
+}
+
+.blessing-input-area textarea {
+  width: 100%;
+  height: 100px;
+  background: rgba(255,255,255,0.03);
+  border: 1px solid var(--border-subtle);
+  border-radius: 8px;
+  color: var(--text-primary);
+  padding: 15px;
+  font-family: var(--font-body);
+  font-size: 1rem;
+  resize: vertical;
+  margin-bottom: 20px;
+  transition: border-color var(--transition-normal);
+}
+
+.blessing-input-area textarea:focus {
+  outline: none;
+  border-color: var(--moon-gold);
+}
+
+.blessing-input-area .blessing-actions {
+  display: flex;
+  gap: 15px;
+  justify-content: center;
+}
+
+.blessing-wall {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 20px;
+}
+
+.blessing-card {
+  background: var(--card-bg);
+  border: 1px solid var(--border-subtle);
+  border-radius: 10px;
+  padding: 20px;
+  position: relative;
+  animation: fadeInUp 0.6s ease;
+  transition: all var(--transition-normal);
+}
+
+.blessing-card:hover {
+  border-color: var(--border-glow);
+  transform: translateY(-2px);
+}
+
+.blessing-card .bc-text {
+  color: var(--text-primary);
+  font-size: 0.95rem;
+  line-height: 1.7;
+  margin-bottom: 10px;
+  font-family: var(--font-poetry);
+  letter-spacing: 1px;
+}
+
+.blessing-card .bc-time {
+  color: var(--text-muted);
+  font-size: 0.75rem;
+  text-align: right;
+}
+
+/* 孔明灯 Canvas 层 */
+.lantern-canvas {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* ---- 习俗详情分类板块 ---- */
+.customs-detail-category {
+  position: relative;
+  padding: 20px 0 60px;
+}
+
+.cat-badge {
+  display: inline-block;
+  padding: 4px 18px;
+  background: rgba(245, 210, 122, 0.08);
+  border: 1px solid var(--border-subtle);
+  border-radius: 20px;
+  font-family: var(--font-title);
+  font-size: 0.8rem;
+  color: var(--moon-gold);
+  letter-spacing: 3px;
+  margin-bottom: 12px;
+}
+
+.customs-detail-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+/* 习俗详情卡片 */
+.cdc-card {
+  background: var(--card-bg);
+  border: 1px solid var(--border-subtle);
+  border-radius: 14px;
+  overflow: hidden;
+  transition: all var(--transition-normal);
+}
+
+.cdc-card:hover {
+  border-color: var(--border-glow);
+  box-shadow: 0 6px 28px rgba(245, 210, 122, 0.08);
+}
+
+/* 卡片头部 */
+.cdc-header {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  padding: 28px 32px 20px;
+  border-bottom: 1px solid rgba(201, 169, 110, 0.15);
+}
+
+.cdc-header .cdc-icon {
+  font-size: 2.8rem;
+  flex-shrink: 0;
+  width: 70px;
+  height: 70px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: radial-gradient(circle at 40% 35%, rgba(245, 210, 122, 0.15), transparent 65%);
+  border-radius: 50%;
+  border: 1px solid var(--border-subtle);
+}
+
+.cdc-title-area h3 {
+  font-family: var(--font-title);
+  font-size: 1.6rem;
+  color: var(--moon-gold);
+  letter-spacing: 3px;
+  margin-bottom: 4px;
+}
+
+.cdc-badge {
+  display: inline-block;
+  padding: 2px 12px;
+  background: rgba(245, 210, 122, 0.08);
+  border: 1px solid var(--border-subtle);
+  border-radius: 12px;
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+  letter-spacing: 1px;
+  font-family: var(--font-title);
+}
+
+/* Tab 导航 */
+.cdc-tabs {
+  display: flex;
+  gap: 0;
+  padding: 0 24px;
+  border-bottom: 1px solid rgba(201, 169, 110, 0.12);
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.cdc-tab {
+  padding: 12px 18px;
+  background: none;
+  border: none;
+  border-bottom: 2px solid transparent;
+  color: var(--text-muted);
+  font-family: var(--font-title);
+  font-size: 0.9rem;
+  letter-spacing: 1.5px;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  white-space: nowrap;
+  margin-bottom: -1px;
+}
+
+.cdc-tab:hover {
+  color: var(--text-secondary);
+}
+
+.cdc-tab.active {
+  color: var(--moon-gold);
+  border-bottom-color: var(--moon-gold);
+}
+
+/* Tab 面板 */
+.cdc-panels {
+  padding: 24px 32px 28px;
+}
+
+.cdc-panel {
+  display: none;
+  animation: cdcFadeIn 0.35s ease;
+}
+
+.cdc-panel.active {
+  display: block;
+}
+
+@keyframes cdcFadeIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.cdc-panel p {
+  color: var(--text-secondary);
+  font-size: 0.95rem;
+  line-height: 2.1;
+  letter-spacing: 0.5px;
+  text-align: justify;
+}
+
+/* ---- 响应式 ---- */
+@media (max-width: 768px) {
+  .page-hero h1 { font-size: 2rem; letter-spacing: 3px; }
+  .page-hero { height: 35vh; min-height: 280px; }
+
+  .timeline::before { left: 20px; }
+  .timeline-item { flex-direction: column !important; padding-left: 50px; }
+  .timeline-item .tl-marker { left: 20px; }
+  .timeline-item .tl-content { width: 100%; }
+
+  .legend-grid { grid-template-columns: 1fr; }
+  .legend-card { flex-direction: column; align-items: center; text-align: center; }
+
+  .flip-cards-grid { grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); }
+
+  .poetry-grid { grid-template-columns: 1fr; }
+
+  /* 习俗详情响应式 */
+  .cdc-header {
+    flex-direction: column;
+    text-align: center;
+    gap: 12px;
+    padding: 22px 18px 16px;
+  }
+  .cdc-header .cdc-icon {
+    width: 55px;
+    height: 55px;
+    font-size: 2.2rem;
+  }
+  .cdc-title-area h3 { font-size: 1.3rem; }
+  .cdc-tabs {
+    padding: 0 12px;
+    gap: 0;
+  }
+  .cdc-tab {
+    padding: 10px 12px;
+    font-size: 0.8rem;
+    letter-spacing: 1px;
+  }
+  .cdc-panels {
+    padding: 18px 18px 22px;
+  }
+  .cdc-panel p {
+    font-size: 0.88rem;
+    line-height: 1.9;
+    text-align: left;
+  }
+  .customs-detail-grid { gap: 20px; }
+
+  /* 传说翻转卡片响应式 */
+  .legend-flip-grid { grid-template-columns: 1fr; }
+  .legend-flip-card { height: 340px; }
+  .legend-sys-tags { gap: 8px; }
+  .ls-tag { padding: 6px 14px; font-size: 0.8rem; letter-spacing: 1px; }
+}
+
+/* ---- 神话传说：文化体系筛选标签 ---- */
+.legend-sys-tags {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  margin-bottom: 40px;
+  flex-wrap: wrap;
+}
+
+.ls-tag {
+  padding: 8px 20px;
+  border-radius: 20px;
+  border: 1px solid var(--border-subtle);
+  background: transparent;
+  color: var(--text-secondary);
+  cursor: pointer;
+  font-family: var(--font-title);
+  font-size: 0.9rem;
+  letter-spacing: 2px;
+  transition: all var(--transition-normal);
+}
+
+.ls-tag:hover {
+  border-color: var(--moon-gold);
+  color: var(--text-primary);
+}
+
+.ls-tag.active {
+  border-color: var(--moon-gold);
+  color: var(--moon-gold);
+  background: rgba(245, 210, 122, 0.08);
+}
+
+/* ---- 神话传说：翻转卡片网格 ---- */
+.legend-flip-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 25px;
+}
+
+/* 传说翻转卡片 */
+.legend-flip-card {
+  height: 380px;
+  perspective: 1200px;
+  cursor: pointer;
+}
+
+.legend-flip-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transition: transform 0.65s cubic-bezier(0.4, 0, 0.2, 1);
+  transform-style: preserve-3d;
+}
+
+.legend-flip-card:hover .legend-flip-inner {
+  transform: rotateY(180deg);
+}
+
+/* 正面 */
+.legend-flip-front,
+.legend-flip-back {
+  position: absolute;
+  inset: 0;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  border-radius: 14px;
+  border: 1px solid var(--border-subtle);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 28px 22px;
+  overflow: hidden;
+}
+
+.legend-flip-front {
+  background: var(--card-bg);
+  justify-content: center;
+  transition: border-color var(--transition-normal), box-shadow var(--transition-normal);
+}
+
+.legend-flip-card:hover .legend-flip-front {
+  border-color: var(--border-glow);
+  box-shadow: 0 8px 30px rgba(245, 210, 122, 0.12);
+}
+
+.legend-flip-front .lfc-icon {
+  font-size: 3.2rem;
+  margin-bottom: 12px;
+}
+
+.legend-flip-front .lfc-sys {
+  font-size: 0.72rem;
+  color: var(--text-muted);
+  letter-spacing: 2px;
+  font-family: var(--font-title);
+  margin-bottom: 8px;
+  padding: 2px 10px;
+  border: 1px solid rgba(201, 169, 110, 0.2);
+  border-radius: 10px;
+}
+
+.legend-flip-front .lfc-title {
+  font-family: var(--font-title);
+  font-size: 1.5rem;
+  color: var(--moon-gold);
+  letter-spacing: 3px;
+  margin-bottom: 12px;
+}
+
+.legend-flip-front .lfc-brief {
+  color: var(--text-secondary);
+  font-size: 0.85rem;
+  line-height: 1.75;
+  text-align: center;
+  max-width: 280px;
+}
+
+.legend-flip-front .lfc-hint {
+  position: absolute;
+  bottom: 18px;
+  color: var(--text-muted);
+  font-size: 0.75rem;
+  letter-spacing: 1px;
+  opacity: 0.6;
+  transition: opacity var(--transition-fast);
+}
+
+.legend-flip-card:hover .lfc-hint { opacity: 1; }
+
+/* 背面 */
+.legend-flip-back {
+  background: linear-gradient(145deg, rgba(24, 28, 58, 0.97), rgba(18, 22, 48, 0.97));
+  transform: rotateY(180deg);
+  justify-content: flex-start;
+  padding: 30px 24px;
+  text-align: center;
+}
+
+.legend-flip-back .lfb-section {
+  margin-bottom: 16px;
+}
+
+.legend-flip-back .lfb-label {
+  font-family: var(--font-title);
+  font-size: 0.9rem;
+  color: var(--moon-gold);
+  letter-spacing: 2px;
+  margin-bottom: 6px;
+}
+
+.legend-flip-back .lfb-text {
+  color: var(--text-secondary);
+  font-size: 0.85rem;
+  line-height: 1.75;
+}
+
+.legend-flip-back .lfb-link {
+  display: inline-block;
+  margin-top: auto;
+  padding: 10px 24px;
+  border: 1px solid var(--moon-gold);
+  border-radius: 22px;
+  color: var(--moon-gold);
+  font-family: var(--font-title);
+  font-size: 0.9rem;
+  letter-spacing: 2px;
+  transition: all var(--transition-fast);
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.legend-flip-back .lfb-link:hover {
+  background: rgba(245, 210, 122, 0.12);
+  box-shadow: 0 4px 18px rgba(245, 210, 122, 0.2);
+  transform: translateY(-1px);
+}
+
+/* ---- 传说详情板块 ---- */
+.legend-detail-section {
+  position: relative;
+  padding: 20px 0 60px;
+}
+
+/* 传说详情卡片复用 .customs-detail-grid 和 .cdc-card 的布局系统 */

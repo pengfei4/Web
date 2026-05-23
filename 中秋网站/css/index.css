@@ -1,0 +1,781 @@
+/* ============================================================
+   中秋节专题网站 - 首页样式（扩建版）
+   "月满中华·情系中秋"
+   涵盖12个Section的完整样式
+   ============================================================ */
+
+/* ===== Section 1: Hero ===== */
+.hero {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  min-height: 700px;
+  overflow: hidden;
+}
+.hero-canvas {
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  pointer-events: none;
+}
+.hero-content {
+  position: relative;
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  text-align: center;
+  pointer-events: none;
+}
+.hero-content > * { pointer-events: auto; }
+.hero-main-title {
+  font-family: var(--font-title);
+  font-size: 4.5rem;
+  color: var(--moon-gold);
+  letter-spacing: 12px;
+  text-shadow: 0 0 60px rgba(245,210,122,0.5), 0 0 120px rgba(245,210,122,0.2);
+  margin-bottom: 15px;
+}
+.hero-main-title .char {
+  display: inline-block;
+  animation: charReveal 0.8s ease forwards;
+  opacity: 0;
+}
+.hero-sub-title {
+  font-family: var(--font-poetry);
+  font-size: 1.5rem;
+  color: var(--text-secondary);
+  letter-spacing: 6px;
+  animation: fadeInUp 1.2s ease 0.3s both;
+  margin-bottom: 30px;
+}
+.hero-divider-line {
+  width: 120px; height: 2px;
+  background: linear-gradient(90deg, transparent, var(--moon-gold), transparent);
+  animation: fadeInScale 1.2s ease 0.6s both;
+  margin-bottom: 40px;
+}
+.hero-cta { animation: fadeInUp 1.2s ease 0.9s both; }
+.hero-cta .btn { font-size: 1.1rem; padding: 14px 40px; letter-spacing: 4px; }
+
+.scroll-indicator {
+  position: absolute;
+  bottom: 40px; left: 50%;
+  transform: translateX(-50%);
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  animation: float 3s ease-in-out infinite;
+}
+.scroll-indicator span { font-size: 0.8rem; color: var(--text-muted); letter-spacing: 2px; }
+.scroll-indicator .scroll-arrow {
+  width: 20px; height: 20px;
+  border-right: 2px solid var(--text-muted);
+  border-bottom: 2px solid var(--text-muted);
+  transform: rotate(45deg);
+  animation: float 2s ease-in-out infinite;
+}
+
+/* 月光视差层 */
+.moon-parallax-layer {
+  position: absolute;
+  top: 8%; left: 50%;
+  transform: translateX(-50%);
+  width: 300px; height: 300px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 40% 38%, rgba(254,245,215,0.35) 0%, rgba(245,210,122,0.12) 40%, transparent 70%);
+  pointer-events: none;
+  z-index: 2;
+  animation: moonBreathe 4s ease-in-out infinite;
+}
+
+/* ===== Section 2: 倒计时 ===== */
+.countdown-section {
+  padding: 100px 0;
+  position: relative;
+  text-align: center;
+  background: linear-gradient(180deg, transparent 0%, rgba(245,210,122,0.03) 40%, rgba(245,210,122,0.03) 60%, transparent 100%);
+}
+.countdown-title {
+  font-family: var(--font-title);
+  font-size: 1.8rem;
+  color: var(--moon-gold);
+  letter-spacing: 3px;
+  margin-bottom: 10px;
+}
+.countdown-date-info {
+  color: var(--text-muted);
+  font-size: 0.9rem;
+  letter-spacing: 2px;
+  margin-bottom: 35px;
+}
+.countdown-grid {
+  display: flex;
+  justify-content: center;
+  gap: 35px;
+  flex-wrap: wrap;
+}
+.countdown-item { text-align: center; min-width: 100px; }
+.countdown-item .cd-number {
+  font-family: var(--font-title);
+  font-size: 3.8rem;
+  color: var(--moon-gold);
+  text-shadow: 0 0 30px rgba(245,210,122,0.4);
+  line-height: 1;
+  padding: 22px 18px;
+  background: rgba(245,210,122,0.05);
+  border: 1px solid var(--border-subtle);
+  border-radius: 14px;
+  min-width: 105px;
+  display: block;
+  transition: all var(--transition-normal);
+  position: relative;
+  perspective: 200px;
+}
+.countdown-item .cd-number.flip {
+  animation: flipDown 0.6s ease;
+}
+.countdown-item:hover .cd-number {
+  border-color: var(--border-glow);
+  box-shadow: 0 0 30px rgba(245,210,122,0.2);
+  transform: translateY(-4px);
+}
+.countdown-item .cd-label {
+  display: block;
+  margin-top: 14px;
+  color: var(--text-secondary);
+  font-size: 0.95rem;
+  letter-spacing: 2px;
+}
+.countdown-target {
+  margin-top: 30px;
+  color: var(--text-muted);
+  font-size: 0.9rem;
+  letter-spacing: 1px;
+}
+/* 月相指示器 */
+.moon-phase-indicator {
+  width: 80px; height: 80px;
+  margin: 0 auto 30px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 40% 38%, #fefef0, #f5d27a 50%, #c9a96e);
+  box-shadow: 0 0 40px rgba(245,210,122,0.5);
+  animation: moonPhase 8s ease-in-out infinite;
+}
+
+/* ===== Section 3: 节日起源概述 ===== */
+.origin-overview {
+  padding: 100px 0;
+  position: relative;
+}
+.origin-layout {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 60px;
+  align-items: center;
+}
+.origin-timeline-mini { position: relative; padding-left: 30px; }
+.origin-timeline-mini::before {
+  content: '';
+  position: absolute;
+  left: 8px; top: 0; bottom: 0;
+  width: 1px;
+  background: linear-gradient(180deg, transparent, var(--border-glow) 10%, var(--border-glow) 90%, transparent);
+}
+.origin-node {
+  position: relative;
+  padding: 0 0 28px 28px;
+}
+.origin-node::before {
+  content: '';
+  position: absolute;
+  left: -26px; top: 6px;
+  width: 10px; height: 10px;
+  background: var(--moon-gold);
+  border-radius: 50%;
+  box-shadow: 0 0 10px rgba(245,210,122,0.5);
+}
+.origin-node .on-year {
+  font-family: var(--font-title);
+  font-size: 1.4rem;
+  color: var(--moon-gold);
+  letter-spacing: 1px;
+}
+.origin-node .on-text {
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+  line-height: 1.6;
+  margin-top: 4px;
+}
+.origin-visual {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.origin-moon-art {
+  width: 280px; height: 280px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 42% 38%, #fefef0 0%, #f5d27a 30%, #dba959 70%, transparent 72%);
+  box-shadow: 0 0 80px rgba(245,210,122,0.3), 0 0 160px rgba(245,210,122,0.1);
+  animation: moonBreathe 5s ease-in-out infinite;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+.origin-moon-art .oma-text {
+  font-family: var(--font-title);
+  font-size: 1.8rem;
+  color: var(--deep-blue);
+  letter-spacing: 4px;
+  text-shadow: none;
+}
+
+/* ===== Section 4: 四大神话传说 ===== */
+.legends-preview {
+  padding: 100px 0;
+  background: linear-gradient(180deg, transparent, rgba(232,115,74,0.03), rgba(245,210,122,0.03), transparent);
+}
+.legends-grid-4 {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 24px;
+}
+.legend-pcard {
+  background: var(--card-bg);
+  border: 1px solid var(--border-subtle);
+  border-radius: 16px;
+  padding: 30px 20px;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.5s cubic-bezier(0.4,0,0.2,1);
+  position: relative;
+  overflow: hidden;
+  text-decoration: none;
+  display: block;
+  color: inherit;
+  transform-style: preserve-3d;
+  perspective: 800px;
+}
+.legend-pcard:hover {
+  transform: translateY(-12px) rotateY(2deg) rotateX(-2deg);
+  border-color: var(--border-glow);
+  box-shadow: 0 20px 50px rgba(10,14,39,0.5), 0 0 35px rgba(245,210,122,0.12);
+}
+.legend-pcard .lp-illustration {
+  width: 100px; height: 100px;
+  border-radius: 50%;
+  margin: 0 auto 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 3.5rem;
+  background: radial-gradient(circle at 40% 35%, rgba(245,210,122,0.15), transparent 70%);
+  border: 2px solid var(--border-subtle);
+  transition: all 0.5s ease;
+}
+.legend-pcard:hover .lp-illustration {
+  border-color: var(--border-glow);
+  box-shadow: 0 0 35px rgba(245,210,122,0.2);
+  transform: scale(1.08);
+}
+.legend-pcard .lp-title {
+  font-family: var(--font-title);
+  font-size: 1.2rem;
+  color: var(--moon-gold);
+  letter-spacing: 2px;
+  margin-bottom: 10px;
+}
+.legend-pcard .lp-desc {
+  color: var(--text-secondary);
+  font-size: 0.85rem;
+  line-height: 1.7;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* ===== Section 5: 八大民间习俗 ===== */
+.customs-preview {
+  padding: 100px 0;
+}
+.customs-icon-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+}
+.custom-item {
+  background: var(--card-bg);
+  border: 1px solid var(--border-subtle);
+  border-radius: 14px;
+  padding: 28px 18px;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.4s cubic-bezier(0.4,0,0.2,1);
+  text-decoration: none;
+  color: inherit;
+  display: block;
+}
+.custom-item:hover {
+  border-color: var(--border-glow);
+  transform: translateY(-6px) scale(1.03);
+  box-shadow: 0 12px 35px rgba(10,14,39,0.4), 0 0 20px rgba(245,210,122,0.1);
+}
+.custom-item .ci-icon {
+  font-size: 2.8rem;
+  display: block;
+  margin-bottom: 12px;
+  transition: transform 0.4s ease;
+}
+.custom-item:hover .ci-icon { transform: scale(1.2); }
+.custom-item .ci-name {
+  font-family: var(--font-title);
+  font-size: 1.15rem;
+  color: var(--moon-gold);
+  letter-spacing: 2px;
+  margin-bottom: 6px;
+}
+.custom-item .ci-brief {
+  color: var(--text-muted);
+  font-size: 0.8rem;
+  line-height: 1.5;
+}
+
+/* ===== Section 6: 美食文化轮播 ===== */
+.food-preview {
+  padding: 100px 0;
+  background: linear-gradient(180deg, transparent, rgba(240,199,94,0.03), transparent);
+}
+.food-carousel {
+  position: relative;
+  max-width: 800px;
+  margin: 0 auto;
+  overflow: hidden;
+}
+.food-carousel-track {
+  display: flex;
+  transition: transform 0.5s cubic-bezier(0.4,0,0.2,1);
+}
+.food-carousel-slide {
+  min-width: 100%;
+  text-align: center;
+  padding: 30px;
+}
+.food-carousel-slide .fcs-icon {
+  font-size: 5rem;
+  display: block;
+  margin-bottom: 20px;
+}
+.food-carousel-slide .fcs-name {
+  font-family: var(--font-title);
+  font-size: 1.8rem;
+  color: var(--moon-gold);
+  letter-spacing: 3px;
+  margin-bottom: 10px;
+}
+.food-carousel-slide .fcs-desc {
+  color: var(--text-secondary);
+  font-size: 0.95rem;
+  line-height: 1.8;
+  max-width: 500px;
+  margin: 0 auto;
+}
+.food-carousel-btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 44px; height: 44px;
+  border-radius: 50%;
+  background: var(--card-bg);
+  border: 1px solid var(--border-subtle);
+  color: var(--moon-gold);
+  cursor: pointer;
+  font-size: 1.2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all var(--transition-normal);
+  z-index: 5;
+}
+.food-carousel-btn:hover { border-color: var(--border-glow); box-shadow: 0 0 15px rgba(245,210,122,0.2); }
+.food-carousel-btn.prev { left: 0; }
+.food-carousel-btn.next { right: 0; }
+.food-carousel-dots {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 20px;
+}
+.food-carousel-dots .dot {
+  width: 10px; height: 10px;
+  border-radius: 50%;
+  background: var(--border-subtle);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+.food-carousel-dots .dot.active { background: var(--moon-gold); box-shadow: 0 0 8px rgba(245,210,122,0.5); }
+
+/* 美食标签云 */
+.food-tags { display: flex; flex-wrap: wrap; justify-content: center; gap: 15px; margin-top: 45px; }
+.food-tag {
+  padding: 10px 22px;
+  border-radius: 22px;
+  background: var(--card-bg);
+  border: 1px solid var(--border-subtle);
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+  letter-spacing: 1px;
+  transition: all var(--transition-normal);
+  cursor: default;
+}
+.food-tag:hover { border-color: var(--border-glow); color: var(--moon-gold); }
+.food-tag:nth-child(odd) { animation: tagFloat1 6s ease-in-out infinite; }
+.food-tag:nth-child(even) { animation: tagFloat2 5s ease-in-out infinite; }
+.food-tag:nth-child(3n) { animation: tagFloat3 7s ease-in-out infinite; }
+
+/* ===== Section 7: 诗词错落展示 ===== */
+.poetry-showcase {
+  padding: 100px 0;
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(180deg, transparent, rgba(245,210,122,0.03), transparent);
+}
+/* 水墨晕染背景 */
+.ink-wash-bg {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+}
+.ink-wash-bg .ink-blot {
+  position: absolute;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(245,210,122,0.06) 0%, transparent 70%);
+  animation: inkSpread 12s ease-in-out infinite;
+}
+.ink-wash-bg .ink-blot:nth-child(1) { width: 400px; height: 400px; top: 10%; left: 5%; animation-delay: 0s; }
+.ink-wash-bg .ink-blot:nth-child(2) { width: 350px; height: 350px; top: 50%; right: 3%; animation-delay: 4s; }
+.ink-wash-bg .ink-blot:nth-child(3) { width: 300px; height: 300px; bottom: 10%; left: 40%; animation-delay: 8s; }
+.poetry-stagger {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 35px;
+}
+.poetry-stagger .poem-block {
+  background: var(--card-bg);
+  border: 1px solid var(--border-subtle);
+  border-radius: 14px;
+  padding: 30px 35px;
+  transition: all var(--transition-normal);
+  cursor: default;
+}
+.poetry-stagger .poem-block:hover {
+  border-color: var(--border-glow);
+  box-shadow: 0 8px 30px rgba(245,210,122,0.1);
+  transform: translateY(-3px);
+}
+.poetry-stagger .poem-block:nth-child(odd) { margin-top: 0; }
+.poetry-stagger .poem-block:nth-child(even) { margin-top: 50px; }
+.poetry-stagger .poem-block .pb-lines {
+  font-family: var(--font-poetry);
+  font-size: 1.2rem;
+  color: var(--text-primary);
+  line-height: 2.3;
+  letter-spacing: 2px;
+  text-align: center;
+}
+.poetry-stagger .poem-block .pb-author {
+  text-align: right;
+  margin-top: 15px;
+  color: var(--text-muted);
+  font-size: 0.85rem;
+  letter-spacing: 1px;
+}
+.poetry-stagger .poem-block .pb-title {
+  text-align: center;
+  font-family: var(--font-title);
+  font-size: 1rem;
+  color: var(--moon-gold);
+  letter-spacing: 2px;
+  margin-bottom: 15px;
+}
+.poetry-more { text-align: center; margin-top: 50px; position: relative; z-index: 1; }
+
+/* ===== Section 8: 中秋图集预览 ===== */
+.gallery-preview {
+  padding: 100px 0;
+}
+.gallery-preview-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 18px;
+}
+.gallery-preview-item {
+  aspect-ratio: 4/3;
+  border-radius: 12px;
+  overflow: hidden;
+  cursor: pointer;
+  border: 1px solid var(--border-subtle);
+  transition: all var(--transition-normal);
+  position: relative;
+  background: var(--card-bg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 4rem;
+}
+.gallery-preview-item:hover {
+  border-color: var(--border-glow);
+  transform: scale(1.03);
+  box-shadow: 0 10px 30px rgba(10,14,39,0.4), 0 0 20px rgba(245,210,122,0.15);
+}
+.gallery-preview-item .gpi-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, transparent 50%, rgba(10,14,39,0.85) 100%);
+  display: flex;
+  align-items: flex-end;
+  padding: 18px;
+  opacity: 0;
+  transition: opacity var(--transition-normal);
+}
+.gallery-preview-item:hover .gpi-overlay { opacity: 1; }
+.gallery-preview-item .gpi-label {
+  color: var(--moon-gold);
+  font-family: var(--font-title);
+  letter-spacing: 2px;
+  font-size: 0.9rem;
+}
+.gallery-preview-more { text-align: center; margin-top: 40px; }
+
+/* ===== Section 9: 非遗传承（增强版） ===== */
+.heritage-section { padding: 100px 0; }
+.heritage-content {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 60px;
+  align-items: start;
+}
+.heritage-text h3 {
+  font-family: var(--font-title);
+  font-size: 2rem;
+  color: var(--moon-gold);
+  letter-spacing: 3px;
+  margin-bottom: 20px;
+}
+.heritage-text p {
+  color: var(--text-secondary);
+  font-size: 1rem;
+  line-height: 2;
+  margin-bottom: 15px;
+}
+.heritage-text .highlight-box {
+  background: rgba(245,210,122,0.05);
+  border-left: 3px solid var(--moon-gold);
+  padding: 20px 25px;
+  margin-top: 25px;
+  border-radius: 0 8px 8px 0;
+  position: relative;
+  overflow: hidden;
+}
+.heritage-text .highlight-box::after {
+  content: '';
+  position: absolute;
+  top: 0; left: -100%;
+  width: 50%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(245,210,122,0.08), transparent);
+  animation: lightSweep 3s ease-in-out infinite;
+}
+.heritage-text .highlight-box p {
+  color: var(--text-primary);
+  font-family: var(--font-poetry);
+  font-size: 1.1rem;
+  letter-spacing: 2px;
+  margin: 0;
+}
+.heritage-milestones {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+.heritage-milestone {
+  background: var(--card-bg);
+  border: 1px solid var(--border-subtle);
+  border-radius: 12px;
+  padding: 22px 25px;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  transition: all var(--transition-normal);
+}
+.heritage-milestone:hover {
+  border-color: var(--border-glow);
+  transform: translateX(5px);
+  box-shadow: 0 4px 20px rgba(245,210,122,0.08);
+}
+.heritage-milestone .hm-year {
+  font-family: var(--font-title);
+  font-size: 1.6rem;
+  color: var(--moon-gold);
+  min-width: 70px;
+  text-align: center;
+  flex-shrink: 0;
+}
+.heritage-milestone .hm-info h4 {
+  color: var(--text-primary);
+  font-size: 1rem;
+  margin-bottom: 4px;
+}
+.heritage-milestone .hm-info p {
+  color: var(--text-muted);
+  font-size: 0.85rem;
+  margin: 0;
+}
+
+/* ===== Section 10: 世界中秋 ===== */
+.world-midautumn {
+  padding: 100px 0;
+  background: linear-gradient(180deg, transparent, rgba(245,210,122,0.03), transparent);
+}
+.world-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 24px;
+}
+.world-card {
+  background: var(--card-bg);
+  border: 1px solid var(--border-subtle);
+  border-radius: 14px;
+  padding: 30px 20px;
+  text-align: center;
+  transition: all var(--transition-normal);
+}
+.world-card:hover {
+  border-color: var(--border-glow);
+  transform: translateY(-5px);
+  box-shadow: 0 10px 30px rgba(10,14,39,0.4);
+}
+.world-card .wc-flag { font-size: 3rem; margin-bottom: 12px; display: block; }
+.world-card .wc-country {
+  font-family: var(--font-title);
+  font-size: 1.2rem;
+  color: var(--moon-gold);
+  letter-spacing: 2px;
+  margin-bottom: 8px;
+}
+.world-card .wc-name {
+  color: var(--text-secondary);
+  font-size: 0.85rem;
+  margin-bottom: 10px;
+}
+.world-card .wc-desc {
+  color: var(--text-muted);
+  font-size: 0.82rem;
+  line-height: 1.6;
+}
+
+/* ===== Section 11: 祝福寄语互动 ===== */
+.blessing-preview {
+  padding: 100px 0;
+}
+.blessing-inline {
+  max-width: 750px;
+  margin: 0 auto;
+}
+.blessing-inline .bi-input-row {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 35px;
+}
+.blessing-inline .bi-input-row input {
+  flex: 1;
+  padding: 14px 20px;
+  background: var(--card-bg);
+  border: 1px solid var(--border-subtle);
+  border-radius: 25px;
+  color: var(--text-primary);
+  font-size: 0.95rem;
+  font-family: var(--font-body);
+  letter-spacing: 1px;
+  transition: border-color var(--transition-normal);
+  outline: none;
+}
+.blessing-inline .bi-input-row input:focus { border-color: var(--moon-gold); }
+.blessing-inline .bi-input-row input::placeholder { color: var(--text-muted); }
+.blessing-inline .bi-cards {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+}
+.blessing-inline .bi-card {
+  background: var(--card-bg);
+  border: 1px solid var(--border-subtle);
+  border-radius: 10px;
+  padding: 18px;
+  transition: all var(--transition-normal);
+}
+.blessing-inline .bi-card:hover {
+  border-color: var(--border-glow);
+  transform: translateY(-2px);
+}
+.blessing-inline .bi-card .bic-text {
+  color: var(--text-primary);
+  font-size: 0.85rem;
+  line-height: 1.7;
+  font-family: var(--font-poetry);
+  letter-spacing: 1px;
+  margin-bottom: 8px;
+}
+.blessing-inline .bi-card .bic-time {
+  color: var(--text-muted);
+  font-size: 0.7rem;
+  text-align: right;
+}
+.blessing-more-link { text-align: center; margin-top: 35px; }
+
+/* ===== 段落转场分隔 ===== */
+.section-transition {
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0.4;
+}
+
+/* ===== 响应式 ===== */
+@media (max-width: 1024px) {
+  .hero-main-title { font-size: 2.8rem; letter-spacing: 6px; }
+  .origin-layout { grid-template-columns: 1fr; }
+  .legends-grid-4 { grid-template-columns: repeat(2, 1fr); }
+  .customs-icon-grid { grid-template-columns: repeat(2, 1fr); }
+  .poetry-stagger { grid-template-columns: 1fr; }
+  .poetry-stagger .poem-block:nth-child(even) { margin-top: 0; }
+  .gallery-preview-grid { grid-template-columns: repeat(2, 1fr); }
+  .heritage-content { grid-template-columns: 1fr; }
+  .world-grid { grid-template-columns: repeat(2, 1fr); }
+  .blessing-inline .bi-cards { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (max-width: 768px) {
+  .hero { min-height: 600px; }
+  .hero-main-title { font-size: 2rem; letter-spacing: 3px; }
+  .hero-sub-title { font-size: 1rem; letter-spacing: 3px; }
+  .countdown-grid { gap: 15px; }
+  .countdown-item .cd-number { font-size: 2.5rem; min-width: 70px; padding: 15px; }
+  .legends-grid-4 { grid-template-columns: 1fr; }
+  .customs-icon-grid { grid-template-columns: 1fr 1fr; }
+  .gallery-preview-grid { grid-template-columns: 1fr; }
+  .world-grid { grid-template-columns: 1fr; }
+  .blessing-inline .bi-cards { grid-template-columns: 1fr; }
+  .blessing-inline .bi-input-row { flex-direction: column; }
+  .food-carousel-btn { width: 36px; height: 36px; font-size: 1rem; }
+}

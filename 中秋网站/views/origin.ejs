@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="中秋节的千年起源与演变历程">
+<title>节日起源 — 月满中华·情系中秋</title>
+<link href="/css/common.css" rel="stylesheet">
+<link href="/css/animations.css" rel="stylesheet">
+<link href="/css/pages.css" rel="stylesheet">
+</head>
+<body data-journey="origin">
+<div class="page-transition active"><div class="moon-loader"></div></div>
+<nav class="navbar">
+  <a href="/" class="nav-logo"><div class="logo-icon"></div><span>月满中华</span></a>
+  <div class="nav-links">
+    <% nav.forEach(function(item) { %>
+      <a href="<%= item.href %>"<%= item.href === '/origin' ? ' class="active"' : '' %>><%= item.label %></a>
+    <% }); %>
+  </div>
+  <div class="nav-toggle"><span></span><span></span><span></span></div>
+</nav>
+<div class="bg-particles"></div>
+
+<section class="page-hero">
+  <div class="cloud-pattern"></div>
+  <div class="hero-content">
+    <span class="hero-icon">🧵</span>
+    <h1>千年溯源</h1>
+    <p class="hero-desc">穿针引线 · 追溯三千年中秋文脉</p>
+  </div>
+</section>
+
+<div class="page-content">
+  <div class="section-title reveal">
+    <h2>中秋节的千年演变</h2>
+    <p class="subtitle">一条直线轴穿过十个时代，串联起中秋文化的源流变迁</p>
+    <div class="divider"><span class="dot"></span></div>
+  </div>
+
+  <div class="era-timeline-wrapper">
+    <svg class="era-axis-svg" preserveAspectRatio="none">
+      <path class="axis-glow" d="" />
+      <path class="axis-line" d="" />
+    </svg>
+
+    <div class="era-cards">
+      <% eras.forEach(function(era) { %>
+        <div class="era-card" data-era="<%= era.era_key %>">
+          <span class="era-illustration"><%= era.icon %></span>
+          <span class="era-badge"><%= era.badge %></span>
+          <div class="era-year"><%= era.name %></div>
+          <div class="era-title"><%= era.title %></div>
+          <div class="era-desc"><%- era.desc_html %></div>
+          <% era.quotes.forEach(function(q) { %>
+            <div class="era-quote"<% if (era.quotes.indexOf(q) > 0) { %> style="margin-top:10px;"<% } %>>
+              "<%= q.text %>"
+              <span class="quote-source">——<%= q.source %></span>
+            </div>
+          <% }); %>
+        </div>
+      <% }); %>
+    </div>
+  </div>
+</div>
+
+<footer class="footer">
+  <div class="footer-content">
+    <div class="footer-links">
+      <% nav.forEach(function(item) { %><a href="<%= item.href %>"><%= item.label %></a><% }); %>
+    </div>
+    <div class="footer-divider"></div>
+    <div class="footer-info">
+      <p><span class="highlight"><%= config.site_title %></span></p>
+      <p><%= config.footer_text %></p>
+    </div>
+  </div>
+</footer>
+<div class="back-to-top" title="回到顶部">
+  <svg viewBox="0 0 24 24"><path d="M12 19V5M5 12l7-7 7 7" stroke="currentColor" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+</div>
+<script src="/js/common.js"></script>
+<script src="/js/moon-journey.js"></script>
+<script>MoonJourney.start('origin');</script>
+<script src="/js/origin.js"></script>
+</body>
+</html>

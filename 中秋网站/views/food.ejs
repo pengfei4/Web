@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="中秋美食文化——月饼、地域风味、饮食礼俗">
+<title>美食文化 — 月满中华·情系中秋</title>
+<link href="/css/common.css" rel="stylesheet">
+<link href="/css/animations.css" rel="stylesheet">
+<link href="/css/pages.css" rel="stylesheet">
+</head>
+<body data-journey="food">
+<div class="page-transition active"><div class="moon-loader"></div></div>
+<nav class="navbar">
+  <a href="/" class="nav-logo"><div class="logo-icon"></div><span>月满中华</span></a>
+  <div class="nav-links">
+    <% nav.forEach(function(item) { %>
+      <a href="<%= item.href %>"<%= item.href === '/food' ? ' class="active"' : '' %>><%= item.label %></a>
+    <% }); %>
+  </div>
+  <div class="nav-toggle"><span></span><span></span><span></span></div>
+</nav>
+<div class="bg-particles"></div>
+
+<section class="page-hero">
+  <div class="cloud-pattern"></div>
+  <div class="hero-content">
+    <span class="hero-icon">🥮</span>
+    <h1>团圆味道</h1>
+    <p class="hero-desc">美食文化 · 舌尖上的中秋</p>
+  </div>
+</section>
+
+<div class="page-content">
+
+  <!-- Module 1: 千年食脉 Timeline -->
+  <section class="food-module" id="module1">
+    <div class="module-header reveal">
+      <span class="module-num">壹 · 历史长卷</span>
+      <h2>千年食脉</h2>
+      <p class="subtitle">月饼的演变史，是一部中华饮食文明的缩影</p>
+      <div class="divider"><span class="dot"></span></div>
+    </div>
+    <div class="timeline-scroll" id="foodTimeline">
+      <div class="timeline-track">
+        <% for (var i = 0; i < 2; i++) { %>
+          <% timeline.forEach(function(t) { %>
+            <div class="timeline-node">
+              <span class="tn-icon"><%= t.icon %></span>
+              <span class="tn-era"><%= t.era %></span>
+              <span class="tn-event"><%= t.event %></span>
+              <p class="tn-desc"><%= t.description %></p>
+              <span class="tn-quote"><%= t.quote %></span>
+            </div>
+          <% }); %>
+        <% } %>
+      </div>
+    </div>
+  </section>
+
+  <!-- Module 2: 九州食图 Regional Foods -->
+  <section class="food-module" id="module2">
+    <div class="module-header reveal">
+      <span class="module-num">贰 · 地域风味</span>
+      <h2>九州食图</h2>
+      <p class="subtitle">一方水土一方食，八大地域的中秋味觉记忆</p>
+      <div class="divider"><span class="dot"></span></div>
+    </div>
+    <div class="region-grid">
+      <% regionalFoods.forEach(function(r) { %>
+        <div class="region-card<%= r.is_featured ? ' region-featured' : '' %> reveal">
+          <span class="rc-icon"><%= r.icon %></span>
+          <span class="rc-region"><%= r.region %></span>
+          <h3 class="rc-name"><%= r.name %></h3>
+          <p class="rc-desc"><%= r.description %></p>
+        </div>
+      <% }); %>
+    </div>
+  </section>
+
+  <!-- Module 3: 匠心手作 Craft Steps -->
+  <section class="food-module" id="module3">
+    <div class="module-header reveal">
+      <span class="module-num">叁 · 传统技艺</span>
+      <h2>匠心手作</h2>
+      <p class="subtitle">五步成饼，每一道工序都是匠心的沉淀</p>
+      <div class="divider"><span class="dot"></span></div>
+    </div>
+    <div class="craft-flow">
+      <% craftSteps.forEach(function(cs) { %>
+        <div class="craft-step reveal">
+          <div class="cs-visual"><span class="cs-icon"><%= cs.icon %></span><span class="cs-num"><%= cs.step_number %></span></div>
+          <h3 class="cs-name"><%= cs.name %></h3>
+          <p class="cs-desc"><%= cs.description %></p>
+        </div>
+      <% }); %>
+    </div>
+  </section>
+
+  <!-- Module 4: 食俗雅趣 Food Customs -->
+  <section class="food-module" id="module4">
+    <div class="module-header reveal">
+      <span class="module-num">肆 · 饮食礼俗</span>
+      <h2>食俗雅趣</h2>
+      <p class="subtitle">中秋饮食不止于味，更蕴藏着深层的文化仪轨</p>
+      <div class="divider"><span class="dot"></span></div>
+    </div>
+    <div class="customs-accordion">
+      <% foodCustoms.forEach(function(fc) { %>
+        <div class="customs-panel reveal">
+          <div class="cp-header" onclick="this.parentElement.classList.toggle('open')">
+            <span class="cp-icon"><%= fc.icon %></span>
+            <span class="cp-title"><%= fc.title %></span>
+            <span class="cp-arrow">▼</span>
+          </div>
+          <div class="cp-content"><%- fc.content %></div>
+        </div>
+      <% }); %>
+    </div>
+  </section>
+
+  <!-- Module 5: 名人与食 Celebrity Flip Cards -->
+  <section class="food-module" id="module5">
+    <div class="module-header reveal">
+      <span class="module-num">伍 · 名人轶事</span>
+      <h2>名人与食</h2>
+      <p class="subtitle">历史长河中的风流人物，也与中秋美食结下不解之缘</p>
+      <div class="divider"><span class="dot"></span></div>
+    </div>
+    <div class="fame-grid">
+      <% celebrities.forEach(function(c) { %>
+        <div class="fame-card reveal">
+          <div class="fame-card-inner">
+            <div class="fame-card-front">
+              <span class="ff-icon"><%= c.icon %></span>
+              <h3 class="ff-name"><%= c.name %></h3>
+              <span class="ff-tag"><%= c.era_tag %></span>
+              <span class="ff-hint">翻转查看故事 →</span>
+            </div>
+            <div class="fame-card-back">
+              <h4 class="fb-title"><%= c.story_title %></h4>
+              <p class="fb-story"><%= c.story %></p>
+              <a href="/fame/<%= c.anchor %>" class="fb-link">查看详情 →</a>
+            </div>
+          </div>
+        </div>
+      <% }); %>
+    </div>
+  </section>
+
+  <!-- Module 6: 月饼博览馆 Mooncake Gallery -->
+  <section class="food-module" id="module6">
+    <div class="module-header reveal">
+      <span class="module-num">陆 · 月饼博览</span>
+      <h2>月饼博览馆</h2>
+      <p class="subtitle">六大经典品类，展开一幅月饼的味觉画卷</p>
+      <div class="divider"><span class="dot"></span></div>
+    </div>
+    <div class="mooncake-gallery">
+      <% mooncakeTypes.forEach(function(mt) { %>
+        <div class="gallery-item reveal">
+          <span class="gi-icon"><%= mt.icon %></span>
+          <h3 class="gi-name"><%= mt.name %></h3>
+          <div class="gi-tags">
+            <% mt.tags.forEach(function(tag) { %><span class="gi-tag"><%= tag %></span><% }); %>
+          </div>
+          <p class="gi-info"><%= mt.description %></p>
+          <div class="gi-detail">
+            <% mt.stats.forEach(function(stat) { %>
+              <div class="gi-stat"><span class="stat-val"><%= stat.value %></span><span class="stat-label"><%= stat.label %></span></div>
+            <% }); %>
+          </div>
+        </div>
+      <% }); %>
+    </div>
+  </section>
+
+</div>
+
+<footer class="footer">
+  <div class="footer-content">
+    <div class="footer-links">
+      <% nav.forEach(function(item) { %><a href="<%= item.href %>"><%= item.label %></a><% }); %>
+    </div>
+    <div class="footer-divider"></div>
+    <div class="footer-info">
+      <p><span class="highlight"><%= config.site_title %></span></p>
+      <p><%= config.footer_text %></p>
+    </div>
+  </div>
+</footer>
+<div class="back-to-top" title="回到顶部">
+  <svg viewBox="0 0 24 24"><path d="M12 19V5M5 12l7-7 7 7" stroke="currentColor" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+</div>
+<script src="/js/common.js"></script>
+<script src="/js/moon-journey.js"></script>
+<script>MoonJourney.start('food');</script>
+<script src="/js/food.js"></script>
+</body>
+</html>

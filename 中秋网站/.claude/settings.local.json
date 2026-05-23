@@ -1,0 +1,19 @@
+{
+  "permissions": {
+    "allow": [
+      "PowerShell(Get-Content *)",
+      "PowerShell(Get-Command *)",
+      "PowerShell(Start-Process -FilePath \"python\" -ArgumentList \"-m\", \"http.server\", \"8080\" -WorkingDirectory \"D:\\\\zqjie\\\\中秋网站\" -WindowStyle Hidden; Start-Sleep -Seconds 2; Write-Output \"Server started on port 8080\")",
+      "PowerShell(Start-Process \"http://localhost:8080/food.html\")",
+      "PowerShell(Start-Process -FilePath \"python\" -ArgumentList \"-m\", \"http.server\", \"8080\" -WorkingDirectory \"D:\\\\zqjie\\\\中秋网站\" -WindowStyle Hidden; Start-Sleep -Seconds 1.5; Write-Output \"Server ready\")",
+      "PowerShell(Start-Process \"http://localhost:8080/poetry.html\")",
+      "PowerShell(Get-Process *)",
+      "PowerShell(Start-Process \"http://localhost:8080/index.html\")",
+      "PowerShell(\\(Get-Content \"D:\\\\zqjie\\\\中秋网站\\\\js\\\\moon-journey.js\" | Measure-Object -Line\\).Lines)",
+      "PowerShell($session = New-Object Microsoft.PowerShell.Commands.WebRequestSession; $loginBody = @{username='admin';password='admin123'}; $login = Invoke-WebRequest -Uri \"http://localhost:3000/login\" -Method POST -Body $loginBody -UseBasicParsing -SessionVariable session; \"Login status: \" + $login.StatusCode; if \\($login.Content -match \"千年溯源|探索中秋\"\\) { \"✓ Login successful, redirected to page\" } else { \"Checking content...\" }; $origin = Invoke-WebRequest -Uri \"http://localhost:3000/origin\" -UseBasicParsing -WebSession $session; \"Origin status: \" + $origin.StatusCode; if \\($origin.Content -match \"上古时期\"\\) { \"✓ Origin page has era data\" } else { \"✗ Missing era data\" }; if \\($origin.Content -match \"秋夕祭月\"\\) { \"✓ Origin page has content\" } else { \"✗ Missing content\" })",
+      "PowerShell(Out-Null *)",
+      "PowerShell(Get-NetTCPConnection *)",
+      "PowerShell(cd \"D:\\\\zqjie\\\\中秋网站\"; $proc = Start-Process -FilePath \"node\" -ArgumentList \"server.js\" -PassThru -WindowStyle Hidden; Start-Sleep 3; try { $r = Invoke-WebRequest -Uri \"http://localhost:3000/\" -UseBasicParsing; Write-Host \"Server OK: $\\($r.StatusCode\\)\" } catch { Write-Host \"Server FAIL: $_\" })"
+    ]
+  }
+}

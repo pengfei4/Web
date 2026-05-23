@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>登录 — 月满中华·情系中秋</title>
+<link href="/css/common.css" rel="stylesheet">
+<style>
+  body { background: var(--deep-blue); min-height: 100vh; display: flex; align-items: center; justify-content: center; }
+  .login-box { background: var(--card-bg); border: 1px solid var(--border-subtle); border-radius: 16px; padding: 50px 40px; width: 400px; max-width: 90vw; text-align: center; position: relative; overflow: hidden; }
+  .login-box::before { content: ''; position: absolute; top: -70px; right: -70px; width: 180px; height: 180px; border-radius: 50%; border: 2px solid var(--moon-gold); opacity: 0.15; pointer-events: none; }
+  .login-box::after { content: ''; position: absolute; bottom: -50px; left: -50px; width: 130px; height: 130px; border-radius: 50%; border: 2px solid var(--moon-gold); opacity: 0.1; pointer-events: none; }
+  .login-box .logo { font-size: 3.5rem; margin-bottom: 10px; animation: moonPulse 3s ease-in-out infinite; }
+  .login-box h1 { font-family: var(--font-title); color: var(--moon-gold); font-size: 1.7rem; margin-bottom: 8px; }
+  .login-box .subtitle { color: var(--text-muted); font-size: 0.9rem; margin-bottom: 28px; }
+  .login-box input { width: 100%; padding: 12px 16px; margin-bottom: 16px; background: rgba(255,255,255,0.05); border: 1px solid var(--border-subtle); border-radius: 8px; color: #fff; font-size: 1rem; outline: none; transition: border-color 0.3s; box-sizing: border-box; }
+  .login-box input:focus { border-color: var(--moon-gold); }
+  .login-box .btn { width: 100%; padding: 12px; font-size: 1.1rem; cursor: pointer; }
+  .login-box .error { color: var(--warm-orange); margin-bottom: 14px; font-size: 0.9rem; }
+  .login-box .links { margin-top: 18px; display: flex; justify-content: center; gap: 20px; }
+  .login-box .links a { color: var(--text-muted); text-decoration: none; font-size: 0.85rem; transition: color 0.3s; }
+  .login-box .links a:hover { color: var(--moon-gold); }
+  .login-box .register-link { color: var(--moon-gold); text-decoration: none; font-size: 0.9rem; transition: all 0.3s; border-bottom: 1px dashed var(--moon-gold); padding-bottom: 2px; }
+  .login-box .register-link:hover { border-bottom-style: solid; text-shadow: 0 0 10px var(--moon-glow); }
+  @keyframes moonPulse { 0%,100% { transform: scale(1); } 50% { transform: scale(1.08); } }
+</style>
+</head>
+<body>
+<div class="login-box">
+  <div class="logo">🌕</div>
+  <h1>月满中华 · 情系中秋</h1>
+  <p class="subtitle">登录后可浏览全部内容</p>
+  <% if (typeof error === 'string' && error) { %>
+    <p class="error"><%= error %></p>
+  <% } %>
+  <form method="POST" action="/login">
+    <input type="text" name="username" placeholder="用户名" required autofocus>
+    <input type="password" name="password" placeholder="密码" required>
+    <button type="submit" class="btn btn-primary">登 录</button>
+  </form>
+  <p style="margin-top:14px;color:var(--text-muted);font-size:0.85rem;">
+    如果是新用户，请<a href="/register" class="register-link">注册</a>
+  </p>
+  <div class="links">
+    <a href="/">← 返回首页</a>
+  </div>
+</div>
+</body>
+</html>

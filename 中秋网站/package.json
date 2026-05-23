@@ -1,0 +1,17 @@
+{
+  "name": "mid-autumn-festival",
+  "version": "2.0.0",
+  "description": "中秋节非物质文化遗产专题网站 - 数据库驱动版",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "seed": "node seed.js",
+    "stop": "node -e \"process.exit()\" & taskkill /F /IM node.exe /FI \"WINDOWTITLE eq Mid-Autumn*\" 2>nul"
+  },
+  "dependencies": {
+    "ejs": "^3.1.10",
+    "express": "^4.21.0",
+    "express-session": "^1.18.0",
+    "sql.js": "^1.11.0"
+  }
+}

@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="中秋诗词鉴赏——感受月色中的千古名句">
+<title>诗词鉴赏 — 月满中华·情系中秋</title>
+<link href="/css/common.css" rel="stylesheet">
+<link href="/css/animations.css" rel="stylesheet">
+<link href="/css/pages.css" rel="stylesheet">
+</head>
+<body data-journey="poetry">
+<div class="page-transition active"><div class="moon-loader"></div></div>
+<nav class="navbar">
+  <a href="/" class="nav-logo"><div class="logo-icon"></div><span>月满中华</span></a>
+  <div class="nav-links">
+    <% nav.forEach(function(item) { %>
+      <a href="<%= item.href %>"<%= item.href === '/poetry' ? ' class="active"' : '' %>><%= item.label %></a>
+    <% }); %>
+  </div>
+  <div class="nav-toggle"><span></span><span></span><span></span></div>
+</nav>
+<div class="bg-particles"></div>
+
+<section class="page-hero" style="height:35vh; min-height:250px;">
+  <div class="cloud-pattern"></div>
+  <div class="hero-content">
+    <span class="hero-icon">📝</span>
+    <h1>月下华章</h1>
+    <p class="hero-desc">诗词鉴赏 · 千古中秋名篇</p>
+  </div>
+</section>
+
+<div class="page-content">
+  <div class="section-title reveal">
+    <h2>中秋诗词精选</h2>
+    <p class="subtitle">唐风宋韵，在最美的文字中感受中秋情怀</p>
+    <div class="divider"><span class="dot"></span></div>
+  </div>
+
+  <div class="poetry-grid">
+    <% poems.forEach(function(p) { %>
+      <div class="poem-card reveal" onclick="location.href='/poetry/<%= p.anchor %>'" style="cursor:pointer;">
+        <span class="pc-dynasty-tag"><%= p.dynasty_tag %></span>
+        <h3 class="pc-title"><%= p.short_title %></h3>
+        <p class="pc-author"><%= p.author %></p>
+        <p class="pc-body"><%- p.excerpt %></p>
+      </div>
+    <% }); %>
+  </div>
+</div>
+
+<footer class="footer">
+  <div class="footer-content">
+    <div class="footer-links">
+      <% nav.forEach(function(item) { %><a href="<%= item.href %>"><%= item.label %></a><% }); %>
+    </div>
+    <div class="footer-divider"></div>
+    <div class="footer-info">
+      <p><span class="highlight"><%= config.site_title %></span></p>
+      <p><%= config.footer_text %></p>
+    </div>
+  </div>
+</footer>
+<div class="back-to-top" title="回到顶部">
+  <svg viewBox="0 0 24 24"><path d="M12 19V5M5 12l7-7 7 7" stroke="currentColor" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+</div>
+<script src="/js/common.js"></script>
+<script src="/js/moon-journey.js"></script>
+<script>MoonJourney.start('poetry');</script>
+</body>
+</html>

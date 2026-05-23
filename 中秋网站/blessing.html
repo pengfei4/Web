@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="中秋祝福寄语，写下心愿与祝福">
+<title>祝福寄语 — 月满中华·情系中秋</title>
+<link href="css/common.css" rel="stylesheet">
+<link href="css/animations.css" rel="stylesheet">
+<link href="css/pages.css" rel="stylesheet">
+<style>
+  .blessing-hero-mini {
+    text-align: center;
+    padding: 60px 20px;
+    position: relative;
+  }
+  .blessing-hero-mini .bh-illustration {
+    font-size: 6rem;
+    display: block;
+    margin-bottom: 20px;
+    animation: float 4s ease-in-out infinite;
+  }
+  .lantern-release-animation {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    pointer-events: none;
+    z-index: 5000;
+  }
+  .flying-lantern {
+    position: absolute;
+    pointer-events: none;
+    animation: lanternFlyUp 8s ease-out forwards;
+    font-size: 2rem;
+  }
+  @keyframes lanternFlyUp {
+    0% { transform: translateY(0) translateX(0) scale(1); opacity: 1; }
+    20% { transform: translateY(-15vh) translateX(30px) scale(1.1); opacity: 0.95; }
+    50% { transform: translateY(-50vh) translateX(-20px) scale(0.9); opacity: 0.7; }
+    80% { transform: translateY(-80vh) translateX(15px) scale(0.7); opacity: 0.3; }
+    100% { transform: translateY(-120vh) translateX(0) scale(0.3); opacity: 0; }
+  }
+  .blessing-stats {
+    display: flex; justify-content: center; gap: 40px;
+    margin-bottom: 40px; flex-wrap: wrap;
+  }
+  .blessing-stat {
+    text-align: center;
+    padding: 20px 30px;
+    background: var(--card-bg);
+    border: 1px solid var(--border-subtle);
+    border-radius: 12px;
+    min-width: 120px;
+  }
+  .blessing-stat .bs-num {
+    font-family: var(--font-title);
+    font-size: 2rem;
+    color: var(--moon-gold);
+  }
+  .blessing-stat .bs-label { color: var(--text-muted); font-size: 0.85rem; margin-top: 5px; }
+</style>
+</head>
+<body data-journey="blessing">
+
+<div class="page-transition active"><div class="moon-loader"></div></div>
+
+<nav class="navbar">
+  <a href="index.html" class="nav-logo">
+    <div class="logo-icon"></div>
+    <span>月满中华</span>
+  </a>
+  <div class="nav-links">
+    <a href="index.html">首页</a>
+    <a href="origin.html">节日起源</a>
+    <a href="customs.html">民间习俗</a>
+    <a href="legends.html">神话传说</a>
+    <a href="food.html">美食文化</a>
+    <a href="poetry.html">诗词鉴赏</a>
+    <a href="gallery.html">中秋图集</a>
+    <a href="blessing.html" class="active">祝福寄语</a>
+  </div>
+  <div class="nav-toggle"><span></span><span></span><span></span></div>
+</nav>
+
+<div class="bg-particles"></div>
+
+<!-- 孔明灯动画层 -->
+<div class="lantern-release-animation" id="lanternLayer"></div>
+
+<section class="page-hero" style="height:40vh; min-height:300px;">
+  <div class="cloud-pattern"></div>
+  <div class="hero-content">
+    <span class="hero-icon">💝</span>
+    <h1>千里共婵娟</h1>
+    <p class="hero-desc">祝福寄语 · 心愿传递</p>
+  </div>
+</section>
+
+<div class="page-content">
+  <div class="blessing-hero-mini reveal">
+    <span class="bh-illustration">🏮</span>
+    <p style="color:var(--text-secondary); font-size:1.1rem; letter-spacing:2px; max-width:600px; margin:0 auto; line-height:2;">
+      写下你的中秋祝福，让心愿化作孔明灯<br>飘向月空，传递最真挚的情感
+    </p>
+  </div>
+
+  <div class="blessing-container">
+    <!-- 统计 -->
+    <div class="blessing-stats reveal">
+      <div class="blessing-stat"><span class="bs-num" id="blessingCount">0</span><span class="bs-label">祝福数</span></div>
+      <div class="blessing-stat"><span class="bs-num" id="lanternCount">0</span><span class="bs-label">孔明灯</span></div>
+    </div>
+
+    <!-- 输入区 -->
+    <div class="blessing-input-area reveal">
+      <textarea id="blessingText" placeholder="写下你的中秋祝福……" maxlength="100"></textarea>
+      <div class="blessing-actions">
+        <button class="btn btn-primary" onclick="sendBlessing()">🕊️ 放飞孔明灯</button>
+        <button class="btn" onclick="sendQuickBlessing()">✨ 随机祝福</button>
+      </div>
+    </div>
+
+    <!-- 祝福墙 -->
+    <div class="section-title reveal" style="margin-top:50px;">
+      <h2>祝福墙</h2>
+      <p class="subtitle">每一份祝福都值得被看见</p>
+      <div class="divider"><span class="dot"></span></div>
+    </div>
+
+    <div class="blessing-wall" id="blessingWall">
+      <div class="blessing-card">
+        <p class="bc-text">但愿人长久，千里共婵娟。祝所有远方的亲人中秋快乐，平安幸福！</p>
+        <p class="bc-time">中秋寄语</p>
+      </div>
+      <div class="blessing-card">
+        <p class="bc-text">月圆人团圆，祝大家中秋快乐，阖家幸福，万事如意！</p>
+        <p class="bc-time">中秋寄语</p>
+      </div>
+      <div class="blessing-card">
+        <p class="bc-text">海上生明月，天涯共此时。无论身在何方，我们共赏同一轮明月。</p>
+        <p class="bc-time">中秋寄语</p>
+      </div>
+      <div class="blessing-card">
+        <p class="bc-text">愿月光照亮每一个思乡的夜晚，愿团圆温暖每一颗漂泊的心。</p>
+        <p class="bc-time">中秋寄语</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<footer class="footer">
+  <div class="footer-content">
+    <div class="footer-links">
+      <a href="index.html">首页</a><a href="origin.html">节日起源</a><a href="customs.html">民间习俗</a><a href="legends.html">神话传说</a>
+      <a href="food.html">美食文化</a><a href="poetry.html">诗词鉴赏</a><a href="gallery.html">中秋图集</a><a href="blessing.html">祝福寄语</a>
+    </div>
+    <div class="footer-divider"></div>
+    <div class="footer-info">
+      <p><span class="highlight">月满中华 · 情系中秋</span></p>
+      <p>弘扬中华优秀传统文化 · 传承非物质文化遗产</p>
+    </div>
+  </div>
+</footer>
+
+<div class="back-to-top" title="回到顶部">
+  <svg viewBox="0 0 24 24"><path d="M12 19V5M5 12l7-7 7 7" stroke="currentColor" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+</div>
+
+<script src="js/common.js"></script>
+<script src="js/moon-journey.js"></script>
+<script>MoonJourney.start('blessing');</script>
+<script src="js/blessing.js"></script>
+</body>
+</html>

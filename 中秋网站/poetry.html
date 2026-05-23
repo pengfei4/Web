@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="中秋诗词鉴赏——千古名篇共赏明月，品读经典感受诗意中秋">
+<title>诗词鉴赏 — 月满中华·情系中秋</title>
+<link href="css/common.css" rel="stylesheet">
+<link href="css/animations.css" rel="stylesheet">
+<link href="css/pages.css" rel="stylesheet">
+<style>
+/* ============================================================
+   诗词鉴赏页 — 悬停展开卡片系统
+   ============================================================ */
+
+/* ---- 诗词卡片网格 ---- */
+.poetry-grid-new {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+}
+
+/* ---- 单个诗词卡片 ---- */
+.poem-card {
+  position: relative;
+  background: var(--card-bg);
+  border: 1px solid var(--border-subtle);
+  border-radius: 14px;
+  cursor: pointer;
+  overflow: hidden;
+  transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px 18px;
+}
+.poem-card:hover {
+  border-color: var(--border-glow);
+  box-shadow: 0 12px 40px rgba(245,210,122,0.15), 0 0 30px rgba(245,210,122,0.06);
+  transform: translateY(-4px);
+  z-index: 10;
+}
+
+/* ---- 标题（始终可见） ---- */
+.poem-card .pc-title {
+  font-family: var(--font-title);
+  font-size: 1.2rem;
+  color: var(--moon-gold);
+  letter-spacing: 2px;
+  text-align: center;
+  line-height: 1.5;
+  transition: all 0.4s ease;
+}
+.poem-card:hover .pc-title {
+  font-size: 1.3rem;
+}
+
+/* ---- 作者名（始终可见） ---- */
+.poem-card .pc-author {
+  font-family: var(--font-poetry);
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  letter-spacing: 2px;
+  text-align: center;
+  margin-top: 4px;
+  transition: all 0.4s ease;
+}
+
+/* ---- 分隔线（悬停显示） ---- */
+.poem-card .pc-divider {
+  width: 30px;
+  height: 1px;
+  background: var(--border-glow);
+  margin: 0;
+  opacity: 0;
+  transform: scaleX(0);
+  transition: all 0.4s ease 0.1s;
+}
+.poem-card:hover .pc-divider {
+  opacity: 1;
+  transform: scaleX(1);
+  margin: 12px 0;
+}
+
+/* ---- 诗歌正文（悬停显示） ---- */
+.poem-card .pc-body {
+  font-family: var(--font-poetry);
+  font-size: 0.9rem;
+  color: var(--text-primary);
+  line-height: 2.2;
+  letter-spacing: 1px;
+  text-align: center;
+  max-height: 0;
+  opacity: 0;
+  overflow: hidden;
+  transition: max-height 0.5s ease, opacity 0.45s ease 0.15s;
+}
+.poem-card:hover .pc-body {
+  max-height: 500px;
+  opacity: 1;
+}
+
+/* ---- 朝代标签 ---- */
+.poem-card .pc-dynasty-tag {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  font-size: 0.65rem;
+  color: var(--text-muted);
+  letter-spacing: 1px;
+  padding: 2px 8px;
+  border: 1px solid rgba(201,169,110,0.15);
+  border-radius: 8px;
+  opacity: 0.5;
+  transition: all 0.4s ease;
+}
+.poem-card:hover .pc-dynasty-tag {
+  opacity: 0.8;
+  border-color: rgba(245,210,122,0.3);
+  color: var(--moon-gold);
+}
+
+/* ---- 响应式 ---- */
+@media (max-width: 1200px) {
+  .poetry-grid-new { grid-template-columns: repeat(3, 1fr); }
+}
+@media (max-width: 900px) {
+  .poetry-grid-new { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 550px) {
+  .poetry-grid-new { grid-template-columns: 1fr; max-width: 380px; margin: 0 auto; }
+  .poem-card .pc-title { font-size: 1.1rem; }
+}
+</style>
+</head>
+<body data-journey="poetry">
+
+<div class="page-transition active"><div class="moon-loader"></div></div>
+
+<nav class="navbar">
+  <a href="index.html" class="nav-logo">
+    <div class="logo-icon"></div>
+    <span>月满中华</span>
+  </a>
+  <div class="nav-links">
+    <a href="index.html">首页</a>
+    <a href="origin.html">节日起源</a>
+    <a href="customs.html">民间习俗</a>
+    <a href="legends.html">神话传说</a>
+    <a href="food.html">美食文化</a>
+    <a href="poetry.html" class="active">诗词鉴赏</a>
+    <a href="gallery.html">中秋图集</a>
+    <a href="blessing.html">祝福寄语</a>
+  </div>
+  <div class="nav-toggle"><span></span><span></span><span></span></div>
+</nav>
+
+<div class="bg-particles"></div>
+
+<section class="page-hero">
+  <div class="cloud-pattern"></div>
+  <div class="hero-content">
+    <span class="hero-icon">📜</span>
+    <h1>月下华章</h1>
+    <p class="hero-desc">诗词鉴赏 · 千古明月</p>
+  </div>
+</section>
+
+<div class="page-content">
+  <div class="section-title reveal">
+    <h2>中秋经典诗词</h2>
+    <p class="subtitle">悬停品读佳作 · 点击深入赏析</p>
+    <div class="divider"><span class="dot"></span></div>
+  </div>
+
+  <div class="poetry-grid-new">
+
+    <!-- 1. 水调歌头 -->
+    <div class="poem-card reveal" onclick="location.href='poetry-detail.html#shuidiaogetou'">
+      <span class="pc-dynasty-tag">宋</span>
+      <div class="pc-title">水调歌头</div>
+      <div class="pc-author">【宋】苏轼</div>
+      <div class="pc-divider"></div>
+      <div class="pc-body">明月几时有？把酒问青天。<br>不知天上宫阙，今夕是何年。<br>我欲乘风归去，又恐琼楼玉宇，<br>高处不胜寒。<br>起舞弄清影，何似在人间。<br>……但愿人长久，千里共婵娟。</div>    </div>
+
+    <!-- 2. 望月怀远 -->
+    <div class="poem-card reveal" onclick="location.href='poetry-detail.html#wangyuehuaiyuan'">
+      <span class="pc-dynasty-tag">唐</span>
+      <div class="pc-title">望月怀远</div>
+      <div class="pc-author">【唐】张九龄</div>
+      <div class="pc-divider"></div>
+      <div class="pc-body">海上生明月，天涯共此时。<br>情人怨遥夜，竟夕起相思。<br>灭烛怜光满，披衣觉露滋。<br>不堪盈手赠，还寝梦佳期。</div>    </div>
+
+    <!-- 3. 月夜忆舍弟 -->
+    <div class="poem-card reveal" onclick="location.href='poetry-detail.html#yueyeyishedi'">
+      <span class="pc-dynasty-tag">唐</span>
+      <div class="pc-title">月夜忆舍弟</div>
+      <div class="pc-author">【唐】杜甫</div>
+      <div class="pc-divider"></div>
+      <div class="pc-body">戍鼓断人行，边秋一雁声。<br>露从今夜白，月是故乡明。<br>有弟皆分散，无家问死生。<br>寄书长不达，况乃未休兵。</div>    </div>
+
+    <!-- 4. 静夜思 -->
+    <div class="poem-card reveal" onclick="location.href='poetry-detail.html#jingyesi'">
+      <span class="pc-dynasty-tag">唐</span>
+      <div class="pc-title">静夜思</div>
+      <div class="pc-author">【唐】李白</div>
+      <div class="pc-divider"></div>
+      <div class="pc-body">床前明月光，疑是地上霜。<br>举头望明月，低头思故乡。</div>    </div>
+
+    <!-- 5. 十五夜望月 -->
+    <div class="poem-card reveal" onclick="location.href='poetry-detail.html#shiwuyewangyue'">
+      <span class="pc-dynasty-tag">唐</span>
+      <div class="pc-title">十五夜望月</div>
+      <div class="pc-author">【唐】王建</div>
+      <div class="pc-divider"></div>
+      <div class="pc-body">中庭地白树栖鸦，冷露无声湿桂花。<br>今夜月明人尽望，不知秋思落谁家。</div>    </div>
+
+    <!-- 6. 春江花月夜 -->
+    <div class="poem-card reveal" onclick="location.href='poetry-detail.html#chunjianghuayueye'">
+      <span class="pc-dynasty-tag">唐</span>
+      <div class="pc-title">春江花月夜</div>
+      <div class="pc-author">【唐】张若虚</div>
+      <div class="pc-divider"></div>
+      <div class="pc-body">春江潮水连海平，海上明月共潮生。<br>滟滟随波千万里，何处春江无月明。<br>江畔何人初见月？江月何年初照人？<br>人生代代无穷已，江月年年望相似。</div>    </div>
+
+    <!-- 7. 中秋月 (晏殊) -->
+    <div class="poem-card reveal" onclick="location.href='poetry-detail.html#zhongqiuyue1'">
+      <span class="pc-dynasty-tag">宋</span>
+      <div class="pc-title">中秋月</div>
+      <div class="pc-author">【宋】晏殊</div>
+      <div class="pc-divider"></div>
+      <div class="pc-body">十轮霜影转庭梧，此夕羁人独向隅。<br>未必素娥无怅恨，玉蟾清冷桂花孤。</div>    </div>
+
+    <!-- 8. 太常引 -->
+    <div class="poem-card reveal" onclick="location.href='poetry-detail.html#taichangyin'">
+      <span class="pc-dynasty-tag">宋</span>
+      <div class="pc-title">太常引</div>
+      <div class="pc-author">【宋】辛弃疾</div>
+      <div class="pc-divider"></div>
+      <div class="pc-body">一轮秋影转金波，飞镜又重磨。<br>把酒问姮娥：被白发、欺人奈何？<br>乘风好去，长空万里，直下看山河。<br>斫去桂婆娑，人道是、清光更多。</div>    </div>
+
+    <!-- 9. 八月十五夜玩月 -->
+    <div class="poem-card reveal" onclick="location.href='poetry-detail.html#bayuewanli'">
+      <span class="pc-dynasty-tag">唐</span>
+      <div class="pc-title">八月十五夜玩月</div>
+      <div class="pc-author">【唐】刘禹锡</div>
+      <div class="pc-divider"></div>
+      <div class="pc-body">天将今夜月，一遍洗寰瀛。<br>暑退九霄净，秋澄万景清。<br>星辰让光彩，风露发晶英。<br>能变人间世，翛然是玉京。</div>    </div>
+
+    <!-- 10. 中秋 (李朴) -->
+    <div class="poem-card reveal" onclick="location.href='poetry-detail.html#zhongqiulipu'">
+      <span class="pc-dynasty-tag">宋</span>
+      <div class="pc-title">中秋</div>
+      <div class="pc-author">【宋】李朴</div>
+      <div class="pc-divider"></div>
+      <div class="pc-body">皓魄当空宝镜升，云间仙籁寂无声。<br>平分秋色一轮满，长伴云衢千里明。<br>狡兔空从弦外落，妖蟆休向眼前生。<br>灵槎拟约同携手，更待银河彻底清。</div>    </div>
+
+    <!-- 11. 琵琶仙 · 中秋 -->
+    <div class="poem-card reveal" onclick="location.href='poetry-detail.html#pipaxian'">
+      <span class="pc-dynasty-tag">清</span>
+      <div class="pc-title">琵琶仙 · 中秋</div>
+      <div class="pc-author">【清】纳兰性德</div>
+      <div class="pc-divider"></div>
+      <div class="pc-body">碧海年年，试问取、冰轮为谁圆缺？<br>吹到一片秋香，清辉了如雪。<br>愁中看、好天良夜，知道尽成悲咽。<br>只影而今，那堪重对，旧时明月。</div>    </div>
+
+    <!-- 12. 一剪梅 · 中秋无月 -->
+    <div class="poem-card reveal" onclick="location.href='poetry-detail.html#yijianmei'">
+      <span class="pc-dynasty-tag">宋</span>
+      <div class="pc-title">一剪梅 · 中秋无月</div>
+      <div class="pc-author">【宋】辛弃疾</div>
+      <div class="pc-divider"></div>
+      <div class="pc-body">忆对中秋丹桂丛，花在杯中，月在杯中。<br>今宵楼上一尊同，云湿纱窗，雨湿纱窗。<br>浑欲乘风问化工，路也难通，信也难通。<br>满堂唯有烛花红，歌且从容，杯且从容。</div>    </div>
+
+    <!-- 13. 中秋对月 -->
+    <div class="poem-card reveal" onclick="location.href='poetry-detail.html#zhongqiuduiyue'">
+      <span class="pc-dynasty-tag">唐</span>
+      <div class="pc-title">中秋对月</div>
+      <div class="pc-author">【唐】曹松</div>
+      <div class="pc-divider"></div>
+      <div class="pc-body">无云世界秋三五，共看蟾盘上海涯。<br>直到天头天尽处，不曾私照一人家。</div>    </div>
+
+    <!-- 14. 阳关曲 · 中秋月 -->
+    <div class="poem-card reveal" onclick="location.href='poetry-detail.html#yangguanqu'">
+      <span class="pc-dynasty-tag">宋</span>
+      <div class="pc-title">阳关曲 · 中秋月</div>
+      <div class="pc-author">【宋】苏轼</div>
+      <div class="pc-divider"></div>
+      <div class="pc-body">暮云收尽溢清寒，银汉无声转玉盘。<br>此生此夜不长好，明月明年何处看。</div>    </div>
+
+  </div>
+</div>
+
+<footer class="footer">
+  <div class="footer-content">
+    <div class="footer-links">
+      <a href="index.html">首页</a><a href="origin.html">节日起源</a><a href="customs.html">民间习俗</a><a href="legends.html">神话传说</a>
+      <a href="food.html">美食文化</a><a href="poetry.html">诗词鉴赏</a><a href="gallery.html">中秋图集</a><a href="blessing.html">祝福寄语</a>
+    </div>
+    <div class="footer-divider"></div>
+    <div class="footer-info">
+      <p><span class="highlight">月满中华 · 情系中秋</span></p>
+      <p>弘扬中华优秀传统文化 · 传承非物质文化遗产</p>
+    </div>
+  </div>
+</footer>
+
+<div class="back-to-top" title="回到顶部">
+  <svg viewBox="0 0 24 24"><path d="M12 19V5M5 12l7-7 7 7" stroke="currentColor" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+</div>
+
+<script src="js/common.js"></script>
+<script src="js/moon-journey.js"></script>
+<script>MoonJourney.start('poetry');</script>
+</body>
+</html>

@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="中秋节名人与美食文化">
+<title><%= celebrity.name %> — 月满中华·情系中秋</title>
+<link href="/css/common.css" rel="stylesheet">
+<link href="/css/animations.css" rel="stylesheet">
+<link href="/css/pages.css" rel="stylesheet">
+</head>
+<body data-journey="fame-detail">
+<div class="page-transition active"><div class="moon-loader"></div></div>
+
+<nav class="navbar">
+  <a href="/" class="nav-logo"><div class="logo-icon"></div><span>月满中华</span></a>
+  <div class="nav-links">
+    <% nav.forEach(function(item) { %>
+      <a href="<%= item.href %>"<%= item.href === '/food' ? ' class="active"' : '' %>><%= item.label %></a>
+    <% }); %>
+  </div>
+  <div class="nav-toggle"><span></span><span></span><span></span></div>
+</nav>
+<div class="bg-particles"></div>
+
+<div class="page-content" style="padding-top:100px;">
+  <!-- 子导航 -->
+  <div class="sub-nav" style="position:sticky;top:70px;z-index:100;background:var(--deep-blue);padding:10px 0;border-bottom:1px solid var(--border-subtle);margin-bottom:30px;">
+    <div style="max-width:1200px;margin:0 auto;padding:0 20px;overflow-x:auto;white-space:nowrap;">
+      <% allCelebrities.forEach(function(c) { %>
+        <a href="/fame/<%= c.anchor %>" style="display:inline-block;padding:8px 16px;color:<%= c.anchor === celebrity.anchor ? 'var(--moon-gold)' : 'var(--text-muted)' %>;text-decoration:none;font-size:0.9rem;"><%= c.name %></a>
+      <% }); %>
+    </div>
+  </div>
+
+  <!-- 名人详情 -->
+  <section class="fame-detail-section" id="<%= celebrity.anchor %>">
+    <div class="fame-page-header">
+      <span class="fph-icon"><%= celebrity.icon %></span>
+      <h2 class="fph-name"><%= celebrity.name %></h2>
+      <p class="fph-era"><%= celebrity.era_tag %></p>
+      <div class="fph-bio"><%- celebrity.bio %></div>
+    </div>
+
+    <div class="fame-info-card">
+      <span class="fic-icon">🍽️</span>
+      <h3 class="fic-title">代表美食：<%= celebrity.food_name %></h3>
+      <div class="fic-body"><%- celebrity.food_desc %></div>
+    </div>
+
+    <div class="fame-info-card">
+      <span class="fic-icon">📜</span>
+      <h3 class="fic-title">历史背景</h3>
+      <div class="fic-body"><%- celebrity.historical_bg %></div>
+    </div>
+
+    <div class="fame-info-card">
+      <span class="fic-icon">💡</span>
+      <h3 class="fic-title">文化意义</h3>
+      <div class="fic-body"><%- celebrity.cultural_meaning %></div>
+    </div>
+
+    <div class="fame-info-card">
+      <span class="fic-icon">📖</span>
+      <h3 class="fic-title">相关故事</h3>
+      <div class="fic-body"><%- celebrity.related_stories %></div>
+    </div>
+
+    <div class="fame-quote-block">
+      "<%= celebrity.quote_text %>"
+      <span class="quote-src">——<%= celebrity.quote_source %></span>
+    </div>
+  </section>
+</div>
+
+<footer class="footer">
+  <div class="footer-content">
+    <div class="footer-links">
+      <% nav.forEach(function(item) { %><a href="<%= item.href %>"><%= item.label %></a><% }); %>
+    </div>
+    <div class="footer-divider"></div>
+    <div class="footer-info">
+      <p><span class="highlight"><%= config.site_title %></span></p>
+      <p><%= config.footer_text %></p>
+    </div>
+  </div>
+</footer>
+<div class="back-to-top" title="回到顶部">
+  <svg viewBox="0 0 24 24"><path d="M12 19V5M5 12l7-7 7 7" stroke="currentColor" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+</div>
+<script src="/js/common.js"></script>
+<script src="/js/moon-journey.js"></script>
+<script>MoonJourney.start('fame-detail');</script>
+</body>
+</html>

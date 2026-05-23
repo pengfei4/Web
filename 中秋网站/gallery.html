@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="中秋图集——月景、灯笼、民俗活动、家庭团圆">
+<title>中秋图集 — 月满中华·情系中秋</title>
+<link href="css/common.css" rel="stylesheet">
+<link href="css/animations.css" rel="stylesheet">
+<link href="css/pages.css" rel="stylesheet">
+<style>
+  .gallery-item { position: relative; }
+  .gallery-item .gi-img-placeholder {
+    width: 100%; height: 100%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 4rem;
+    transition: transform 0.6s ease;
+  }
+  .gallery-item:hover .gi-img-placeholder { transform: scale(1.1); }
+  .gallery-item.moonlight { background: linear-gradient(135deg, #1a1a3e, #0d1530); }
+  .gallery-item.lantern { background: linear-gradient(135deg, #3e1a1a, #2a1010); }
+  .gallery-item.activity { background: linear-gradient(135deg, #1a2e1a, #0d200d); }
+  .gallery-item.family { background: linear-gradient(135deg, #2e1a1a, #1a1010); }
+</style>
+</head>
+<body data-journey="gallery">
+
+<div class="page-transition active"><div class="moon-loader"></div></div>
+
+<nav class="navbar">
+  <a href="index.html" class="nav-logo">
+    <div class="logo-icon"></div>
+    <span>月满中华</span>
+  </a>
+  <div class="nav-links">
+    <a href="index.html">首页</a>
+    <a href="origin.html">节日起源</a>
+    <a href="customs.html">民间习俗</a>
+    <a href="legends.html">神话传说</a>
+    <a href="food.html">美食文化</a>
+    <a href="poetry.html">诗词鉴赏</a>
+    <a href="gallery.html" class="active">中秋图集</a>
+    <a href="blessing.html">祝福寄语</a>
+  </div>
+  <div class="nav-toggle"><span></span><span></span><span></span></div>
+</nav>
+
+<div class="bg-particles"></div>
+
+<section class="page-hero">
+  <div class="cloud-pattern"></div>
+  <div class="hero-content">
+    <span class="hero-icon">📷</span>
+    <h1>光影中秋</h1>
+    <p class="hero-desc">中秋图集 · 美好瞬间</p>
+  </div>
+</section>
+
+<div class="page-content">
+  <div class="section-title reveal">
+    <h2>中秋影像集</h2>
+    <p class="subtitle">定格中秋佳节的美好时刻</p>
+    <div class="divider"><span class="dot"></span></div>
+  </div>
+
+  <div class="gallery-filter reveal">
+    <button class="filter-btn active" onclick="filterGallery('all', this)">全部</button>
+    <button class="filter-btn" onclick="filterGallery('moonlight', this)">🌕 月色</button>
+    <button class="filter-btn" onclick="filterGallery('lantern', this)">🏮 灯笼</button>
+    <button class="filter-btn" onclick="filterGallery('activity', this)">🎉 民俗</button>
+    <button class="filter-btn" onclick="filterGallery('family', this)">👨‍👩‍👧‍👦 团圆</button>
+  </div>
+
+  <div class="gallery-grid" id="galleryGrid">
+    <div class="gallery-item moonlight reveal" data-category="moonlight">
+      <div class="gi-img-placeholder">🌕</div>
+      <div class="gi-overlay"><span class="gi-title">海上生明月</span></div>
+    </div>
+    <div class="gallery-item moonlight reveal" data-category="moonlight">
+      <div class="gi-img-placeholder">🌝</div>
+      <div class="gi-overlay"><span class="gi-title">中秋满月</span></div>
+    </div>
+    <div class="gallery-item moonlight reveal" data-category="moonlight">
+      <div class="gi-img-placeholder">🌙</div>
+      <div class="gi-overlay"><span class="gi-title">月夜静谧</span></div>
+    </div>
+    <div class="gallery-item lantern reveal" data-category="lantern">
+      <div class="gi-img-placeholder">🏮</div>
+      <div class="gi-overlay"><span class="gi-title">红灯笼高高挂</span></div>
+    </div>
+    <div class="gallery-item lantern reveal" data-category="lantern">
+      <div class="gi-img-placeholder">✨</div>
+      <div class="gi-overlay"><span class="gi-title">孔明灯升空</span></div>
+    </div>
+    <div class="gallery-item lantern reveal" data-category="lantern">
+      <div class="gi-img-placeholder">🪔</div>
+      <div class="gi-overlay"><span class="gi-title">灯火辉煌</span></div>
+    </div>
+    <div class="gallery-item activity reveal" data-category="activity">
+      <div class="gi-img-placeholder">🐲</div>
+      <div class="gi-overlay"><span class="gi-title">舞火龙</span></div>
+    </div>
+    <div class="gallery-item activity reveal" data-category="activity">
+      <div class="gi-img-placeholder">🔥</div>
+      <div class="gi-overlay"><span class="gi-title">烧塔祈福</span></div>
+    </div>
+    <div class="gallery-item activity reveal" data-category="activity">
+      <div class="gi-img-placeholder">🎑</div>
+      <div class="gi-overlay"><span class="gi-title">中秋拜月</span></div>
+    </div>
+    <div class="gallery-item family reveal" data-category="family">
+      <div class="gi-img-placeholder">👨‍👩‍👧‍👦</div>
+      <div class="gi-overlay"><span class="gi-title">阖家团圆</span></div>
+    </div>
+    <div class="gallery-item family reveal" data-category="family">
+      <div class="gi-img-placeholder">🥮</div>
+      <div class="gi-overlay"><span class="gi-title">分享月饼</span></div>
+    </div>
+    <div class="gallery-item family reveal" data-category="family">
+      <div class="gi-img-placeholder">🍵</div>
+      <div class="gi-overlay"><span class="gi-title">品茶赏月</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- Lightbox -->
+<div class="lightbox" id="lightbox">
+  <div class="lightbox-close" onclick="closeLightbox()">✕</div>
+  <div style="text-align:center; color:var(--moon-gold); font-size:6rem;" id="lightboxContent">🌕</div>
+</div>
+
+<footer class="footer">
+  <div class="footer-content">
+    <div class="footer-links">
+      <a href="index.html">首页</a><a href="origin.html">节日起源</a><a href="customs.html">民间习俗</a><a href="legends.html">神话传说</a>
+      <a href="food.html">美食文化</a><a href="poetry.html">诗词鉴赏</a><a href="gallery.html">中秋图集</a><a href="blessing.html">祝福寄语</a>
+    </div>
+    <div class="footer-divider"></div>
+    <div class="footer-info">
+      <p><span class="highlight">月满中华 · 情系中秋</span></p>
+      <p>弘扬中华优秀传统文化 · 传承非物质文化遗产</p>
+    </div>
+  </div>
+</footer>
+
+<div class="back-to-top" title="回到顶部">
+  <svg viewBox="0 0 24 24"><path d="M12 19V5M5 12l7-7 7 7" stroke="currentColor" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+</div>
+
+<script src="js/common.js"></script>
+<script src="js/moon-journey.js"></script>
+<script>MoonJourney.start('gallery');</script>
+<script>
+  function filterGallery(category, btn) {
+    document.querySelectorAll('.gallery-filter .filter-btn').forEach(function(b) { b.classList.remove('active'); });
+    btn.classList.add('active');
+    document.querySelectorAll('.gallery-item').forEach(function(item) {
+      if (category === 'all' || item.dataset.category === category) {
+        item.style.display = '';
+      } else {
+        item.style.display = 'none';
+      }
+    });
+  }
+  var lightbox = document.getElementById('lightbox');
+  var lightboxContent = document.getElementById('lightboxContent');
+  document.querySelectorAll('.gallery-item').forEach(function(item) {
+    item.addEventListener('click', function() {
+      var emoji = item.querySelector('.gi-img-placeholder').textContent.trim();
+      lightboxContent.textContent = emoji;
+      lightbox.classList.add('active');
+    });
+  });
+  function closeLightbox() { lightbox.classList.remove('active'); }
+  lightbox.addEventListener('click', function(e) {
+    if (e.target === lightbox) lightbox.classList.remove('active');
+  });
+</script>
+</body>
+</html>

@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="中秋节神话传说——嫦娥奔月、吴刚伐桂、玉兔捣药等">
+<title>神话传说 — 月满中华·情系中秋</title>
+<link href="/css/common.css" rel="stylesheet">
+<link href="/css/animations.css" rel="stylesheet">
+<link href="/css/pages.css" rel="stylesheet">
+</head>
+<body data-journey="legends">
+<div class="page-transition active"><div class="moon-loader"></div></div>
+<nav class="navbar">
+  <a href="/" class="nav-logo"><div class="logo-icon"></div><span>月满中华</span></a>
+  <div class="nav-links">
+    <% nav.forEach(function(item) { %>
+      <a href="<%= item.href %>"<%= item.href === '/legends' ? ' class="active"' : '' %>><%= item.label %></a>
+    <% }); %>
+  </div>
+  <div class="nav-toggle"><span></span><span></span><span></span></div>
+</nav>
+<div class="bg-particles"></div>
+
+<section class="page-hero">
+  <div class="cloud-pattern"></div>
+  <div class="hero-content">
+    <span class="hero-icon">🌙</span>
+    <h1>月宫传奇</h1>
+    <p class="hero-desc">神话传说 · 千古流传</p>
+  </div>
+</section>
+
+<div class="page-content">
+  <div class="section-title reveal">
+    <h2>中秋神话传说</h2>
+    <p class="subtitle">点击筛选不同文化体系，悬停查看故事寓意</p>
+    <div class="divider"><span class="dot"></span></div>
+  </div>
+
+  <!-- Filter Tabs -->
+  <div class="filter-bar reveal" style="text-align:center;margin-bottom:30px;">
+    <button class="btn filter-btn active" onclick="filterLegends('all',this)">全部</button>
+    <% systems.forEach(function(sys) { %>
+      <button class="btn filter-btn" onclick="filterLegends('<%= sys.sys_key %>',this)"><%= sys.name %></button>
+    <% }); %>
+  </div>
+
+  <!-- Flip Card Grid -->
+  <div class="flip-cards-grid" id="legendsGrid">
+    <% legends.forEach(function(l) { %>
+      <div class="flip-card reveal legend-card-item" data-sys="<%= l.sys_key %>">
+        <div class="flip-card-inner">
+          <div class="flip-card-front">
+            <span class="lfc-icon"><%= l.icon %></span>
+            <span class="lfc-sys"><%= l.sys_key === 'han' ? '中华汉族神话' : (l.sys_key === 'folk' ? '中华民间传说' : '东亚月亮传说') %></span>
+            <span class="lfc-title"><%= l.title %></span>
+            <span class="lfc-brief"><%= l.brief %></span>
+          </div>
+          <div class="flip-card-back">
+            <div class="lfb-section">
+              <span class="lfb-label">核心寓意</span>
+              <p class="lfb-text"><%= l.moral_theme %></p>
+            </div>
+            <div class="lfb-section">
+              <span class="lfb-label">关键人物</span>
+              <p class="lfb-text"><%= l.key_characters %></p>
+            </div>
+            <a href="#detail-<%= l.anchor %>" class="lfb-link">查看完整故事 →</a>
+          </div>
+        </div>
+      </div>
+    <% }); %>
+  </div>
+
+  <!-- Detail Sections by Culture System -->
+  <% systems.forEach(function(sys) { %>
+    <section class="legend-detail-section" id="<%= sys.anchor %>">
+      <div class="cat-badge reveal"><%= sys.name %></div>
+      <h2 class="reveal"><%= sys.name %></h2>
+      <p class="subtitle reveal"><%= sys.subtitle %></p>
+      <div class="divider reveal"><span class="dot"></span></div>
+
+      <% sys.legends.forEach(function(l) { %>
+        <div class="cdc-card reveal" id="detail-<%= l.anchor %>">
+          <div class="cdc-header">
+            <span class="cdc-icon"><%= l.icon %></span>
+            <h3><%= l.title %></h3>
+            <span class="cdc-badge"><%= sys.name %></span>
+          </div>
+          <div class="cdc-tabs">
+            <% l.details.forEach(function(d) { %>
+              <button class="cdc-tab" data-cdc="<%= l.anchor %>" data-tab="<%= d.tab_key %>"><%= d.tab_label %></button>
+            <% }); %>
+          </div>
+          <div class="cdc-panels">
+            <% l.details.forEach(function(d) { %>
+              <div class="cdc-panel" data-cdc="<%= l.anchor %>" data-panel="<%= d.tab_key %>">
+                <%- d.content %>
+              </div>
+            <% }); %>
+          </div>
+        </div>
+      <% }); %>
+    </section>
+  <% }); %>
+</div>
+
+<footer class="footer">
+  <div class="footer-content">
+    <div class="footer-links">
+      <% nav.forEach(function(item) { %><a href="<%= item.href %>"><%= item.label %></a><% }); %>
+    </div>
+    <div class="footer-divider"></div>
+    <div class="footer-info">
+      <p><span class="highlight"><%= config.site_title %></span></p>
+      <p><%= config.footer_text %></p>
+    </div>
+  </div>
+</footer>
+<div class="back-to-top" title="回到顶部">
+  <svg viewBox="0 0 24 24"><path d="M12 19V5M5 12l7-7 7 7" stroke="currentColor" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+</div>
+<script src="/js/common.js"></script>
+<script src="/js/moon-journey.js"></script>
+<script>MoonJourney.start('legends');</script>
+<script>
+// Filter function
+function filterLegends(sys, btn) {
+  document.querySelectorAll('.filter-btn').forEach(function(b) { b.classList.remove('active'); });
+  btn.classList.add('active');
+  document.querySelectorAll('.legend-card-item').forEach(function(item) {
+    item.style.display = (sys === 'all' || item.dataset.sys === sys) ? '' : 'none';
+  });
+}
+// Tab switching logic
+document.querySelectorAll('.cdc-tab').forEach(function(btn) {
+  btn.addEventListener('click', function() {
+    var cdc = this.dataset.cdc;
+    var tab = this.dataset.tab;
+    this.parentElement.querySelectorAll('.cdc-tab').forEach(function(b) { b.classList.remove('active'); });
+    this.classList.add('active');
+    var card = this.closest('.cdc-card');
+    card.querySelectorAll('.cdc-panel').forEach(function(p) { p.classList.remove('active'); });
+    card.querySelector('.cdc-panel[data-panel="' + tab + '"]').classList.add('active');
+  });
+});
+document.querySelectorAll('.cdc-card').forEach(function(card) {
+  card.querySelector('.cdc-tab').classList.add('active');
+  card.querySelector('.cdc-panel').classList.add('active');
+});
+</script>
+</body>
+</html>

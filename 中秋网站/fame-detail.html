@@ -1,0 +1,697 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="名人与中秋美食——苏轼、杨贵妃、朱元璋、乾隆、慈禧、张大千的美食故事">
+<title>名人与食 — 月满中华·情系中秋</title>
+<link href="css/common.css" rel="stylesheet">
+<link href="css/animations.css" rel="stylesheet">
+<style>
+/* ============================================================
+   名人与食详情页 — 独立暖色调视觉体系
+   ============================================================ */
+:root {
+  --food-bg-deep: #1a1010;
+  --food-bg-mid: #2d0f1a;
+  --food-gold: #d4a853;
+  --food-amber: #c87941;
+  --food-cream: #f0e0c8;
+  --food-cream-dim: #c4b598;
+  --food-card-bg: rgba(35, 18, 18, 0.9);
+  --food-border: rgba(200, 140, 80, 0.25);
+  --food-border-glow: rgba(212, 168, 83, 0.5);
+  --food-text: #f0e0c8;
+  --food-text-dim: #b8a088;
+  --food-text-muted: #8a7060;
+}
+
+body {
+  background: var(--food-bg-deep);
+  background-image:
+    radial-gradient(ellipse at 50% 15%, #3a1a15 0%, transparent 50%),
+    radial-gradient(ellipse at 50% 85%, #2d0f1a 0%, transparent 35%),
+    linear-gradient(180deg, var(--food-bg-deep) 0%, #1f0d12 50%, #150a0e 100%);
+}
+::-webkit-scrollbar-thumb { background: var(--food-amber); }
+::-webkit-scrollbar-thumb:hover { background: var(--food-gold); }
+
+/* ---- 导航栏适配 ---- */
+.navbar { background: rgba(26,16,16,0.75); }
+.navbar.scrolled { background: rgba(26,16,16,0.92); }
+.page-transition { background: var(--food-bg-deep); }
+
+/* ---- 页面 Hero ---- */
+.fame-hero {
+  position: relative;
+  height: 40vh;
+  min-height: 300px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  background:
+    radial-gradient(ellipse at 50% 30%, rgba(212,168,83,0.12) 0%, transparent 55%),
+    radial-gradient(ellipse at 70% 50%, rgba(200,121,65,0.08) 0%, transparent 40%),
+    linear-gradient(180deg, #1a1010 0%, #2d0f1a 40%, #1f0d12 100%);
+}
+.fame-hero .hero-content { text-align: center; position: relative; z-index: 2; animation: fadeInUp 0.8s ease; }
+.fame-hero h1 {
+  font-family: var(--font-title);
+  font-size: 3rem;
+  color: var(--food-gold);
+  letter-spacing: 6px;
+  margin-bottom: 8px;
+  text-shadow: 0 0 40px rgba(212,168,83,0.35);
+}
+.fame-hero .hero-desc {
+  font-family: var(--font-poetry);
+  font-size: 1.15rem;
+  color: var(--food-text-dim);
+  letter-spacing: 3px;
+}
+
+/* ---- 子导航栏（sticky） ---- */
+.fame-subnav {
+  position: sticky;
+  top: 70px;
+  z-index: 998;
+  background: rgba(26,16,16,0.92);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--food-border);
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+}
+.fame-subnav::-webkit-scrollbar { display: none; }
+.fame-subnav-inner {
+  display: flex;
+  gap: 0;
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 10px;
+  justify-content: center;
+}
+.fame-subnav a {
+  flex-shrink: 0;
+  padding: 14px 20px;
+  color: var(--food-text-dim);
+  font-family: var(--font-title);
+  font-size: 0.9rem;
+  letter-spacing: 2px;
+  border-bottom: 2px solid transparent;
+  transition: all 0.3s ease;
+  text-decoration: none;
+  white-space: nowrap;
+}
+.fame-subnav a:hover,
+.fame-subnav a.active {
+  color: var(--food-gold);
+  border-bottom-color: var(--food-gold);
+}
+
+/* ---- 内容区域 ---- */
+.fame-content {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 50px 20px 80px;
+}
+
+/* ---- 单个名人详情节 ---- */
+.fame-detail-section {
+  padding: 60px 0;
+  border-bottom: 1px solid var(--food-border);
+}
+.fame-detail-section:last-child { border-bottom: none; }
+
+/* 头部卡片 */
+.fame-person-header {
+  display: flex;
+  gap: 35px;
+  align-items: center;
+  margin-bottom: 40px;
+  padding: 35px;
+  background: var(--food-card-bg);
+  border: 1px solid var(--food-border);
+  border-radius: 18px;
+}
+.fame-person-header .fph-icon {
+  width: 100px;
+  height: 100px;
+  flex-shrink: 0;
+  border-radius: 50%;
+  background: radial-gradient(circle at 40% 35%, rgba(212,168,83,0.25), transparent 65%);
+  border: 2px solid rgba(200,140,80,0.35);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 3rem;
+}
+.fame-person-header .fph-info { flex: 1; }
+.fph-info .fph-name {
+  font-family: var(--font-title);
+  font-size: 2rem;
+  color: var(--food-gold);
+  letter-spacing: 4px;
+  margin-bottom: 4px;
+}
+.fph-info .fph-era {
+  display: inline-block;
+  font-size: 0.85rem;
+  color: var(--food-amber);
+  letter-spacing: 2px;
+  padding: 3px 14px;
+  border: 1px solid rgba(200,121,65,0.25);
+  border-radius: 12px;
+  margin-bottom: 10px;
+}
+.fph-info .fph-bio {
+  color: var(--food-text-dim);
+  font-size: 0.95rem;
+  line-height: 1.9;
+}
+
+/* 内容卡片 */
+.fame-card-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 22px;
+}
+.fame-info-card {
+  background: var(--food-card-bg);
+  border: 1px solid var(--food-border);
+  border-radius: 14px;
+  padding: 30px;
+  transition: all 0.4s ease;
+}
+.fame-info-card:hover {
+  border-color: var(--food-border-glow);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 25px rgba(200,121,65,0.12);
+}
+.fame-info-card.full-width { grid-column: span 2; }
+.fame-info-card .fic-label {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 16px;
+  padding-bottom: 14px;
+  border-bottom: 1px solid var(--food-border);
+}
+.fic-label .fic-icon { font-size: 1.8rem; }
+.fic-label .fic-title {
+  font-family: var(--font-title);
+  font-size: 1.2rem;
+  color: var(--food-gold);
+  letter-spacing: 2px;
+}
+.fame-info-card .fic-body {
+  color: var(--food-text-dim);
+  font-size: 0.93rem;
+  line-height: 2;
+  letter-spacing: 0.5px;
+}
+.fame-info-card .fic-body p + p { margin-top: 12px; }
+
+/* 引用块 */
+.fame-quote-block {
+  background: rgba(212,168,83,0.05);
+  border-left: 3px solid var(--food-gold);
+  padding: 18px 24px;
+  border-radius: 0 10px 10px 0;
+  margin-top: 15px;
+  font-family: var(--font-poetry);
+  color: var(--food-text);
+  font-size: 1rem;
+  letter-spacing: 1.5px;
+  line-height: 1.9;
+}
+.fame-quote-block .quote-src {
+  display: block;
+  text-align: right;
+  color: var(--food-text-muted);
+  font-size: 0.8rem;
+  margin-top: 8px;
+  font-family: var(--font-body);
+}
+
+/* ---- Footer 适配 ---- */
+.footer {
+  background: rgba(26,16,16,0.95);
+  border-top: 1px solid var(--food-border);
+}
+.back-to-top {
+  background: var(--food-card-bg);
+  border-color: var(--food-border);
+}
+.back-to-top svg { stroke: var(--food-gold); }
+
+/* ---- 滚动揭示 ---- */
+.fame-reveal {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.7s ease, transform 0.7s ease;
+}
+.fame-reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ---- 响应式 ---- */
+@media (max-width: 1024px) {
+  .fame-hero h1 { font-size: 2.2rem; letter-spacing: 4px; }
+  .fame-card-grid { grid-template-columns: 1fr; }
+  .fame-info-card.full-width { grid-column: span 1; }
+  .fame-person-header { flex-direction: column; text-align: center; gap: 20px; padding: 28px 22px; }
+  .fph-info .fph-name { font-size: 1.6rem; }
+}
+@media (max-width: 768px) {
+  .fame-hero { height: 30vh; min-height: 220px; }
+  .fame-hero h1 { font-size: 1.8rem; }
+  .fame-hero .hero-desc { font-size: 0.95rem; }
+  .fame-subnav a { padding: 12px 14px; font-size: 0.8rem; letter-spacing: 1px; }
+  .fame-person-header { padding: 22px 16px; }
+  .fame-person-header .fph-icon { width: 75px; height: 75px; font-size: 2.2rem; }
+  .fph-info .fph-name { font-size: 1.4rem; }
+  .fame-info-card { padding: 22px 18px; }
+  .fame-detail-section { padding: 40px 0; }
+}
+</style>
+</head>
+<body data-journey="fame-detail">
+
+<!-- 页面加载过渡 -->
+<div class="page-transition active"><div class="moon-loader"></div></div>
+<div class="scroll-progress"></div>
+
+<!-- 导航栏 -->
+<nav class="navbar">
+  <a href="index.html" class="nav-logo">
+    <div class="logo-icon"></div>
+    <span>月满中华</span>
+  </a>
+  <div class="nav-links">
+    <a href="index.html">首页</a>
+    <a href="origin.html">节日起源</a>
+    <a href="customs.html">民间习俗</a>
+    <a href="legends.html">神话传说</a>
+    <a href="food.html" class="active">美食文化</a>
+    <a href="poetry.html">诗词鉴赏</a>
+    <a href="gallery.html">中秋图集</a>
+    <a href="blessing.html">祝福寄语</a>
+  </div>
+  <div class="nav-toggle"><span></span><span></span><span></span></div>
+</nav>
+
+<div class="bg-particles"></div>
+
+<!-- Hero -->
+<section class="fame-hero">
+  <div class="hero-content">
+    <h1>名人与食</h1>
+    <p class="hero-desc">历史长河中的风流人物 · 与中秋美食结下不解之缘</p>
+  </div>
+</section>
+
+<!-- 子导航 -->
+<nav class="fame-subnav" id="fameSubnav">
+  <div class="fame-subnav-inner">
+    <a href="#sushi">苏轼</a>
+    <a href="#yangguifei">杨贵妃</a>
+    <a href="#zhuyuanzhang">朱元璋</a>
+    <a href="#qianlong">乾隆皇帝</a>
+    <a href="#cixi">慈禧太后</a>
+    <a href="#zhangdaqian">张大千</a>
+  </div>
+</nav>
+
+<!-- 内容 -->
+<div class="fame-content">
+
+  <!-- ====== 苏轼 ====== -->
+  <section class="fame-detail-section fame-reveal" id="sushi">
+    <div class="fame-person-header">
+      <div class="fph-icon">📜</div>
+      <div class="fph-info">
+        <div class="fph-name">苏轼</div>
+        <div class="fph-era">北宋 · 文学家 / 美食家</div>
+        <p class="fph-bio">苏轼（1037—1101），字子瞻，号东坡居士。北宋著名文学家、书画家，更是中国历史上最负盛名的美食家之一。他一生仕途坎坷，却将贬谪之地变成美食探索之旅，留下了无数关于饮食的千古名篇。</p>
+      </div>
+    </div>
+    <div class="fame-card-grid">
+      <div class="fame-info-card">
+        <div class="fic-label"><span class="fic-icon">🥮</span><span class="fic-title">代表美食：东坡月饼</span></div>
+        <div class="fic-body">
+          <p>苏轼在《留别廉守》中写道"小饼如嚼月，中有酥和饴"，成为中国文学史上最早描写月饼的诗句。他将月饼与天上的明月作比，"酥"指酥油，"饴"指饴糖，精准描述了宋代月饼酥脆甜香的口感特征。</p>
+          <p>据考证，苏轼在密州（今山东诸城）任职期间，中秋之夜思念弟弟苏辙，写下了千古名篇《水调歌头·明月几时有》。同时他也喜爱当地的"密州酥饼"，将其推广至所到之处，可以说是月饼文化传播的早期推手。</p>
+        </div>
+      </div>
+      <div class="fame-info-card">
+        <div class="fic-label"><span class="fic-icon">📖</span><span class="fic-title">历史背景</span></div>
+        <div class="fic-body">
+          <p>北宋是中国饮食文化的黄金时代。都城汴京（今开封）夜市繁华，"诸店皆卖新酒，市人争饮"。月饼从宫廷和上层社会逐渐普及到民间，苏轼的诗文为月饼做了最好的"广告"。</p>
+          <p>苏轼一生足迹遍及大半个中国，从四川眉山到汴京、杭州、黄州、惠州、儋州。他将各地饮食文化融会贯通，形成了独具一格的"东坡美食体系"。</p>
+        </div>
+      </div>
+      <div class="fame-info-card">
+        <div class="fic-label"><span class="fic-icon">🏛️</span><span class="fic-title">文化意义</span></div>
+        <div class="fic-body">
+          <p>苏轼将美食从口腹之欲提升到文化艺术的层面。他的饮食诗文不仅是文学杰作，更是研究宋代饮食文化的重要史料。他用诗人的眼光审视食物，用文人的笔墨记录味道，使平凡的食物获得了不朽的文化生命。</p>
+        </div>
+      </div>
+      <div class="fame-info-card">
+        <div class="fic-label"><span class="fic-icon">📝</span><span class="fic-title">相关故事</span></div>
+        <div class="fic-body">
+          <p>苏轼在黄州期间发明了"东坡肉"，并将烹饪心得写成《猪肉颂》："黄州好猪肉，价贱如泥土。贵者不肯吃，贫者不解煮。"这种将日常饮食诗意化的能力，使他在中国美食文化史上占据独一无二的地位。他关于"小饼如嚼月"的描写，也被后人无数次引用，成为中秋月饼的文化注脚。</p>
+        </div>
+      </div>
+    </div>
+    <div class="fame-quote-block">
+      "小饼如嚼月，中有酥和饴。默品其滋味，相思泪沾巾。"<span class="quote-src">—— 宋 · 苏轼《留别廉守》</span>
+    </div>
+  </section>
+
+  <!-- ====== 杨贵妃 ====== -->
+  <section class="fame-detail-section fame-reveal" id="yangguifei">
+    <div class="fame-person-header">
+      <div class="fph-icon">👸</div>
+      <div class="fph-info">
+        <div class="fph-name">杨贵妃</div>
+        <div class="fph-era">唐代 · 宫廷 / 四大美女之一</div>
+        <p class="fph-bio">杨玉环（719—756），唐玄宗李隆基的宠妃，中国古代四大美女之一。她不仅以美貌著称，更因对美食的极致追求推动了唐代宫廷饮食文化的繁荣，与中秋月饼的命名有着浪漫的传说关联。</p>
+      </div>
+    </div>
+    <div class="fame-card-grid">
+      <div class="fame-info-card">
+        <div class="fic-label"><span class="fic-icon">🥮</span><span class="fic-title">代表美食：宫廷月饼</span></div>
+        <div class="fic-body">
+          <p>相传唐玄宗与杨贵妃中秋赏月时，桌上摆着来自西域的圆形"胡饼"。杨贵妃觉得"胡饼"名字不雅，仰望天上明月，提议改称"月饼"。玄宗听后大悦，从此"月饼"之名开始流传。</p>
+          <p>虽然此说带有传奇色彩，但唐代宫廷确实推动了月饼从"胡饼"到"月饼"的名称演变。杨贵妃对饮食的精致要求，也促进了宫廷糕点制作的工艺进步。</p>
+        </div>
+      </div>
+      <div class="fame-info-card">
+        <div class="fic-label"><span class="fic-icon">📖</span><span class="fic-title">历史背景</span></div>
+        <div class="fic-body">
+          <p>唐代是中国历史上最为开放和繁荣的朝代之一。丝绸之路的畅通使得胡桃、芝麻、葡萄等食材大量传入中原，为月饼馅料的丰富提供了物质基础。唐玄宗时期，"八月十五中秋节"正式成为全国性节日。</p>
+          <p>宫廷中秋宴会是唐代重要的文化活动。唐玄宗在宫中举办盛大的中秋赏月宴，杨贵妃常常参与其中，对宴会上的饮食提出改进建议。</p>
+        </div>
+      </div>
+      <div class="fame-info-card">
+        <div class="fic-label"><span class="fic-icon">🏛️</span><span class="fic-title">文化意义</span></div>
+        <div class="fic-body">
+          <p>杨贵妃与月饼命名的传说，反映了唐代从"胡风"到"华风"的文化融合过程。"胡饼"变"月饼"，不仅是名称的改变，更象征着外来食物完成了本土化的文化转型，成为中华饮食文化的代表性符号。</p>
+        </div>
+      </div>
+      <div class="fame-info-card">
+        <div class="fic-label"><span class="fic-icon">📝</span><span class="fic-title">相关故事</span></div>
+        <div class="fic-body">
+          <p>据《开元天宝遗事》记载，唐玄宗与杨贵妃在中秋之夜"凭栏望月"，玄宗命乐师演奏《霓裳羽衣曲》。杨贵妃提出将赏月与品尝美食结合，"以月为名，以饼为形"。虽然正史并未明确记载月饼命名细节，但这个美丽的传说已深深嵌入中秋文化记忆之中。</p>
+        </div>
+      </div>
+    </div>
+    <div class="fame-quote-block">
+      "云想衣裳花想容，春风拂槛露华浓。若非群玉山头见，会向瑶台月下逢。"<span class="quote-src">—— 唐 · 李白《清平调》</span>
+    </div>
+  </section>
+
+  <!-- ====== 朱元璋 ====== -->
+  <section class="fame-detail-section fame-reveal" id="zhuyuanzhang">
+    <div class="fame-person-header">
+      <div class="fph-icon">⚔️</div>
+      <div class="fph-info">
+        <div class="fph-name">朱元璋</div>
+        <div class="fph-era">明代 · 开国皇帝</div>
+        <p class="fph-bio">朱元璋（1328—1398），明朝开国皇帝，年号洪武。出身贫苦，曾为僧乞讨，后参加红巾军推翻元朝统治。他与月饼的故事是中国历史上最具传奇色彩的饮食传说之一，将月饼与反抗压迫、争取自由的民族记忆紧密相连。</p>
+      </div>
+    </div>
+    <div class="fame-card-grid">
+      <div class="fame-info-card">
+        <div class="fic-label"><span class="fic-icon">🥮</span><span class="fic-title">代表美食：起义月饼</span></div>
+        <div class="fic-body">
+          <p>元朝末年，朝廷对民间管控极严，禁止私藏铁器，十户共用一把菜刀。朱元璋联合各路义军准备在中秋之夜起义，但如何传递统一的行动消息成为难题。军师刘伯温想出一计：将写有"八月十五夜起义"的纸条藏入面饼之中，作为"节日赠礼"送到各地义军首领手中。</p>
+          <p>八月十五夜，各路义军一齐响应，最终推翻了元朝统治。明朝建立后，朱元璋为纪念这一战略，下令中秋吃月饼庆贺。从此，月饼被赋予了超越食物的特殊历史含义。</p>
+        </div>
+      </div>
+      <div class="fame-info-card">
+        <div class="fic-label"><span class="fic-icon">📖</span><span class="fic-title">历史背景</span></div>
+        <div class="fic-body">
+          <p>元朝实行严格的民族等级制度，汉人处于社会最底层，反抗情绪一直暗流涌动。至正十一年（1351年），红巾军起义爆发，朱元璋在其中崭露头角。经过十余年征战，于1368年建立明朝。</p>
+          <p>明初朝廷重视恢复汉族传统文化，中秋节作为重要的传统节日得到大力提倡。月饼作为中秋的节令食品，在明代的地位得到了空前提升。</p>
+        </div>
+      </div>
+      <div class="fame-info-card">
+        <div class="fic-label"><span class="fic-icon">🏛️</span><span class="fic-title">文化意义</span></div>
+        <div class="fic-body">
+          <p>"月饼起义"的故事虽然在后世被赋予了一些传奇色彩，但它深刻反映了中国人民对自由和正义的追求。月饼从一种单纯的食品，被赋予了"传递希望"、"团结抗争"的文化意义。这个故事也使得中秋吃月饼的习俗获得了更丰富的精神内涵。</p>
+        </div>
+      </div>
+      <div class="fame-info-card">
+        <div class="fic-label"><span class="fic-icon">📝</span><span class="fic-title">相关故事</span></div>
+        <div class="fic-body">
+          <p>朱元璋建立明朝后，每年中秋都要在宫中举办盛大的"月饼宴"。据《明实录》记载，朱元璋将月饼赏赐给功臣和将士，以此表彰他们在大明建立过程中的功勋。这种"中秋赐饼"的做法被后世清朝沿袭，成为宫廷中秋的重要礼仪。民间也开始流行中秋互赠月饼的习俗，寓意团圆和分享胜利成果。</p>
+        </div>
+      </div>
+    </div>
+    <div class="fame-quote-block">
+      "八月十五夜，各路义军一齐响应，以月饼为号，推翻元朝暴政。"<span class="quote-src">—— 民间传说 · 月饼起义</span>
+    </div>
+  </section>
+
+  <!-- ====== 乾隆皇帝 ====== -->
+  <section class="fame-detail-section fame-reveal" id="qianlong">
+    <div class="fame-person-header">
+      <div class="fph-icon">👑</div>
+      <div class="fph-info">
+        <div class="fph-name">乾隆皇帝</div>
+        <div class="fph-era">清代 · 帝王 / 十全老人</div>
+        <p class="fph-bio">清高宗爱新觉罗·弘历（1711—1799），年号乾隆。清朝第六位皇帝，在位六十年，是中国历史上实际执掌权力最久的皇帝。乾隆酷爱巡游、美食与诗词，他六下江南的故事中，与京式月饼"自来红"的命名有着广为流传的佳话。</p>
+      </div>
+    </div>
+    <div class="fame-card-grid">
+      <div class="fame-info-card">
+        <div class="fic-label"><span class="fic-icon">🥮</span><span class="fic-title">代表美食：自来红月饼</span></div>
+        <div class="fic-body">
+          <p>相传乾隆皇帝下江南微服私访时，途中在一户农家品尝到一种酥皮月饼。这种月饼表面自然呈现红色印记，酥香可口，甜而不腻。乾隆品尝后龙颜大悦，询问其名。店家答："此为民间月饼，尚无雅名。"</p>
+          <p>乾隆见饼面自然泛红，脱口道："就叫'自来红'吧。"回宫后，他命御膳房仿制此饼。"自来红"由此声名大噪，从民间小吃一跃成为宫廷贡品，后流传至民间，成为京式月饼的经典代表。</p>
+        </div>
+      </div>
+      <div class="fame-info-card">
+        <div class="fic-label"><span class="fic-icon">📖</span><span class="fic-title">历史背景</span></div>
+        <div class="fic-body">
+          <p>乾隆时期是清朝的鼎盛时代，社会经济繁荣，饮食文化也达到了新的高度。满汉全席在这一时期趋于成熟，宫廷对民间美食的吸纳达到了前所未有的程度。</p>
+          <p>乾隆六次南巡，每次都会品尝沿途各地的特色美食。他不仅是一位美食家，还热衷于将各地美食引入宫廷，推动了中国饮食文化的南北交流与融合。</p>
+        </div>
+      </div>
+      <div class="fame-info-card">
+        <div class="fic-label"><span class="fic-icon">🏛️</span><span class="fic-title">文化意义</span></div>
+        <div class="fic-body">
+          <p>"自来红"月饼从民间到宫廷再回到民间的传播路径，典型地体现了中国古代饮食文化的流动特征。乾隆皇帝的美食偏好客观上推动了地方美食的全国化进程。自来红、自来白两种京式经典月饼，至今仍是北方中秋不可缺少的节令食品。</p>
+        </div>
+      </div>
+      <div class="fame-info-card">
+        <div class="fic-label"><span class="fic-icon">📝</span><span class="fic-title">相关故事</span></div>
+        <div class="fic-body">
+          <p>除了"自来红"月饼，乾隆与中秋美食还有诸多关联。据清宫档案记载，乾隆时期御膳房每年中秋前二十天就开始制作各种月饼，品种多达数十种。乾隆会在中秋之夜亲自选定数种精品月饼，赏赐给皇子、后妃和近臣。这种"中秋赐饼"的宫廷礼仪，在乾隆朝达到了最为隆重的程度。</p>
+        </div>
+      </div>
+    </div>
+    <div class="fame-quote-block">
+      "自来红，自然之红也。酥皮层叠，入口即化，甜而不腻，堪称饼中上品。"<span class="quote-src">—— 民间流传 · 乾隆品饼评语</span>
+    </div>
+  </section>
+
+  <!-- ====== 慈禧太后 ====== -->
+  <section class="fame-detail-section fame-reveal" id="cixi">
+    <div class="fame-person-header">
+      <div class="fph-icon">🌸</div>
+      <div class="fph-info">
+        <div class="fph-name">慈禧太后</div>
+        <div class="fph-era">清代 · 掌权者 / 晚清实际统治者</div>
+        <p class="fph-bio">慈禧太后（1835—1908），叶赫那拉氏，清文宗咸丰帝的妃嫔，清穆宗同治帝的生母。她以皇太后身份实际统治晚清近半个世纪。慈禧极度重视饮食排场，对中秋月饼有着超乎寻常的热爱，将宫廷月饼文化推向了奢华的极致。</p>
+      </div>
+    </div>
+    <div class="fame-card-grid">
+      <div class="fame-info-card">
+        <div class="fic-label"><span class="fic-icon">🥮</span><span class="fic-title">代表美食：宫廷御制月饼</span></div>
+        <div class="fic-body">
+          <p>慈禧太后对月饼的要求极其严苛。清宫御膳房每年中秋节前一个月就开始准备，制作数百种花样的月饼。她特别喜爱嵌入金箔的"富贵月饼"——以莲子蓉为馅，表面贴上食用金箔，寓意富贵荣华。另一种她钟爱的"玫瑰月饼"，以新鲜玫瑰花瓣入馅，搭配酥皮，兼具花香与酥香。</p>
+          <p>据清宫档案记载，慈禧会亲自选定当年的月饼花样，从款式、花纹、到馅料配比都要一一过目。不合意的月饼会被当场退回重做，精益求精的程度可见一斑。</p>
+        </div>
+      </div>
+      <div class="fame-info-card">
+        <div class="fic-label"><span class="fic-icon">📖</span><span class="fic-title">历史背景</span></div>
+        <div class="fic-body">
+          <p>晚清虽然国势衰微，但宫廷内的生活排场却达到了前所未有的奢华程度。慈禧太后的每顿饭要准备上百道菜，中秋节的月饼更是极尽铺张之能事。据《清宫遗闻》记载，慈禧的中秋月饼耗费惊人，制作月饼的食材来自全国各地，仅玫瑰花一项就要从江南专门运送新鲜花瓣入京。</p>
+        </div>
+      </div>
+      <div class="fame-info-card">
+        <div class="fic-label"><span class="fic-icon">🏛️</span><span class="fic-title">文化意义</span></div>
+        <div class="fic-body">
+          <p>慈禧太后的月饼排场虽然奢华过度，但客观上推动了月饼制作技艺的精进。御膳房的顶级糕点师为了满足慈禧的口味，不断进行技术创新，许多工艺后来流传到民间，提升了整个月饼行业的制作水平。她对月饼花样设计的重视，也使月饼从单纯的食品升华为兼具观赏价值的艺术品。</p>
+        </div>
+      </div>
+      <div class="fame-info-card">
+        <div class="fic-label"><span class="fic-icon">📝</span><span class="fic-title">相关故事</span></div>
+        <div class="fic-body">
+          <p>慈禧太后有一项著名的中秋规矩——"赐饼"。中秋当天，她会将御制月饼分赐给王公大臣和各国驻华使节。收到"老佛爷赐饼"是一种极高的荣誉。月饼用精美的锦盒盛装，盒上绣有龙凤图案。外国使节常常将这份特殊的"中国礼物"视为珍品带回本国，使得中国传统月饼文化通过外交渠道传播到了世界各地。</p>
+        </div>
+      </div>
+    </div>
+    <div class="fame-quote-block">
+      "每届中秋，府第朱门皆以月饼果品相馈赠。至十五月圆时，陈月饼于庭，以祭月神。"<span class="quote-src">—— 清 · 《燕京岁时记》</span>
+    </div>
+  </section>
+
+  <!-- ====== 张大千 ====== -->
+  <section class="fame-detail-section fame-reveal" id="zhangdaqian">
+    <div class="fame-person-header">
+      <div class="fph-icon">🎨</div>
+      <div class="fph-info">
+        <div class="fph-name">张大千</div>
+        <div class="fph-era">近代 · 国画大师 / 美食家</div>
+        <p class="fph-bio">张大千（1899—1983），原名正权，后改名爰，号大千。二十世纪中国最负盛名的国画大师之一，与齐白石并称"南张北齐"。张大千不仅以泼墨山水画闻名于世，更是一位极具造诣的美食家。他常说"画蟹先品蟹"，将美食体验与艺术创作深度融合。</p>
+      </div>
+    </div>
+    <div class="fame-card-grid">
+      <div class="fame-info-card">
+        <div class="fic-label"><span class="fic-icon">🦀</span><span class="fic-title">代表美食：大千中秋蟹宴</span></div>
+        <div class="fic-body">
+          <p>每年中秋，张大千必亲自下厨烹制螃蟹宴，招待挚友和弟子。他的蟹宴融合了川菜的火辣与粤菜的清鲜，自成一派。最著名的是"大千蟹"——以鲜活大闸蟹为主料，辅以川式调料和粤式技法，创造出独特的复合风味。</p>
+          <p>张大千对螃蟹的烹饪有着近乎苛刻的标准：蟹必须是阳澄湖当日捕捞的活蟹，烹调时间精确到秒，调味料的比例经过反复试验。他创制的"大千蟹"成为近代文人美食的经典代表，许多食谱至今仍被收藏和研究。</p>
+        </div>
+      </div>
+      <div class="fame-info-card">
+        <div class="fic-label"><span class="fic-icon">📖</span><span class="fic-title">历史背景</span></div>
+        <div class="fic-body">
+          <p>张大千生活在一个中西文化激烈碰撞的时代。他早年留学日本，后游历欧美，在世界各地举办画展。旅居海外期间，他将中国饮食文化作为中华文明的重要组成部分向外传播。他在巴西居住时建造的"八德园"中，专门开辟了中式厨房，用中国烹饪款待各国友人。</p>
+          <p>中秋蟹宴是张大千每年必定举办的社交活动。宴会上，他与宾客品蟹论画，将美食、艺术、友情怀融为一体。徐悲鸿、齐白石、黄宾虹等艺术大师都曾是张大千中秋蟹宴的座上宾。</p>
+        </div>
+      </div>
+      <div class="fame-info-card">
+        <div class="fic-label"><span class="fic-icon">🏛️</span><span class="fic-title">文化意义</span></div>
+        <div class="fic-body">
+          <p>张大千将中国文人"食不厌精，脍不厌细"的传统发扬到了极致。他不仅是美食的品尝者，更是美食的创造者和传播者。他的中秋蟹宴代表了近代中国文人雅士的生活美学——在美食中品味人生，在艺术中升华日常。</p>
+          <p>"画蟹先品蟹"的理念深刻影响了后来的艺术家们。张大千证明了美食体验与艺术创作之间的内在关联：只有深入理解对象，才能完美表现对象。</p>
+        </div>
+      </div>
+      <div class="fame-info-card">
+        <div class="fic-label"><span class="fic-icon">📝</span><span class="fic-title">相关故事</span></div>
+        <div class="fic-body">
+          <p>张大千与徐悲鸿的友谊广为人知。有一年中秋，张大千设蟹宴招待徐悲鸿。席间，徐悲鸿盛赞蟹宴之美味，张大千笑答："画马先观马，画蟹先品蟹。你若想画好螃蟹，先要懂得吃蟹。"后来徐悲鸿果真画了一幅《蟹图》赠予张大千，题跋中提及这段佳话。</p>
+          <p>张大千晚年在台北居住，每年中秋仍然坚持亲自下厨。他的弟子回忆，老师做菜如同作画，讲究布局、色彩、火候的完美配合，一盘螃蟹在他手中也是"一幅作品"。</p>
+        </div>
+      </div>
+    </div>
+    <div class="fame-quote-block">
+      "画蟹先品蟹。不知其味，焉能画其神？美食与艺术，皆是对生活最深切的热爱。"<span class="quote-src">—— 张大千 · 论美食与艺术</span>
+    </div>
+  </section>
+
+</div>
+
+<!-- Footer -->
+<footer class="footer">
+  <div class="footer-content">
+    <div class="footer-links">
+      <a href="index.html">首页</a><a href="origin.html">节日起源</a><a href="customs.html">民间习俗</a>
+      <a href="legends.html">神话传说</a><a href="food.html">美食文化</a><a href="poetry.html">诗词鉴赏</a>
+      <a href="gallery.html">中秋图集</a><a href="blessing.html">祝福寄语</a>
+    </div>
+    <div class="footer-divider"></div>
+    <div class="footer-info">
+      <p><span class="highlight">月满中华 · 情系中秋</span></p>
+      <p>弘扬中华优秀传统文化 · 传承非物质文化遗产</p>
+    </div>
+  </div>
+</footer>
+
+<div class="back-to-top" title="回到顶部">
+  <svg viewBox="0 0 24 24"><path d="M12 19V5M5 12l7-7 7 7" stroke="currentColor" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+</div>
+
+<script src="js/common.js"></script>
+<script src="js/moon-journey.js"></script>
+<script>MoonJourney.start('fame-detail');</script>
+<script>
+/* ================================================================
+   名人与食详情页 — 交互脚本
+   ================================================================ */
+(function() {
+  'use strict';
+
+  // 滚动揭示
+  function initReveal() {
+    var reveals = document.querySelectorAll('.fame-reveal');
+    if (!reveals.length) return;
+    if ('IntersectionObserver' in window) {
+      var obs = new IntersectionObserver(function(entries) {
+        entries.forEach(function(entry) {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+            obs.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.1, rootMargin: '0px 0px -30px 0px' });
+      reveals.forEach(function(el) { obs.observe(el); });
+    } else {
+      reveals.forEach(function(el) { el.classList.add('visible'); });
+    }
+  }
+
+  // 子导航高亮
+  function initSubnav() {
+    var nav = document.getElementById('fameSubnav');
+    if (!nav) return;
+    var links = nav.querySelectorAll('a');
+    var sections = [];
+    links.forEach(function(link) {
+      var id = link.getAttribute('href').replace('#', '');
+      var sec = document.getElementById(id);
+      if (sec) sections.push({ el: sec, link: link });
+    });
+
+    var ticking = false;
+    window.addEventListener('scroll', function() {
+      if (!ticking) {
+        requestAnimationFrame(function() {
+          var scrollY = window.scrollY + 120;
+          var current = null;
+          sections.forEach(function(s) {
+            if (s.el.offsetTop <= scrollY) current = s;
+          });
+          links.forEach(function(l) { l.classList.remove('active'); });
+          if (current) current.link.classList.add('active');
+          ticking = false;
+        });
+        ticking = true;
+      }
+    });
+
+    // 点击平滑滚动
+    links.forEach(function(link) {
+      link.addEventListener('click', function(e) {
+        e.preventDefault();
+        var id = link.getAttribute('href').replace('#', '');
+        var target = document.getElementById(id);
+        if (target) {
+          target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      });
+    });
+  }
+
+  function init() {
+    initReveal();
+    initSubnav();
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', init);
+  } else {
+    init();
+  }
+})();
+</script>
+</body>
+</html>

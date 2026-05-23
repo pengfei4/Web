@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="中秋图集——月景、灯笼、民俗活动、家庭团圆">
+<title>中秋图集 — 月满中华·情系中秋</title>
+<link href="/css/common.css" rel="stylesheet">
+<link href="/css/animations.css" rel="stylesheet">
+<link href="/css/pages.css" rel="stylesheet">
+<style>
+  .gallery-item { position: relative; }
+  .gallery-item .gi-img-placeholder { width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; font-size: 4rem; transition: transform 0.6s ease; }
+  .gallery-item:hover .gi-img-placeholder { transform: scale(1.1); }
+  .gallery-item.moonlight { background: linear-gradient(135deg, #1a1a3e, #0d1530); }
+  .gallery-item.lantern { background: linear-gradient(135deg, #3e1a1a, #2a1010); }
+  .gallery-item.activity { background: linear-gradient(135deg, #1a2e1a, #0d200d); }
+  .gallery-item.family { background: linear-gradient(135deg, #2e1a1a, #1a1010); }
+</style>
+</head>
+<body data-journey="gallery">
+<div class="page-transition active"><div class="moon-loader"></div></div>
+<nav class="navbar">
+  <a href="/" class="nav-logo"><div class="logo-icon"></div><span>月满中华</span></a>
+  <div class="nav-links">
+    <% nav.forEach(function(item) { %>
+      <a href="<%= item.href %>"<%= item.href === '/gallery' ? ' class="active"' : '' %>><%= item.label %></a>
+    <% }); %>
+  </div>
+  <div class="nav-toggle"><span></span><span></span><span></span></div>
+</nav>
+<div class="bg-particles"></div>
+
+<section class="page-hero" style="height:35vh; min-height:250px;">
+  <div class="cloud-pattern"></div>
+  <div class="hero-content">
+    <span class="hero-icon">📷</span>
+    <h1>光影中秋</h1>
+    <p class="hero-desc">中秋图集 · 美好瞬间</p>
+  </div>
+</section>
+
+<div class="page-content">
+  <div class="filter-bar reveal" style="text-align:center;margin-bottom:30px;">
+    <button class="btn filter-btn active" onclick="filterGallery('all',this)">全部</button>
+    <button class="btn filter-btn" onclick="filterGallery('moonlight',this)">🌕 月色</button>
+    <button class="btn filter-btn" onclick="filterGallery('lantern',this)">🏮 灯笼</button>
+    <button class="btn filter-btn" onclick="filterGallery('activity',this)">🎉 民俗</button>
+    <button class="btn filter-btn" onclick="filterGallery('family',this)">👨‍👩‍👧‍👦 团圆</button>
+  </div>
+
+  <div class="gallery-grid" id="galleryGrid">
+    <% items.forEach(function(item) { %>
+      <div class="gallery-item reveal <%= item.category %>" data-category="<%= item.category %>" onclick="openLightbox(this)">
+        <div class="gi-img-placeholder"><%= item.icon %></div>
+        <div class="gi-overlay"><span class="gi-title"><%= item.title %></span></div>
+      </div>
+    <% }); %>
+  </div>
+</div>
+
+<div id="lightbox" class="lightbox" onclick="closeLightbox()">
+  <span class="lightbox-close">&times;</span>
+  <div class="lightbox-content" id="lightboxContent" onclick="event.stopPropagation()"></div>
+</div>
+
+<footer class="footer">
+  <div class="footer-content">
+    <div class="footer-links">
+      <% nav.forEach(function(item) { %><a href="<%= item.href %>"><%= item.label %></a><% }); %>
+    </div>
+    <div class="footer-divider"></div>
+    <div class="footer-info">
+      <p><span class="highlight"><%= config.site_title %></span></p>
+      <p><%= config.footer_text %></p>
+    </div>
+  </div>
+</footer>
+<div class="back-to-top" title="回到顶部">
+  <svg viewBox="0 0 24 24"><path d="M12 19V5M5 12l7-7 7 7" stroke="currentColor" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+</div>
+<script src="/js/common.js"></script>
+<script src="/js/moon-journey.js"></script>
+<script>MoonJourney.start('gallery');</script>
+<script>
+function filterGallery(category, btn) {
+  document.querySelectorAll('.filter-btn').forEach(function(b) { b.classList.remove('active'); });
+  btn.classList.add('active');
+  document.querySelectorAll('.gallery-item').forEach(function(item) {
+    item.style.display = (category === 'all' || item.dataset.category === category) ? '' : 'none';
+  });
+}
+function openLightbox(item) {
+  document.getElementById('lightboxContent').innerHTML = '<div style="font-size:8rem;text-align:center;">' + item.querySelector('.gi-img-placeholder').textContent + '</div><p style="text-align:center;margin-top:20px;color:var(--moon-gold);font-size:1.3rem;">' + item.querySelector('.gi-title').textContent + '</p>';
+  document.getElementById('lightbox').classList.add('active');
+}
+function closeLightbox() { document.getElementById('lightbox').classList.remove('active'); }
+</script>
+</body>
+</html>
