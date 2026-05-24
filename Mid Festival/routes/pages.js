@@ -183,4 +183,14 @@ router.get('/admin', adminOnly, (req, res) => {
   res.render('admin', { config, nav, user, tables: tables.map(t => t.name), tableData, currentPage: 'admin' });
 });
 
+// ========== 用户管理页面（仅管理员） ==========
+router.get('/admin/users', adminOnly, (req, res) => {
+  const config = getSiteConfig();
+  const nav = getNav();
+  const user = req.session.user;
+  const users = queryAll('SELECT id, username, role, created_at FROM users ORDER BY id');
+  const adminCount = queryOne('SELECT COUNT(*) as cnt FROM users WHERE role = ?', ['admin']);
+  res.render('admin-users', { config, nav, user, users, adminCount: adminCount ? adminCount.cnt : 0, currentPage: 'admin' });
+});
+
 module.exports = router;
