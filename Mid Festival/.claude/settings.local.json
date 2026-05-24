@@ -13,7 +13,8 @@
       "PowerShell($session = New-Object Microsoft.PowerShell.Commands.WebRequestSession; $loginBody = @{username='admin';password='admin123'}; $login = Invoke-WebRequest -Uri \"http://localhost:3000/login\" -Method POST -Body $loginBody -UseBasicParsing -SessionVariable session; \"Login status: \" + $login.StatusCode; if \\($login.Content -match \"千年溯源|探索中秋\"\\) { \"✓ Login successful, redirected to page\" } else { \"Checking content...\" }; $origin = Invoke-WebRequest -Uri \"http://localhost:3000/origin\" -UseBasicParsing -WebSession $session; \"Origin status: \" + $origin.StatusCode; if \\($origin.Content -match \"上古时期\"\\) { \"✓ Origin page has era data\" } else { \"✗ Missing era data\" }; if \\($origin.Content -match \"秋夕祭月\"\\) { \"✓ Origin page has content\" } else { \"✗ Missing content\" })",
       "PowerShell(Out-Null *)",
       "PowerShell(Get-NetTCPConnection *)",
-      "PowerShell(cd \"D:\\\\zqjie\\\\中秋网站\"; $proc = Start-Process -FilePath \"node\" -ArgumentList \"server.js\" -PassThru -WindowStyle Hidden; Start-Sleep 3; try { $r = Invoke-WebRequest -Uri \"http://localhost:3000/\" -UseBasicParsing; Write-Host \"Server OK: $\\($r.StatusCode\\)\" } catch { Write-Host \"Server FAIL: $_\" })"
+      "PowerShell(cd \"D:\\\\zqjie\\\\中秋网站\"; $proc = Start-Process -FilePath \"node\" -ArgumentList \"server.js\" -PassThru -WindowStyle Hidden; Start-Sleep 3; try { $r = Invoke-WebRequest -Uri \"http://localhost:3000/\" -UseBasicParsing; Write-Host \"Server OK: $\\($r.StatusCode\\)\" } catch { Write-Host \"Server FAIL: $_\" })",
+      "PowerShell(Copy-Item *)"
     ]
   }
 }
