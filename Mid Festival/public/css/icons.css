@@ -1,0 +1,337 @@
+/* ============================================================
+   中秋节专题网站 - 手绘风格 SVG 图标系统
+   "月满中华·情系中秋"
+   所有图标使用 CSS mask + inline SVG，渲染为 currentColor
+   ============================================================ */
+
+/* ---- 基础图标类 ---- */
+[class^="icon-"],[class*=" icon-"] {
+  display: inline-block;
+  width: 1em; height: 1em;
+  background-color: currentColor;
+  mask-size: contain;
+  mask-position: center;
+  mask-repeat: no-repeat;
+  -webkit-mask-size: contain;
+  -webkit-mask-position: center;
+  -webkit-mask-repeat: no-repeat;
+  vertical-align: -0.125em;
+}
+
+/* 尺寸变体 */
+.icon-lg  { font-size: 3.5rem; }
+.icon-md  { font-size: 2.5rem; }
+.icon-sm  { font-size: 1.5rem; }
+.icon-xs  { font-size: 0.85rem; }
+
+/* ================================================================
+   月相与天文
+   ================================================================ */
+
+/* 新月 / 弯月 */
+.icon-moon {
+  mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Cpath d='M28 6a22 22 0 000 36 18 18 0 010-36z' fill='%23000'/%3E%3C/svg%3E");
+  -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Cpath d='M28 6a22 22 0 000 36 18 18 0 010-36z' fill='%23000'/%3E%3C/svg%3E");
+}
+
+/* 满月 */
+.icon-fullmoon {
+  mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Ccircle cx='24' cy='24' r='19' fill='%23000'/%3E%3Ccircle cx='17' cy='19' r='5' fill='%23fff' fill-opacity='0.15'/%3E%3Ccircle cx='30' cy='22' r='3.5' fill='%23fff' fill-opacity='0.1'/%3E%3Ccircle cx='19' cy='30' r='3' fill='%23fff' fill-opacity='0.12'/%3E%3C/svg%3E");
+  -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Ccircle cx='24' cy='24' r='19' fill='%23000'/%3E%3Ccircle cx='17' cy='19' r='5' fill='%23fff' fill-opacity='0.15'/%3E%3Ccircle cx='30' cy='22' r='3.5' fill='%23fff' fill-opacity='0.1'/%3E%3Ccircle cx='19' cy='30' r='3' fill='%23fff' fill-opacity='0.12'/%3E%3C/svg%3E");
+}
+
+/* 月见 / 芒草望月 */
+.icon-tsukimi {
+  mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Ccircle cx='24' cy='16' r='10' fill='%23000'/%3E%3Cpath d='M14 38l2-16 6 0-2 16zM22 38l2-18 6 0-2 18l-6 0z' fill='%23000'/%3E%3C/svg%3E");
+  -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Ccircle cx='24' cy='16' r='10' fill='%23000'/%3E%3Cpath d='M14 38l2-16 6 0-2 16zM22 38l2-18 6 0-2 18l-6 0z' fill='%23000'/%3E%3C/svg%3E");
+}
+
+/* 星星 */
+.icon-star {
+  mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Cpath d='M24 4l4 16h16l-12 10 4 16-12-10-12 10 4-16-12-10h16z' fill='%23000'/%3E%3C/svg%3E");
+  -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Cpath d='M24 4l4 16h16l-12 10 4 16-12-10-12 10 4-16-12-10h16z' fill='%23000'/%3E%3C/svg%3E");
+}
+
+/* 闪光 / 星芒 */
+.icon-sparkle {
+  mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Cpath d='M24 2l2 14h14l-10 8 4 14-10-8-10 8 4-14-10-8h14z' fill='%23000'/%3E%3C/svg%3E");
+  -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Cpath d='M24 2l2 14h14l-10 8 4 14-10-8-10 8 4-14-10-8h14z' fill='%23000'/%3E%3C/svg%3E");
+}
+
+/* ================================================================
+   神话传说图标
+   ================================================================ */
+
+/* 斧头（吴刚伐桂） */
+.icon-axe {
+  mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Cpath d='M28 6l-4 16H12l12 8-4 14h8l12-22H28z' fill='%23000'/%3E%3C/svg%3E");
+  -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Cpath d='M28 6l-4 16H12l12 8-4 14h8l12-22H28z' fill='%23000'/%3E%3C/svg%3E");
+}
+
+/* 玉兔 */
+.icon-rabbit {
+  mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Cellipse cx='22' cy='28' rx='10' ry='7' fill='%23000'/%3E%3Ccircle cx='16' cy='20' r='7' fill='%23000'/%3E%3Cellipse cx='13' cy='10' rx='2.5' ry='8' transform='rotate(-15 13 10)' fill='%23000'/%3E%3Cellipse cx='20' cy='9' rx='2' ry='7' transform='rotate(10 20 9)' fill='%23000'/%3E%3C/svg%3E");
+  -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Cellipse cx='22' cy='28' rx='10' ry='7' fill='%23000'/%3E%3Ccircle cx='16' cy='20' r='7' fill='%23000'/%3E%3Cellipse cx='13' cy='10' rx='2.5' ry='8' transform='rotate(-15 13 10)' fill='%23000'/%3E%3Cellipse cx='20' cy='9' rx='2' ry='7' transform='rotate(10 20 9)' fill='%23000'/%3E%3C/svg%3E");
+}
+
+/* 卷轴 / 古籍 */
+.icon-scroll {
+  mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Crect x='12' y='10' width='24' height='28' rx='2' fill='%23000'/%3E%3Crect x='10' y='8' width='4' height='32' rx='1.5' fill='%23000'/%3E%3Crect x='34' y='8' width='4' height='32' rx='1.5' fill='%23000'/%3E%3Cpath d='M16 18h16M16 24h16M16 30h12' stroke='%23fff' stroke-width='2'/%3E%3C/svg%3E");
+  -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Crect x='12' y='10' width='24' height='28' rx='2' fill='%23000'/%3E%3Crect x='10' y='8' width='4' height='32' rx='1.5' fill='%23000'/%3E%3Crect x='34' y='8' width='4' height='32' rx='1.5' fill='%23000'/%3E%3Cpath d='M16 18h16M16 24h16M16 30h12' stroke='%23fff' stroke-width='2'/%3E%3C/svg%3E");
+}
+
+/* ================================================================
+   习俗与活动图标
+   ================================================================ */
+
+/* 双手合十 / 祭拜 */
+.icon-prayer {
+  mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Cpath d='M16 8C10 12 6 20 6 28c0 6 4 12 8 12s6-6 6-12V16h4v12c0 6 2 12 6 12s8-6 8-12c0-8-4-16-10-20' fill='none' stroke='%23000' stroke-width='2.5'/%3E%3C/svg%3E");
+  -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Cpath d='M16 8C10 12 6 20 6 28c0 6 4 12 8 12s6-6 6-12V16h4v12c0 6 2 12 6 12s8-6 8-12c0-8-4-16-10-20' fill='none' stroke='%23000' stroke-width='2.5'/%3E%3C/svg%3E");
+}
+
+/* 月饼 */
+.icon-mooncake {
+  mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Ccircle cx='24' cy='24' r='18' fill='none' stroke='%23000' stroke-width='2.5'/%3E%3Ccircle cx='24' cy='24' r='13' fill='none' stroke='%23000' stroke-width='1.5'/%3E%3Cpath d='M14 24h20M24 14v20M17 17l14 14M31 17L17 31' fill='none' stroke='%23000' stroke-width='1.2'/%3E%3C/svg%3E");
+  -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Ccircle cx='24' cy='24' r='18' fill='none' stroke='%23000' stroke-width='2.5'/%3E%3Ccircle cx='24' cy='24' r='13' fill='none' stroke='%23000' stroke-width='1.5'/%3E%3Cpath d='M14 24h20M24 14v20M17 17l14 14M31 17L17 31' fill='none' stroke='%23000' stroke-width='1.2'/%3E%3C/svg%3E");
+}
+
+/* 苏式月饼（酥皮层次） */
+.icon-mooncake-su {
+  mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Ccircle cx='24' cy='24' r='18' fill='none' stroke='%23000' stroke-width='2'/%3E%3Ccircle cx='24' cy='24' r='14' fill='none' stroke='%23000' stroke-width='1'/%3E%3Cpath d='M12 24c4 0 8-2 12-2s8 2 12 2' fill='none' stroke='%23000' stroke-width='1.5'/%3E%3Cpath d='M12 28c4 0 8-2 12-2s8 2 12 2' fill='none' stroke='%23000' stroke-width='1'/%3E%3C/svg%3E");
+  -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Ccircle cx='24' cy='24' r='18' fill='none' stroke='%23000' stroke-width='2'/%3E%3Ccircle cx='24' cy='24' r='14' fill='none' stroke='%23000' stroke-width='1'/%3E%3Cpath d='M12 24c4 0 8-2 12-2s8 2 12 2' fill='none' stroke='%23000' stroke-width='1.5'/%3E%3Cpath d='M12 28c4 0 8-2 12-2s8 2 12 2' fill='none' stroke='%23000' stroke-width='1'/%3E%3C/svg%3E");
+}
+
+/* 京式月饼 */
+.icon-mooncake-jing {
+  mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Ccircle cx='24' cy='24' r='18' fill='none' stroke='%23000' stroke-width='2.5'/%3E%3Ccircle cx='24' cy='24' r='6' fill='none' stroke='%23000' stroke-width='2'/%3E%3Cpath d='M24 6v36M6 24h36' fill='none' stroke='%23000' stroke-width='1'/%3E%3C/svg%3E");
+  -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Ccircle cx='24' cy='24' r='18' fill='none' stroke='%23000' stroke-width='2.5'/%3E%3Ccircle cx='24' cy='24' r='6' fill='none' stroke='%23000' stroke-width='2'/%3E%3Cpath d='M24 6v36M6 24h36' fill='none' stroke='%23000' stroke-width='1'/%3E%3C/svg%3E");
+}
+
+/* 滇式月饼 */
+.icon-mooncake-dian {
+  mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Ccircle cx='24' cy='24' r='18' fill='none' stroke='%23000' stroke-width='2'/%3E%3Cpath d='M14 20c6-4 14-4 20 0M14 28c6 4 14 4 20 0' fill='none' stroke='%23000' stroke-width='1.5'/%3E%3Ccircle cx='24' cy='24' r='5' fill='%23000'/%3E%3C/svg%3E");
+  -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Ccircle cx='24' cy='24' r='18' fill='none' stroke='%23000' stroke-width='2'/%3E%3Cpath d='M14 20c6-4 14-4 20 0M14 28c6 4 14 4 20 0' fill='none' stroke='%23000' stroke-width='1.5'/%3E%3Ccircle cx='24' cy='24' r='5' fill='%23000'/%3E%3C/svg%3E");
+}
+
+/* 灯笼 */
+.icon-lantern {
+  mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Cpath d='M22 4h4v4h-4z' fill='%23000'/%3E%3Cellipse cx='24' cy='26' rx='12' ry='16' fill='none' stroke='%23000' stroke-width='2.5'/%3E%3Cpath d='M12 26h24M14 20h20M14 32h20' fill='none' stroke='%23000' stroke-width='1'/%3E%3Cpath d='M24 42v4M20 46h8' fill='none' stroke='%23000' stroke-width='1.5'/%3E%3C/svg%3E");
+  -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Cpath d='M22 4h4v4h-4z' fill='%23000'/%3E%3Cellipse cx='24' cy='26' rx='12' ry='16' fill='none' stroke='%23000' stroke-width='2.5'/%3E%3Cpath d='M12 26h24M14 20h20M14 32h20' fill='none' stroke='%23000' stroke-width='1'/%3E%3Cpath d='M24 42v4M20 46h8' fill='none' stroke='%23000' stroke-width='1.5'/%3E%3C/svg%3E");
+}
+
+/* 波浪 / 潮水 */
+.icon-wave {
+  mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Cpath d='M4 24c8-8 12 8 20 0s12-8 20 0' fill='none' stroke='%23000' stroke-width='2.5'/%3E%3Cpath d='M4 34c8-8 12 8 20 0s12-8 20 0' fill='none' stroke='%23000' stroke-width='1.8'/%3E%3C/svg%3E");
+  -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Cpath d='M4 24c8-8 12 8 20 0s12-8 20 0' fill='none' stroke='%23000' stroke-width='2.5'/%3E%3Cpath d='M4 34c8-8 12 8 20 0s12-8 20 0' fill='none' stroke='%23000' stroke-width='1.8'/%3E%3C/svg%3E");
+}
+
+/* 桂花 */
+.icon-flower {
+  mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Ccircle cx='24' cy='24' r='6' fill='none' stroke='%23000' stroke-width='2'/%3E%3Cpath d='M24 6v12M24 30v12M10 18l8 6M30 24l8-6M10 30l8-6M30 24l8 6' fill='none' stroke='%23000' stroke-width='2'/%3E%3Ccircle cx='24' cy='12' r='3' fill='%23000'/%3E%3Ccircle cx='16' cy='18' r='3' fill='%23000'/%3E%3Ccircle cx='32' cy='18' r='3' fill='%23000'/%3E%3Ccircle cx='16' cy='30' r='3' fill='%23000'/%3E%3Ccircle cx='32' cy='30' r='3' fill='%23000'/%3E%3C/svg%3E");
+  -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Ccircle cx='24' cy='24' r='6' fill='none' stroke='%23000' stroke-width='2'/%3E%3Cpath d='M24 6v12M24 30v12M10 18l8 6M30 24l8-6M10 30l8-6M30 24l8 6' fill='none' stroke='%23000' stroke-width='2'/%3E%3Ccircle cx='24' cy='12' r='3' fill='%23000'/%3E%3Ccircle cx='16' cy='18' r='3' fill='%23000'/%3E%3Ccircle cx='32' cy='18' r='3' fill='%23000'/%3E%3Ccircle cx='16' cy='30' r='3' fill='%23000'/%3E%3Ccircle cx='32' cy='30' r='3' fill='%23000'/%3E%3C/svg%3E");
+}
+
+/* 火焰 */
+.icon-fire {
+  mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Cpath d='M24 44c8 0 14-6 14-14 0-8-6-18-14-26C16 20 10 30 10 30c0 8 6 14 14 14z' fill='none' stroke='%23000' stroke-width='2.5'/%3E%3Cpath d='M24 40c5 0 9-4 9-9 0-5-4-12-9-17-5 5-9 12-9 17 0 5 4 9 9 9z' fill='none' stroke='%23000' stroke-width='1.5'/%3E%3C/svg%3E");
+  -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Cpath d='M24 44c8 0 14-6 14-14 0-8-6-18-14-26C16 20 10 30 10 30c0 8 6 14 14 14z' fill='none' stroke='%23000' stroke-width='2.5'/%3E%3Cpath d='M24 40c5 0 9-4 9-9 0-5-4-12-9-17-5 5-9 12-9 17 0 5 4 9 9 9z' fill='none' stroke='%23000' stroke-width='1.5'/%3E%3C/svg%3E");
+}
+
+/* 龙 */
+.icon-dragon {
+  mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Cpath d='M8 28c4-6 10-10 18-10 4 0 8 2 12 4M38 22c-2 4-4 8-10 10M28 32c-6 2-12-2-14-6' fill='none' stroke='%23000' stroke-width='2.5'/%3E%3Ccircle cx='6' cy='26' r='3' fill='%23000'/%3E%3Cpath d='M4 24l-4-2M4 28l-4 2' fill='none' stroke='%23000' stroke-width='1.5'/%3E%3C/svg%3E");
+  -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Cpath d='M8 28c4-6 10-10 18-10 4 0 8 2 12 4M38 22c-2 4-4 8-10 10M28 32c-6 2-12-2-14-6' fill='none' stroke='%23000' stroke-width='2.5'/%3E%3Ccircle cx='6' cy='26' r='3' fill='%23000'/%3E%3Cpath d='M4 24l-4-2M4 28l-4 2' fill='none' stroke='%23000' stroke-width='1.5'/%3E%3C/svg%3E");
+}
+
+/* 莲花 */
+.icon-lotus {
+  mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Cpath d='M24 44V30M16 30c0-4 4-8 8-12 4 4 8 8 8 12' fill='none' stroke='%23000' stroke-width='2'/%3E%3Cpath d='M24 18c-5 4-10 6-14 4M24 18c5 4 10 6 14 4' fill='none' stroke='%23000' stroke-width='1.5'/%3E%3C/svg%3E");
+  -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Cpath d='M24 44V30M16 30c0-4 4-8 8-12 4 4 8 8 8 12' fill='none' stroke='%23000' stroke-width='2'/%3E%3Cpath d='M24 18c-5 4-10 6-14 4M24 18c5 4 10 6 14 4' fill='none' stroke='%23000' stroke-width='1.5'/%3E%3C/svg%3E");
+}
+
+/* 步行（走月亮） */
+.icon-walker {
+  mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Ccircle cx='22' cy='10' r='4' fill='%23000'/%3E%3Cpath d='M22 14v10l-8 20M22 24l6 16M16 28h10' fill='none' stroke='%23000' stroke-width='2'/%3E%3C/svg%3E");
+  -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Ccircle cx='22' cy='10' r='4' fill='%23000'/%3E%3Cpath d='M22 14v10l-8 20M22 24l6 16M16 28h10' fill='none' stroke='%23000' stroke-width='2'/%3E%3C/svg%3E");
+}
+
+/* 骰子（博饼） */
+.icon-dice {
+  mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Crect x='6' y='6' width='36' height='36' rx='5' fill='none' stroke='%23000' stroke-width='2.5'/%3E%3Ccircle cx='18' cy='18' r='3' fill='%23000'/%3E%3Ccircle cx='30' cy='30' r='3' fill='%23000'/%3E%3Ccircle cx='30' cy='18' r='3' fill='%23000'/%3E%3Ccircle cx='18' cy='30' r='3' fill='%23000'/%3E%3C/svg%3E");
+  -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Crect x='6' y='6' width='36' height='36' rx='5' fill='none' stroke='%23000' stroke-width='2.5'/%3E%3Ccircle cx='18' cy='18' r='3' fill='%23000'/%3E%3Ccircle cx='30' cy='30' r='3' fill='%23000'/%3E%3Ccircle cx='30' cy='18' r='3' fill='%23000'/%3E%3Ccircle cx='18' cy='30' r='3' fill='%23000'/%3E%3C/svg%3E");
+}
+
+/* ================================================================
+   时间线 / 历史图标
+   ================================================================ */
+
+/* 针线（穿针引线） */
+.icon-thread {
+  mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Cpath d='M24 44V14c0-4 4-6 6-2' fill='none' stroke='%23000' stroke-width='2'/%3E%3Cpath d='M22 44C12 36 6 26 6 18c0-6 12-8 18 0C30 10 42 12 42 18c0 8-6 18-16 26' fill='none' stroke='%23000' stroke-width='1.5'/%3E%3C/svg%3E");
+  -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Cpath d='M24 44V14c0-4 4-6 6-2' fill='none' stroke='%23000' stroke-width='2'/%3E%3Cpath d='M22 44C12 36 6 26 6 18c0-6 12-8 18 0C30 10 42 12 42 18c0 8-6 18-16 26' fill='none' stroke='%23000' stroke-width='1.5'/%3E%3C/svg%3E");
+}
+
+/* 庙宇 / 祭坛 */
+.icon-temple {
+  mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Cpath d='M24 8L8 22h6v18h20V22h6L24 8z' fill='none' stroke='%23000' stroke-width='2.5'/%3E%3Crect x='18' y='28' width='12' height='12' fill='none' stroke='%23000' stroke-width='1.5'/%3E%3C/svg%3E");
+  -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Cpath d='M24 8L8 22h6v18h20V22h6L24 8z' fill='none' stroke='%23000' stroke-width='2.5'/%3E%3Crect x='18' y='28' width='12' height='12' fill='none' stroke='%23000' stroke-width='1.5'/%3E%3C/svg%3E");
+}
+
+/* 毛笔 */
+.icon-brush {
+  mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Cpath d='M10 38l24-24c2-2 4-2 6 0l2 2c2 2 2 4 0 6L18 46c-2 2-6 2-8 0l-2-2c-2-2-2-4 0-6z' fill='none' stroke='%23000' stroke-width='2.5'/%3E%3Cpath d='M8 36l8-6' fill='none' stroke='%23000' stroke-width='1.5'/%3E%3C/svg%3E");
+  -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Cpath d='M10 38l24-24c2-2 4-2 6 0l2 2c2 2 2 4 0 6L18 46c-2 2-6 2-8 0l-2-2c-2-2-2-4 0-6z' fill='none' stroke='%23000' stroke-width='2.5'/%3E%3Cpath d='M8 36l8-6' fill='none' stroke='%23000' stroke-width='1.5'/%3E%3C/svg%3E");
+}
+
+/* 战马 / 马 */
+.icon-horse {
+  mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Cpath d='M10 38c4-8 8-14 16-14l6-14c2 0 4 4 4 8s-4 12-8 14M18 24l-6 16M26 24l4 16' fill='none' stroke='%23000' stroke-width='2.5'/%3E%3C/svg%3E");
+  -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Cpath d='M10 38c4-8 8-14 16-14l6-14c2 0 4 4 4 8s-4 12-8 14M18 24l-6 16M26 24l4 16' fill='none' stroke='%23000' stroke-width='2.5'/%3E%3C/svg%3E");
+}
+
+/* 面具 / 戏剧 */
+.icon-mask {
+  mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Cellipse cx='16' cy='26' rx='10' ry='16' fill='none' stroke='%23000' stroke-width='2.5'/%3E%3Cellipse cx='32' cy='26' rx='10' ry='16' fill='none' stroke='%23000' stroke-width='2.5'/%3E%3Ccircle cx='14' cy='22' r='3' fill='%23000'/%3E%3Ccircle cx='30' cy='22' r='3' fill='%23000'/%3E%3C/svg%3E");
+  -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Cellipse cx='16' cy='26' rx='10' ry='16' fill='none' stroke='%23000' stroke-width='2.5'/%3E%3Cellipse cx='32' cy='26' rx='10' ry='16' fill='none' stroke='%23000' stroke-width='2.5'/%3E%3Ccircle cx='14' cy='22' r='3' fill='%23000'/%3E%3Ccircle cx='30' cy='22' r='3' fill='%23000'/%3E%3C/svg%3E");
+}
+
+/* 报纸 / 档案 */
+.icon-news {
+  mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Crect x='6' y='8' width='36' height='32' rx='2' fill='none' stroke='%23000' stroke-width='2.5'/%3E%3Cpath d='M12 16h16M12 22h20M12 28h14M12 34h8' stroke='%23000' stroke-width='1.5'/%3E%3C/svg%3E");
+  -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Crect x='6' y='8' width='36' height='32' rx='2' fill='none' stroke='%23000' stroke-width='2.5'/%3E%3Cpath d='M12 16h16M12 22h20M12 28h14M12 34h8' stroke='%23000' stroke-width='1.5'/%3E%3C/svg%3E");
+}
+
+/* 宇宙 / 星空 */
+.icon-cosmos {
+  mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Ccircle cx='24' cy='24' r='20' fill='none' stroke='%23000' stroke-width='2'/%3E%3Ccircle cx='24' cy='24' r='6' fill='%23000'/%3E%3Cellipse cx='24' cy='24' rx='20' ry='6' fill='none' stroke='%23000' stroke-width='1.5' transform='rotate(60 24 24)'/%3E%3Ccircle cx='14' cy='14' r='2' fill='%23000'/%3E%3Ccircle cx='34' cy='34' r='1.5' fill='%23000'/%3E%3C/svg%3E");
+  -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Ccircle cx='24' cy='24' r='20' fill='none' stroke='%23000' stroke-width='2'/%3E%3Ccircle cx='24' cy='24' r='6' fill='%23000'/%3E%3Cellipse cx='24' cy='24' rx='20' ry='6' fill='none' stroke='%23000' stroke-width='1.5' transform='rotate(60 24 24)'/%3E%3Ccircle cx='14' cy='14' r='2' fill='%23000'/%3E%3Ccircle cx='34' cy='34' r='1.5' fill='%23000'/%3E%3C/svg%3E");
+}
+
+/* ================================================================
+   美食图标
+   ================================================================ */
+
+/* 鸭子 */
+.icon-duck {
+  mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Cpath d='M10 30c4-6 14-8 20-4 4 2 8 8 8 12M22 26l-4 6M32 24l4 6M14 22c-2 0-4-2-4-4s2-4 4-4c4 0 6 4 10 4' fill='none' stroke='%23000' stroke-width='2.5'/%3E%3C/svg%3E");
+  -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Cpath d='M10 30c4-6 14-8 20-4 4 2 8 8 8 12M22 26l-4 6M32 24l4 6M14 22c-2 0-4-2-4-4s2-4 4-4c4 0 6 4 10 4' fill='none' stroke='%23000' stroke-width='2.5'/%3E%3C/svg%3E");
+}
+
+/* 田螺 */
+.icon-snail {
+  mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Cpath d='M24 30c-8 0-14-4-14-10s6-10 14-10c6 0 10 3 12 6M24 10C16 10 12 16 12 20s4 6 10 6M22 14c-2 2-2 4 0 6' fill='none' stroke='%23000' stroke-width='2.5'/%3E%3C/svg%3E");
+  -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Cpath d='M24 30c-8 0-14-4-14-10s6-10 14-10c6 0 10 3 12 6M24 10C16 10 12 16 12 20s4 6 10 6M22 14c-2 2-2 4 0 6' fill='none' stroke='%23000' stroke-width='2.5'/%3E%3C/svg%3E");
+}
+
+/* 芋头 */
+.icon-taro {
+  mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Cellipse cx='24' cy='28' rx='10' ry='8' fill='none' stroke='%23000' stroke-width='2.5'/%3E%3Cpath d='M24 20c-4-6-2-12 2-12s6 6 2 12' fill='none' stroke='%23000' stroke-width='1.5'/%3E%3Ccircle cx='24' cy='20' r='3' fill='%23000'/%3E%3C/svg%3E");
+  -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Cellipse cx='24' cy='28' rx='10' ry='8' fill='none' stroke='%23000' stroke-width='2.5'/%3E%3Cpath d='M24 20c-4-6-2-12 2-12s6 6 2 12' fill='none' stroke='%23000' stroke-width='1.5'/%3E%3Ccircle cx='24' cy='20' r='3' fill='%23000'/%3E%3C/svg%3E");
+}
+
+/* 酒壶 / 酒杯 */
+.icon-sake {
+  mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Cpath d='M16 14h16l-4 30H20l-4-30z' fill='none' stroke='%23000' stroke-width='2.5'/%3E%3Cpath d='M20 8h8M22 4h4' fill='none' stroke='%23000' stroke-width='1.5'/%3E%3Cellipse cx='24' cy='14' rx='8' ry='2' fill='none' stroke='%23000' stroke-width='1.5'/%3E%3C/svg%3E");
+  -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Cpath d='M16 14h16l-4 30H20l-4-30z' fill='none' stroke='%23000' stroke-width='2.5'/%3E%3Cpath d='M20 8h8M22 4h4' fill='none' stroke='%23000' stroke-width='1.5'/%3E%3Cellipse cx='24' cy='14' rx='8' ry='2' fill='none' stroke='%23000' stroke-width='1.5'/%3E%3C/svg%3E");
+}
+
+/* 柚子 */
+.icon-pomelo {
+  mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Ccircle cx='24' cy='26' r='14' fill='none' stroke='%23000' stroke-width='2'/%3E%3Cpath d='M24 12c-2-4-4-6-6-6s-2 4 0 8M24 12c2-4 4-6 6-6s2 4 0 8' fill='none' stroke='%23000' stroke-width='1.5'/%3E%3C/svg%3E");
+  -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Ccircle cx='24' cy='26' r='14' fill='none' stroke='%23000' stroke-width='2'/%3E%3Cpath d='M24 12c-2-4-4-6-6-6s-2 4 0 8M24 12c2-4 4-6 6-6s2 4 0 8' fill='none' stroke='%23000' stroke-width='1.5'/%3E%3C/svg%3E");
+}
+
+/* 螃蟹 */
+.icon-crab {
+  mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Cellipse cx='24' cy='26' rx='10' ry='7' fill='none' stroke='%23000' stroke-width='2.5'/%3E%3Cpath d='M14 26L6 20M14 26L6 32M34 26l8-6M34 26l8 6M22 20l-6 6M26 20l6 6' fill='none' stroke='%23000' stroke-width='1.5'/%3E%3Ccircle cx='20' cy='24' r='1.5' fill='%23000'/%3E%3Ccircle cx='28' cy='24' r='1.5' fill='%23000'/%3E%3C/svg%3E");
+  -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Cellipse cx='24' cy='26' rx='10' ry='7' fill='none' stroke='%23000' stroke-width='2.5'/%3E%3Cpath d='M14 26L6 20M14 26L6 32M34 26l8-6M34 26l8 6M22 20l-6 6M26 20l6 6' fill='none' stroke='%23000' stroke-width='1.5'/%3E%3Ccircle cx='20' cy='24' r='1.5' fill='%23000'/%3E%3Ccircle cx='28' cy='24' r='1.5' fill='%23000'/%3E%3C/svg%3E");
+}
+
+/* 栗子 */
+.icon-chestnut {
+  mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Cpath d='M24 8c-8 4-14 12-14 22 0 8 6 12 14 12s14-4 14-12c0-10-6-18-14-22z' fill='none' stroke='%23000' stroke-width='2'/%3E%3Cpath d='M24 8v6M20 10h8' fill='none' stroke='%23000' stroke-width='1.5'/%3E%3C/svg%3E");
+  -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Cpath d='M24 8c-8 4-14 12-14 22 0 8 6 12 14 12s14-4 14-12c0-10-6-18-14-22z' fill='none' stroke='%23000' stroke-width='2'/%3E%3Cpath d='M24 8v6M20 10h8' fill='none' stroke='%23000' stroke-width='1.5'/%3E%3C/svg%3E");
+}
+
+/* 西瓜 */
+.icon-melon {
+  mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Ccircle cx='24' cy='26' r='16' fill='none' stroke='%23000' stroke-width='2.5'/%3E%3Cpath d='M24 10c-12 8-16 22-16 24 0 2 2 4 4 4s4-6 12-6 12 4 12 6c0-2-4-16-16-24z' fill='none' stroke='%23000' stroke-width='1.2'/%3E%3C/svg%3E");
+  -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Ccircle cx='24' cy='26' r='16' fill='none' stroke='%23000' stroke-width='2.5'/%3E%3Cpath d='M24 10c-12 8-16 22-16 24 0 2 2 4 4 4s4-6 12-6 12 4 12 6c0-2-4-16-16-24z' fill='none' stroke='%23000' stroke-width='1.2'/%3E%3C/svg%3E");
+}
+
+/* 茶 */
+.icon-tea {
+  mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Cpath d='M14 18h14c6 0 10 4 10 10v2c0 6-4 10-10 10H18c-4 0-8-4-8-10V8h-4M32 18h6v8h-6' fill='none' stroke='%23000' stroke-width='2'/%3E%3C/svg%3E");
+  -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Cpath d='M14 18h14c6 0 10 4 10 10v2c0 6-4 10-10 10H18c-4 0-8-4-8-10V8h-4M32 18h6v8h-6' fill='none' stroke='%23000' stroke-width='2'/%3E%3C/svg%3E");
+}
+
+/* ================================================================
+   人文与情感图标
+   ================================================================ */
+
+/* 家人 */
+.icon-family {
+  mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Ccircle cx='24' cy='10' r='5' fill='none' stroke='%23000' stroke-width='2'/%3E%3Ccircle cx='14' cy='12' r='4' fill='none' stroke='%23000' stroke-width='2'/%3E%3Ccircle cx='34' cy='12' r='4' fill='none' stroke='%23000' stroke-width='2'/%3E%3Cpath d='M24 15v12M14 16v10M34 16v10M10 32c0-4 8-6 14-6s14 2 14 6v6H10v-6z' fill='none' stroke='%23000' stroke-width='2'/%3E%3C/svg%3E");
+  -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Ccircle cx='24' cy='10' r='5' fill='none' stroke='%23000' stroke-width='2'/%3E%3Ccircle cx='14' cy='12' r='4' fill='none' stroke='%23000' stroke-width='2'/%3E%3Ccircle cx='34' cy='12' r='4' fill='none' stroke='%23000' stroke-width='2'/%3E%3Cpath d='M24 15v12M14 16v10M34 16v10M10 32c0-4 8-6 14-6s14 2 14 6v6H10v-6z' fill='none' stroke='%23000' stroke-width='2'/%3E%3C/svg%3E");
+}
+
+/* 鸽子 / 放飞 */
+.icon-dove {
+  mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Cpath d='M8 18c6-6 14-2 16 4 0-6 4-14 12-12M24 22c-4 8-8 18-4 24M24 22c4 8 8 18 4 24' fill='none' stroke='%23000' stroke-width='2'/%3E%3C/svg%3E");
+  -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Cpath d='M8 18c6-6 14-2 16 4 0-6 4-14 12-12M24 22c-4 8-8 18-4 24M24 22c4 8 8 18 4 24' fill='none' stroke='%23000' stroke-width='2'/%3E%3C/svg%3E");
+}
+
+/* 爱心 / 心意 */
+.icon-heart {
+  mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Cpath d='M24 42C12 30 4 22 4 14c0-6 6-10 10-10 4 0 7 2 10 6 3-4 6-6 10-6 4 0 10 4 10 10 0 8-8 16-20 28z' fill='none' stroke='%23000' stroke-width='2.5'/%3E%3C/svg%3E");
+  -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Cpath d='M24 42C12 30 4 22 4 14c0-6 6-10 10-10 4 0 7 2 10 6 3-4 6-6 10-6 4 0 10 4 10 10 0 8-8 16-20 28z' fill='none' stroke='%23000' stroke-width='2.5'/%3E%3C/svg%3E");
+}
+
+/* 相机 */
+.icon-camera {
+  mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Crect x='4' y='14' width='40' height='26' rx='4' fill='none' stroke='%23000' stroke-width='2.5'/%3E%3Ccircle cx='24' cy='27' r='8' fill='none' stroke='%23000' stroke-width='2'/%3E%3Ccircle cx='24' cy='27' r='3' fill='%23000'/%3E%3Cpath d='M14 14l2-6h16l2 6' fill='none' stroke='%23000' stroke-width='2'/%3E%3C/svg%3E");
+  -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Crect x='4' y='14' width='40' height='26' rx='4' fill='none' stroke='%23000' stroke-width='2.5'/%3E%3Ccircle cx='24' cy='27' r='8' fill='none' stroke='%23000' stroke-width='2'/%3E%3Ccircle cx='24' cy='27' r='3' fill='%23000'/%3E%3Cpath d='M14 14l2-6h16l2 6' fill='none' stroke='%23000' stroke-width='2'/%3E%3C/svg%3E");
+}
+
+/* 油灯 / 古灯 */
+.icon-oil-lamp {
+  mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Cpath d='M20 10h8l-2 6H22l-2-6z' fill='%23000'/%3E%3Cellipse cx='24' cy='22' rx='6' ry='4' fill='none' stroke='%23000' stroke-width='2'/%3E%3Cpath d='M20 24l-6 14M28 24l6 14' fill='none' stroke='%23000' stroke-width='1.5'/%3E%3C/svg%3E");
+  -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Cpath d='M20 10h8l-2 6H22l-2-6z' fill='%23000'/%3E%3Cellipse cx='24' cy='22' rx='6' ry='4' fill='none' stroke='%23000' stroke-width='2'/%3E%3Cpath d='M20 24l-6 14M28 24l6 14' fill='none' stroke='%23000' stroke-width='1.5'/%3E%3C/svg%3E");
+}
+
+/* ================================================================
+   国家/地区旗帜图标（简化的几何图形）
+   ================================================================ */
+
+/* 日本 */
+.icon-flag-jp {
+  mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Crect x='6' y='10' width='36' height='28' rx='2' fill='none' stroke='%23000' stroke-width='2'/%3E%3Ccircle cx='24' cy='24' r='8' fill='%23000'/%3E%3C/svg%3E");
+  -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Crect x='6' y='10' width='36' height='28' rx='2' fill='none' stroke='%23000' stroke-width='2'/%3E%3Ccircle cx='24' cy='24' r='8' fill='%23000'/%3E%3C/svg%3E");
+}
+
+/* 韩国 */
+.icon-flag-kr {
+  mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Crect x='6' y='10' width='36' height='28' rx='2' fill='none' stroke='%23000' stroke-width='2'/%3E%3Ccircle cx='24' cy='24' r='8' fill='none' stroke='%23000' stroke-width='2'/%3E%3Cpath d='M18 18c4 6 4 14 0 18M30 18c-4 6-4 14 0 18' fill='none' stroke='%23000' stroke-width='1.5'/%3E%3C/svg%3E");
+  -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Crect x='6' y='10' width='36' height='28' rx='2' fill='none' stroke='%23000' stroke-width='2'/%3E%3Ccircle cx='24' cy='24' r='8' fill='none' stroke='%23000' stroke-width='2'/%3E%3Cpath d='M18 18c4 6 4 14 0 18M30 18c-4 6-4 14 0 18' fill='none' stroke='%23000' stroke-width='1.5'/%3E%3C/svg%3E");
+}
+
+/* 越南 */
+.icon-flag-vn {
+  mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Crect x='6' y='10' width='36' height='28' rx='2' fill='none' stroke='%23000' stroke-width='2'/%3E%3Cpath d='M24 16l3 8h8l-6 4 2 8-6-4-6 4 2-8-6-4h8z' fill='%23000'/%3E%3C/svg%3E");
+  -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Crect x='6' y='10' width='36' height='28' rx='2' fill='none' stroke='%23000' stroke-width='2'/%3E%3Cpath d='M24 16l3 8h8l-6 4 2 8-6-4-6 4 2-8-6-4h8z' fill='%23000'/%3E%3C/svg%3E");
+}
+
+/* 新加坡 */
+.icon-flag-sg {
+  mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Crect x='6' y='10' width='36' height='28' rx='2' fill='none' stroke='%23000' stroke-width='2'/%3E%3Cpath d='M18 14h16v14H18z' fill='none' stroke='%23000' stroke-width='2'/%3E%3Ccircle cx='26' cy='19' r='3' fill='none' stroke='%23000' stroke-width='1.5'/%3E%3Cpath d='M24 16l2 2-1 3 1-3 2 0-1-2 2 0-2-1 1-3-2 2-2-1' fill='%23000'/%3E%3C/svg%3E");
+  -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Crect x='6' y='10' width='36' height='28' rx='2' fill='none' stroke='%23000' stroke-width='2'/%3E%3Cpath d='M18 14h16v14H18z' fill='none' stroke='%23000' stroke-width='2'/%3E%3Ccircle cx='26' cy='19' r='3' fill='none' stroke='%23000' stroke-width='1.5'/%3E%3Cpath d='M24 16l2 2-1 3 1-3 2 0-1-2 2 0-2-1 1-3-2 2-2-1' fill='%23000'/%3E%3C/svg%3E");
+}
+
+/* ================================================================
+   响应式
+   ================================================================ */
+@media (max-width: 768px) {
+  .icon-lg  { font-size: 2.5rem; }
+  .icon-md  { font-size: 1.8rem; }
+}

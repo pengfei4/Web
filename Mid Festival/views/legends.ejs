@@ -2,28 +2,71 @@
 <html lang="zh-CN">
 <head>
 <meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="中秋节神话传说——嫦娥奔月、吴刚伐桂、玉兔捣药等">
+<meta name="description" content="中秋节的神话传说——嫦娥奔月、吴刚伐桂、玉兔捣药、月饼起义及东亚多国月亮传说">
 <title>神话传说 — 月满中华·情系中秋</title>
 <link href="/css/common.css" rel="stylesheet">
 <link href="/css/animations.css" rel="stylesheet">
 <link href="/css/pages.css" rel="stylesheet">
+<style>
+  .legends-bg {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: -1;
+    opacity: 0.5;
+  }
+  .moon-palace-silhouette {
+    position: fixed;
+    bottom: 10%;
+    right: 5%;
+    width: 200px;
+    height: 150px;
+    pointer-events: none;
+    z-index: -1;
+    opacity: 0.3;
+    border-radius: 50% 50% 0 0;
+    background: radial-gradient(ellipse at center, rgba(245,210,122,0.15), transparent);
+  }
+</style>
 </head>
 <body data-journey="legends">
+
 <div class="page-transition active"><div class="moon-loader"></div></div>
+
 <nav class="navbar">
-  <a href="/" class="nav-logo"><div class="logo-icon"></div><span>月满中华</span></a>
+  <a href="/" class="nav-logo">
+    <div class="logo-icon"></div>
+    <span>月满中华</span>
+  </a>
   <div class="nav-links">
     <% nav.forEach(function(item) { %>
       <a href="<%= item.href %>"<%= item.href === '/legends' ? ' class="active"' : '' %>><%= item.label %></a>
     <% }); %>
   </div>
-  <div class="nav-toggle"><span></span><span></span><span></span></div>
+  <div class="nav-actions">
+    <div class="nav-user">
+      <% if (user) { %>
+        <div class="user-avatar"><%= user.username.charAt(0).toUpperCase() %></div>
+        <span class="user-name"><%= user.username %></span>
+        <div class="user-dropdown">
+          <a href="/logout">退出登录</a>
+        </div>
+      <% } else { %>
+        <a href="/login" class="nav-login-btn">登录</a>
+      <% } %>
+    </div>
+    <div class="nav-toggle"><span></span><span></span><span></span></div>
+  </div>
 </nav>
+
 <div class="bg-particles"></div>
 
+<!-- ====== Page Hero ====== -->
 <section class="page-hero">
   <div class="cloud-pattern"></div>
+  <div class="moon-palace-silhouette"></div>
   <div class="hero-content">
     <span class="hero-icon">🌙</span>
     <h1>月宫传奇</h1>
@@ -31,80 +74,714 @@
   </div>
 </section>
 
+<!-- ====== Flip Card Grid ====== -->
 <div class="page-content">
   <div class="section-title reveal">
     <h2>中秋神话传说</h2>
-    <p class="subtitle">点击筛选不同文化体系，悬停查看故事寓意</p>
+    <p class="subtitle">探索月宫背后的故事</p>
     <div class="divider"><span class="dot"></span></div>
   </div>
 
-  <!-- Filter Tabs -->
-  <div class="filter-bar reveal" style="text-align:center;margin-bottom:30px;">
-    <button class="btn filter-btn active" onclick="filterLegends('all',this)">全部</button>
-    <% systems.forEach(function(sys) { %>
-      <button class="btn filter-btn" onclick="filterLegends('<%= sys.sys_key %>',this)"><%= sys.name %></button>
-    <% }); %>
+  <!-- 文化体系标签 -->
+  <div class="legend-sys-tags reveal">
+    <span class="ls-tag active">全部</span>
+    <span class="ls-tag">中华汉族神话</span>
+    <span class="ls-tag">中华民间传说</span>
+    <span class="ls-tag">东亚月亮传说</span>
   </div>
 
-  <!-- Flip Card Grid -->
-  <div class="flip-cards-grid" id="legendsGrid">
-    <% legends.forEach(function(l) { %>
-      <div class="flip-card reveal legend-card-item" data-sys="<%= l.sys_key %>">
-        <div class="flip-card-inner">
-          <div class="flip-card-front">
-            <span class="lfc-icon"><%= l.icon %></span>
-            <span class="lfc-sys"><%= l.sys_key === 'han' ? '中华汉族神话' : (l.sys_key === 'folk' ? '中华民间传说' : '东亚月亮传说') %></span>
-            <span class="lfc-title"><%= l.title %></span>
-            <span class="lfc-brief"><%= l.brief %></span>
+  <div class="legend-flip-grid">
+
+    <!-- ===== 中华汉族神话 ===== -->
+
+    <!-- 1. 嫦娥奔月 -->
+    <div class="legend-flip-card reveal" data-sys="han">
+      <div class="legend-flip-inner">
+        <div class="legend-flip-front">
+          <span class="lfc-icon">🌙</span>
+          <span class="lfc-sys">中华汉族神话</span>
+          <h3 class="lfc-title">嫦娥奔月</h3>
+          <p class="lfc-brief">后羿射日救苍生，嫦娥吞仙药飞向月宫，从此月宫有了一位美丽的仙子，后羿每年中秋摆糕点遥祭爱妻。</p>
+        </div>
+        <div class="legend-flip-back">
+          <div class="lfb-section">
+            <h4 class="lfb-label">核心寓意</h4>
+            <p class="lfb-text">忠贞不渝的爱情、对团圆的永恒守望、舍小我为大义的牺牲精神</p>
           </div>
-          <div class="flip-card-back">
-            <div class="lfb-section">
-              <span class="lfb-label">核心寓意</span>
-              <p class="lfb-text"><%= l.moral_theme %></p>
-            </div>
-            <div class="lfb-section">
-              <span class="lfb-label">关键人物</span>
-              <p class="lfb-text"><%= l.key_characters %></p>
-            </div>
-            <a href="#detail-<%= l.anchor %>" class="lfb-link">查看完整故事 →</a>
+          <div class="lfb-section">
+            <h4 class="lfb-label">关键人物</h4>
+            <p class="lfb-text">嫦娥（月宫仙子）、后羿（射日英雄）、蓬蒙（奸诈之徒）、西王母（赐药之神）</p>
+          </div>
+          <a href="#detail-change" class="lfb-link">查看完整故事与解读 →</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- 2. 吴刚伐桂 -->
+    <div class="legend-flip-card reveal" data-sys="han">
+      <div class="legend-flip-inner">
+        <div class="legend-flip-front">
+          <span class="lfc-icon">🪓</span>
+          <span class="lfc-sys">中华汉族神话</span>
+          <h3 class="lfc-title">吴刚伐桂</h3>
+          <p class="lfc-brief">汉朝吴刚学仙犯错，被贬月宫砍伐五百丈桂树。桂树随砍随合永无休止，只有中秋月圆之夜方能稍歇。</p>
+        </div>
+        <div class="legend-flip-back">
+          <div class="lfb-section">
+            <h4 class="lfb-label">核心寓意</h4>
+            <p class="lfb-text">修行需恒心、过而能改善莫大焉、永不言弃的坚韧精神</p>
+          </div>
+          <div class="lfb-section">
+            <h4 class="lfb-label">关键人物</h4>
+            <p class="lfb-text">吴刚（受罚的修仙者）、天帝（裁决者）、月宫桂树（神木）</p>
+          </div>
+          <a href="#detail-wugang" class="lfb-link">查看完整故事与解读 →</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- 3. 玉兔捣药 -->
+    <div class="legend-flip-card reveal" data-sys="han">
+      <div class="legend-flip-inner">
+        <div class="legend-flip-front">
+          <span class="lfc-icon">🐰</span>
+          <span class="lfc-sys">中华汉族神话</span>
+          <h3 class="lfc-title">玉兔捣药</h3>
+          <p class="lfc-brief">兔子舍身济助饥饿老人，神仙感动送其入月宫。玉兔用玉杵捣制长生不老药，陪伴嫦娥至今。</p>
+        </div>
+        <div class="legend-flip-back">
+          <div class="lfb-section">
+            <h4 class="lfb-label">核心寓意</h4>
+            <p class="lfb-text">舍己为人的慈悲之心、弱小者的伟大牺牲、善良终有善报的因果法则</p>
+          </div>
+          <div class="lfb-section">
+            <h4 class="lfb-label">关键人物</h4>
+            <p class="lfb-text">玉兔（善良的兔子）、三位神仙（化为老人下凡考验众生）</p>
+          </div>
+          <a href="#detail-yutu" class="lfb-link">查看完整故事与解读 →</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== 中华民间传说 ===== -->
+
+    <!-- 4. 月饼起义 -->
+    <div class="legend-flip-card reveal" data-sys="folk">
+      <div class="legend-flip-inner">
+        <div class="legend-flip-front">
+          <span class="lfc-icon">📜</span>
+          <span class="lfc-sys">中华民间传说</span>
+          <h3 class="lfc-title">月饼起义</h3>
+          <p class="lfc-brief">元末朱元璋将起义密信藏入饼中传递消息，八月十五夜各路义军一齐响应。明朝建立后，月饼成为节令赏赐。</p>
+        </div>
+        <div class="legend-flip-back">
+          <div class="lfb-section">
+            <h4 class="lfb-label">核心寓意</h4>
+            <p class="lfb-text">人民的智慧与团结、以食为媒传递信念、中秋作为民族抗争的记忆符号</p>
+          </div>
+          <div class="lfb-section">
+            <h4 class="lfb-label">关键人物</h4>
+            <p class="lfb-text">朱元璋（明太祖）、刘伯温（军师）、各路起义军首领</p>
+          </div>
+          <a href="#detail-yuebing" class="lfb-link">查看完整故事与解读 →</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- 5. 月下老人 -->
+    <div class="legend-flip-card reveal" data-sys="folk">
+      <div class="legend-flip-inner">
+        <div class="legend-flip-front">
+          <span class="lfc-icon">🧓</span>
+          <span class="lfc-sys">中华民间传说</span>
+          <h3 class="lfc-title">月下老人</h3>
+          <p class="lfc-brief">传说月宫中有一位老人，手执姻缘簿与红线，在月光下为世间男女牵线搭桥。中秋月圆之夜，正是求姻缘最灵的时分。</p>
+        </div>
+        <div class="legend-flip-back">
+          <div class="lfb-section">
+            <h4 class="lfb-label">核心寓意</h4>
+            <p class="lfb-text">姻缘天定、千里姻缘一线牵、月圆象征人圆与情缘圆满</p>
+          </div>
+          <div class="lfb-section">
+            <h4 class="lfb-label">关键人物</h4>
+            <p class="lfb-text">月下老人（姻缘之神）、韦固（唐代书生，见证月老神力的第一人）</p>
+          </div>
+          <a href="#detail-yuexialaoren" class="lfb-link">查看完整故事与解读 →</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- 6. 天狗食月 -->
+    <div class="legend-flip-card reveal" data-sys="folk">
+      <div class="legend-flip-inner">
+        <div class="legend-flip-front">
+          <span class="lfc-icon">🐕</span>
+          <span class="lfc-sys">中华民间传说</span>
+          <h3 class="lfc-title">天狗食月</h3>
+          <p class="lfc-brief">古人认为月食是"天狗"吞食了月亮。中秋月圆之夜，人们敲锣打鼓、燃放爆竹以吓退天狗，保卫圆月，祈求平安。</p>
+        </div>
+        <div class="legend-flip-back">
+          <div class="lfb-section">
+            <h4 class="lfb-label">核心寓意</h4>
+            <p class="lfb-text">人类以集体行动对抗自然灾异、对天地秩序的守护、声音驱邪的原始信仰</p>
+          </div>
+          <div class="lfb-section">
+            <h4 class="lfb-label">关键人物</h4>
+            <p class="lfb-text">天狗（吞月之兽）、目连（佛教传说中的相关人物）、敲锣民众</p>
+          </div>
+          <a href="#detail-tiangou" class="lfb-link">查看完整故事与解读 →</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== 东亚月亮传说 ===== -->
+
+    <!-- 7. 辉夜姬 -->
+    <div class="legend-flip-card reveal" data-sys="eastasian">
+      <div class="legend-flip-inner">
+        <div class="legend-flip-front">
+          <span class="lfc-icon">👘</span>
+          <span class="lfc-sys">东亚月亮传说 · 日本</span>
+          <h3 class="lfc-title">辉夜姬</h3>
+          <p class="lfc-brief">日本最古老的物语《竹取物语》中，老翁在发光的竹中发现一位女婴，长大后成为倾国倾城的美人。她来自月宫，最终在八月十五之夜被月宫使者接回。</p>
+        </div>
+        <div class="legend-flip-back">
+          <div class="lfb-section">
+            <h4 class="lfb-label">核心寓意</h4>
+            <p class="lfb-text">美丽与高洁不可久留、尘世之爱与天界宿命的冲突、对纯洁本真的向往</p>
+          </div>
+          <div class="lfb-section">
+            <h4 class="lfb-label">关键人物</h4>
+            <p class="lfb-text">辉夜姬（月宫公主）、竹取翁（养父）、五位求婚者（皇子与贵族）、天皇</p>
+          </div>
+          <a href="#detail-huiyeji" class="lfb-link">查看完整故事与解读 →</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- 8. 韩国月兔 -->
+    <div class="legend-flip-card reveal" data-sys="eastasian">
+      <div class="legend-flip-inner">
+        <div class="legend-flip-front">
+          <span class="lfc-icon">🇰🇷</span>
+          <span class="lfc-sys">东亚月亮传说 · 韩国</span>
+          <h3 class="lfc-title">韩国月兔</h3>
+          <p class="lfc-brief">韩国民间传说中，月宫中的玉兔不停地在石臼中捣着制作年糕（떡）的米粉。每年秋夕（추석），韩国人在月下分享年糕，纪念月兔的勤劳与奉献。</p>
+        </div>
+        <div class="legend-flip-back">
+          <div class="lfb-section">
+            <h4 class="lfb-label">核心寓意</h4>
+            <p class="lfb-text">勤劳与奉献的美德、丰收的喜悦、月兔作为跨越国界的东亚共同文化符号</p>
+          </div>
+          <div class="lfb-section">
+            <h4 class="lfb-label">关键人物</h4>
+            <p class="lfb-text">月兔（달토끼）、韩国农夫（传说中受月兔帮助的人）</p>
+          </div>
+          <a href="#detail-hanguoyuetu" class="lfb-link">查看完整故事与解读 →</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- 9. 越南月童 -->
+    <div class="legend-flip-card reveal" data-sys="eastasian">
+      <div class="legend-flip-inner">
+        <div class="legend-flip-front">
+          <span class="lfc-icon">🌳</span>
+          <span class="lfc-sys">东亚月亮传说 · 越南</span>
+          <h3 class="lfc-title">阿贵与榕树</h3>
+          <p class="lfc-brief">越南中秋传说中，男孩阿贵（Chú Cuội）因一株神奇的榕树而飘上月宫。每年中秋之夜，越南儿童提灯仰望明月，寻找阿贵和那棵榕树的身影。</p>
+        </div>
+        <div class="legend-flip-back">
+          <div class="lfb-section">
+            <h4 class="lfb-label">核心寓意</h4>
+            <p class="lfb-text">童心与想象力的珍贵、人与自然的神奇联结、中秋作为儿童节的文化渊源</p>
+          </div>
+          <div class="lfb-section">
+            <h4 class="lfb-label">关键人物</h4>
+            <p class="lfb-text">阿贵 Chú Cuội（月宫少年）、神奇的榕树（Cây Đa thần）</p>
+          </div>
+          <a href="#detail-yuenan" class="lfb-link">查看完整故事与解读 →</a>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /legend-flip-grid -->
+</div><!-- /page-content -->
+
+<!-- 分隔 -->
+<div class="section-transition"><div class="section-separator"><span class="sep-line"></span><span class="sep-dot"></span><span class="sep-line"></span></div></div>
+
+<!-- ====== 详情板块一：中华汉族神话 ====== -->
+<section class="legend-detail-section" id="detail-han">
+  <div class="page-content">
+    <div class="section-title reveal">
+      <span class="cat-badge">文化体系一</span>
+      <h2>中华汉族神话</h2>
+      <p class="subtitle">中华民族最古老的月亮崇拜——从先秦祭月到月宫神话体系的完整构建</p>
+      <div class="divider"><span class="dot"></span></div>
+    </div>
+
+    <div class="customs-detail-grid">
+
+      <!-- 嫦娥奔月 -->
+      <div class="cdc-card reveal" id="detail-change">
+        <div class="cdc-header">
+          <span class="cdc-icon">🌙</span>
+          <div class="cdc-title-area">
+            <h3>嫦娥奔月</h3>
+            <span class="cdc-badge">中华汉族神话 · 月宫之主</span>
+          </div>
+        </div>
+        <div class="cdc-tabs">
+          <button class="cdc-tab active" data-cdc="change" data-tab="story">完整故事</button>
+          <button class="cdc-tab" data-cdc="change" data-tab="characters">人物介绍</button>
+          <button class="cdc-tab" data-cdc="change" data-tab="background">历史背景</button>
+          <button class="cdc-tab" data-cdc="change" data-tab="symbolism">文化象征</button>
+          <button class="cdc-tab" data-cdc="change" data-tab="lesson">道德启示</button>
+          <button class="cdc-tab" data-cdc="change" data-tab="modern">现代意义</button>
+        </div>
+        <div class="cdc-panels">
+          <div class="cdc-panel active" data-cdc="change" data-panel="story">
+            <p>远古时代，天上十日并出，大地焦枯，生灵涂炭。神箭手后羿登上昆仑山顶，运足神力拉开神弓，一连射下九个太阳，仅留一个普照大地，拯救了苍生万民。西王母感其功绩，赐予一粒长生不老仙药——服之即可飞升成仙、永享天年。</p>
+            <p>后羿深爱妻子嫦娥，不忍独自成仙而舍她而去，便将仙药交予嫦娥珍藏于匣中。不料此事被后羿门徒蓬蒙窥知。某日后羿率众外出狩猎，蓬蒙假装生病留守，伺机闯入内宅，持剑威逼嫦娥交出仙药。嫦娥自知不敌，情急之下打开宝匣，将仙药一口吞入腹中。</p>
+            <p>仙药入腹，嫦娥的身体顿时变得轻盈如羽，缓缓飘离地面向天空飞去。她万分不舍后羿，便选择了离人间最近的月宫作为栖身之所。后羿狩猎归来，得知变故，悲痛欲绝，仰天呼唤爱妻之名。那夜正值八月十五，月轮分外圆满明亮，后羿隐约望见月中有一个酷似嫦娥的身影。他急忙在院中设下香案，摆上嫦娥平日最爱的瓜果糕点，遥祭月宫中的妻子。</p>
+            <p>百姓闻知此事，无不为嫦娥的大义与后羿的深情所感动。此后每逢八月十五月圆之夜，家家户户在月下摆设香案供品，向月宫中的嫦娥祈福，渐渐形成了中秋拜月的风俗。嫦娥因此被称为"月宫仙子""太阴星君"，成为中秋佳节最具代表性的人物。</p>
+          </div>
+          <div class="cdc-panel" data-cdc="change" data-panel="characters">
+            <p><strong>嫦娥</strong>——神话中的月宫仙子，原名姮娥（汉代避汉文帝刘恒讳改为"嫦娥"）。其形象历经演变：先秦时期为"常羲"（帝俊之妻，生下十二个月亮）；汉代固定为后羿之妻、服仙药奔月；唐代以后逐渐升格为"太阴星君"，成为月神。嫦娥的抉择——宁吞仙药自保也不使其落入恶人之手——展现了中国传统文化中"舍小我为大义"的崇高精神维度。</p>
+            <p><strong>后羿</strong>——上古神话中的英雄人物，以善射著称。在"十日并出"的危机中射九日、留一日，拯救了天下苍生。他与嫦娥的爱情故事赋予了这位神性的英雄以人性的温度——他对嫦娥的深情遥祭，奠定了中秋"千里共婵娟"的情感原型。</p>
+            <p><strong>蓬蒙</strong>——后羿的门徒，贪婪奸诈的反面形象。他代表了对神力的觊觎与不择手段的阴暗面，是推动故事矛盾爆发的关键角色。</p>
+          </div>
+          <div class="cdc-panel" data-cdc="change" data-panel="background">
+            <p>嫦娥奔月神话的形成经历了漫长的历史演变。最早的文献记载见于1973年长沙马王堆汉墓出土的帛书《归藏》（约战国时期）："昔嫦娥以西王母不死之药服之，遂奔月为月精。"这是目前已知最古老的嫦娥奔月文本。西汉《淮南子·览冥训》进一步完善了故事：后羿请不死之药于西王母，姮娥窃以奔月。</p>
+            <p>东汉张衡《灵宪》增加了占卜情节："姮娥窃以奔月，将往，枚筮于有黄，有黄占之曰：'吉。翩翩归妹，独将西行，逢天晦芒，毋惊毋恐，后且大昌。'"故事更加丰富。唐代以后，嫦娥的形象逐渐从"窃药"转向"被迫服药"，道德评价从负面转为同情和赞美，反映了社会对女性在危机中保护自身的价值判断演变。</p>
+          </div>
+          <div class="cdc-panel" data-cdc="change" data-panel="symbolism">
+            <p><strong>嫦娥</strong>象征着女性的坚贞、勇敢与牺牲精神。她从"窃药者"到"被迫服药"的演变，是中国文化对女性主体性不断深化的理解。</p>
+            <p><strong>月宫</strong>象征着美丽与孤独并存的精神境界——远离尘嚣的高洁，同时也承载着"高处不胜寒"的人生哲理。</p>
+            <p><strong>仙药</strong>既是物理意义上的不死药，也隐喻着人类对永恒与超越的渴望。嫦娥吞药是不可逆转的抉择，象征着人生某些关键决定一旦做出便无法回头。</p>
+            <p><strong>中秋遥祭</strong>——后羿每年中秋遥祭嫦娥，形成了"即使不能相见，心灵依然相连"的情感模式，是中国人"每逢佳节倍思亲"的文化心理原型。</p>
+          </div>
+          <div class="cdc-panel" data-cdc="change" data-panel="lesson">
+            <p>嫦娥奔月的道德启示是多层次的：第一，在面对恶势力时，宁为玉碎不为瓦全的勇气——嫦娥宁可自吞仙药也绝不让其落入蓬蒙之手；第二，忠贞的爱情可以跨越天地界限——后羿与嫦娥虽然天人永隔，但每年的中秋遥祭维系着他们之间的情感纽带；第三，每一个抉择都有其代价——嫦娥获得了月宫的永恒，却失去了人间的温暖，提醒人们珍惜当下的幸福。</p>
+          </div>
+          <div class="cdc-panel" data-cdc="change" data-panel="modern">
+            <p>当代社会中，嫦娥奔月的形象已超越神话范畴，成为中华文化的精神象征。中国探月工程以"嫦娥"命名，将古老神话与现代科技完美融合——"嫦娥一号"至"嫦娥五号"实现了中国人千年的奔月梦想。中秋之夜，当人们仰望明月时，嫦娥的故事依然唤起人们对爱情、家庭和团圆的珍视。嫦娥也是中国文化软实力的重要载体——她出现在电影、动画、游戏中，向世界传播着中华文化的独特魅力。</p>
           </div>
         </div>
       </div>
-    <% }); %>
-  </div>
 
-  <!-- Detail Sections by Culture System -->
-  <% systems.forEach(function(sys) { %>
-    <section class="legend-detail-section" id="<%= sys.anchor %>">
-      <div class="cat-badge reveal"><%= sys.name %></div>
-      <h2 class="reveal"><%= sys.name %></h2>
-      <p class="subtitle reveal"><%= sys.subtitle %></p>
-      <div class="divider reveal"><span class="dot"></span></div>
-
-      <% sys.legends.forEach(function(l) { %>
-        <div class="cdc-card reveal" id="detail-<%= l.anchor %>">
-          <div class="cdc-header">
-            <span class="cdc-icon"><%= l.icon %></span>
-            <h3><%= l.title %></h3>
-            <span class="cdc-badge"><%= sys.name %></span>
-          </div>
-          <div class="cdc-tabs">
-            <% l.details.forEach(function(d) { %>
-              <button class="cdc-tab" data-cdc="<%= l.anchor %>" data-tab="<%= d.tab_key %>"><%= d.tab_label %></button>
-            <% }); %>
-          </div>
-          <div class="cdc-panels">
-            <% l.details.forEach(function(d) { %>
-              <div class="cdc-panel" data-cdc="<%= l.anchor %>" data-panel="<%= d.tab_key %>">
-                <%- d.content %>
-              </div>
-            <% }); %>
+      <!-- 吴刚伐桂 -->
+      <div class="cdc-card reveal" id="detail-wugang">
+        <div class="cdc-header">
+          <span class="cdc-icon">🪓</span>
+          <div class="cdc-title-area">
+            <h3>吴刚伐桂</h3>
+            <span class="cdc-badge">中华汉族神话 · 月中苦修</span>
           </div>
         </div>
-      <% }); %>
-    </section>
-  <% }); %>
-</div>
+        <div class="cdc-tabs">
+          <button class="cdc-tab active" data-cdc="wugang" data-tab="story">完整故事</button>
+          <button class="cdc-tab" data-cdc="wugang" data-tab="characters">人物介绍</button>
+          <button class="cdc-tab" data-cdc="wugang" data-tab="background">历史背景</button>
+          <button class="cdc-tab" data-cdc="wugang" data-tab="symbolism">文化象征</button>
+          <button class="cdc-tab" data-cdc="wugang" data-tab="lesson">道德启示</button>
+          <button class="cdc-tab" data-cdc="wugang" data-tab="modern">现代意义</button>
+        </div>
+        <div class="cdc-panels">
+          <div class="cdc-panel active" data-cdc="wugang" data-panel="story">
+            <p>相传在汉朝时期，西河（今山西汾阳一带）有一个人名叫吴刚。吴刚天资聪颖却心浮气躁，一心想修炼成仙却又不肯脚踏实地。他四处寻仙访道，但每学一门技艺，略有所成便自满而辍。他学过木工、学过医术、学过占卜，但从未将任何一门技艺学精学透。</p>
+            <p>后来吴刚终于得遇真仙，拜入门下修炼。起初他还算勤勉，但日久生厌，故态复萌。某日他犯了修仙的大忌——心生邪念，动了杀意。天帝震怒，将他贬到月宫，罚他砍伐一棵五百多丈高的桂树，并宣告：只有将此树砍倒，方能重返人间。</p>
+            <p>吴刚本以为凭自己的力气，砍倒一棵树并非难事。然而他万万没有想到，这棵月宫桂树乃天地灵根——每一斧砍下去，斧刃刚离开树干，被砍出的缺口便立即愈合如初，连一丝痕迹都不曾留下。吴刚日复一日、年复一年地在月宫中挥斧不息，却永远无法砍倒这棵树。</p>
+            <p>据说只有在中秋月圆之夜，桂树才会暂停愈合，让吴刚得以稍事歇息。这一夜，月华最盛，桂香最浓，人们仰望明月时，隐约可以看到吴刚和那棵巨大的桂树。唐代诗人李白曾以此典故入诗："欲斫月中桂，持为寒者薪。"</p>
+          </div>
+          <div class="cdc-panel" data-cdc="wugang" data-panel="characters">
+            <p><strong>吴刚</strong>——一个"聪明反被聪明误"的典型形象。他代表了人性中好高骛远、缺乏恒心的弱点。与西方神话中推石上山的西西弗斯不同，吴刚的惩罚并非毫无道理——他确有过错在先（学仙时犯戒），桂树的"随砍随合"恰是对他"做事有始无终"的镜像惩罚。</p>
+            <p><strong>天帝</strong>——最高神祇，代表天道秩序的维护者。罚吴刚伐桂而非直接毁灭，体现了"惩罚即教育"的东方治理哲学。</p>
+          </div>
+          <div class="cdc-panel" data-cdc="wugang" data-panel="background">
+            <p>吴刚伐桂的故事最早见于唐代段成式《酉阳杂俎·天咫》："旧言月中有桂，有蟾蜍。故异书言：月桂高五百丈，下有一人常斫之，树创随合。人姓吴名刚，西河人，学仙有过，谪令伐树。"这则故事的流传与汉唐时期道教的兴盛密切相关——"学仙"需要有恒心与德行，否则非但不能成仙反而会受惩罚。</p>
+            <p>月中有桂树的观念则更为古老。《楚辞·天问》有"夜光何德，死则又育？厥利维何，而顾菟在腹？"的诘问，反映了先秦时期已有月中有物的想象。至魏晋时期，月中有桂树、有蟾蜍已为通识。吴刚伐桂的故事将"月桂"与"惩罚"两个母题合而为一，创造出一个深具哲学意味的神话。</p>
+          </div>
+          <div class="cdc-panel" data-cdc="wugang" data-panel="symbolism">
+            <p><strong>桂树</strong>象征永恒与神圣——既是惩罚的工具，也是天地灵气的化身。桂枝在中国文化中代表高贵与荣誉（"蟾宫折桂"比喻科举高中），这与月中桂树的意象一脉相通。</p>
+            <p><strong>永不休止的砍伐</strong>象征着人类面对不可能完成的任务时仍需不懈努力——即便目标看似无法达成，坚持本身就具有意义。</p>
+            <p><strong>月桂随砍随合</strong>暗合了大自然循环不息的规律——草木春生冬枯而又复生，如同桂树砍而复生。</p>
+          </div>
+          <div class="cdc-panel" data-cdc="wugang" data-panel="lesson">
+            <p>吴刚伐桂的训诫意义深远：其一，修仙（求学）之道在于恒心与德行，半途而废、急功近利者终难成就正果；其二，过错必须承担后果，但惩罚之中亦蕴含着救赎的可能——吴刚的永伐不息本身也是对坚韧品质的磨砺；其三，人生中有些事情看似徒劳，但坚持本身就是价值的体现，正如西西弗斯神话在现代哲学中被重新解读为"我们必须想象西西弗斯是快乐的"。</p>
+          </div>
+          <div class="cdc-panel" data-cdc="wugang" data-panel="modern">
+            <p>在现代语境下，吴刚的故事具有新的解读空间。他代表了一种"知其不可为而为之"的精神——面对注定的失败依然坚持。这种精神与科研探索有相通之处：科学家们在无数次的失败实验中依然前行。同时，"吴刚伐桂"也常被用来比喻那些看似重复、无意义但实则不可或缺的日常劳动——正是无数人的"伐桂"维系着社会的运转。中秋月圆是吴刚唯一的休息日，也提醒人们：再忙也要留出时间与家人团圆。</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- 玉兔捣药 -->
+      <div class="cdc-card reveal" id="detail-yutu">
+        <div class="cdc-header">
+          <span class="cdc-icon">🐰</span>
+          <div class="cdc-title-area">
+            <h3>玉兔捣药</h3>
+            <span class="cdc-badge">中华汉族神话 · 月宫灵兽</span>
+          </div>
+        </div>
+        <div class="cdc-tabs">
+          <button class="cdc-tab active" data-cdc="yutu" data-tab="story">完整故事</button>
+          <button class="cdc-tab" data-cdc="yutu" data-tab="characters">人物介绍</button>
+          <button class="cdc-tab" data-cdc="yutu" data-tab="background">历史背景</button>
+          <button class="cdc-tab" data-cdc="yutu" data-tab="symbolism">文化象征</button>
+          <button class="cdc-tab" data-cdc="yutu" data-tab="lesson">道德启示</button>
+          <button class="cdc-tab" data-cdc="yutu" data-tab="modern">现代意义</button>
+        </div>
+        <div class="cdc-panels">
+          <div class="cdc-panel active" data-cdc="yutu" data-panel="story">
+            <p>传说远古时期，有三位神仙化身为衣衫褴褛、饥寒交迫的老人，下凡来到一片森林中。他们分别向住在森林里的三只动物——狐狸（一说为豺狼）、猴子和兔子——乞讨食物。</p>
+            <p>狐狸擅长渔猎，很快就从溪中捕来了鲜鱼献给老人。猴子善于攀援采集，从树上摘来各种野果奉献。唯独兔子既不会渔猎，也不会攀援采摘，在森林中找了许久也一无所获。兔子回到老人面前，心中满是愧疚。</p>
+            <p>看着饥寒交加的老人，兔子做出了一个惊人的决定——它纵身一跃，跳入熊熊燃烧的篝火之中，要以自己的肉身供养这三位老人。火焰顿时将兔子吞没。</p>
+            <p>就在这千钧一发之际，三位老人现出了神仙的真身。他们被兔子舍己为人的慈悲精神深深震撼，不能让如此善良的灵魂就此消逝。三位神仙以大法力将兔子的灵魂从火焰中救起，并将其送往月宫，封为"玉兔"。从此，玉兔在月宫中用玉杵在药臼中捣制长生不老之药，陪伴嫦娥度过漫长的月宫岁月，也成为月宫中代表善良与奉献的永恒象征。</p>
+          </div>
+          <div class="cdc-panel" data-cdc="yutu" data-panel="characters">
+            <p><strong>玉兔</strong>——善良与慈悲的化身。在弱肉强食的自然界中，兔子是最弱小的动物之一，但正是这只最弱小的兔子展现出最伟大的牺牲精神。它"一无所有却倾其所有"的品格，使这个故事具有强烈的道德感染力。</p>
+            <p><strong>三位神仙</strong>——既是考验者也是救赎者。他们化身为最卑微的乞丐来测试众生的善心，体现了佛教"众生平等""布施得福"的核心思想。</p>
+            <p><strong>狐狸与猴子</strong>——代表了有能力的行善者。它们乐于助人但奉献有限——给出的是自己富余之物。与兔子"倾其所有"的布施形成鲜明对比。</p>
+          </div>
+          <div class="cdc-panel" data-cdc="yutu" data-panel="background">
+            <p>月中有兔的观念在中国源远流长。早在战国时期的屈原《天问》中即有"厥利维何，而顾菟在腹？"之问——"顾菟"被许多学者解读为月中的兔子。长沙马王堆汉墓出土的帛画上，弯月中已清晰绘有兔子和蟾蜍的形象。这说明至迟在汉代，月中玉兔的观念已深入人心。</p>
+            <p>玉兔捣药的故事带有浓厚的佛教色彩——"舍身饲虎""割肉贸鸽"等本生故事都宣扬了舍己为人的菩萨道精神。玉兔故事很可能是在佛教东传后，佛教的"舍身"思想与中国原有的"月中有兔"观念融合的产物。唐宋之后，玉兔作为月亮的代称频繁出现在诗词中，如辛弃疾"著意登楼瞻玉兔"。</p>
+          </div>
+          <div class="cdc-panel" data-cdc="yutu" data-panel="symbolism">
+            <p><strong>玉兔</strong>象征着善良、慈悲与自我牺牲。它代表了"弱者的伟大"——即使是最微不足道的存在，也可以拥有最高尚的灵魂。</p>
+            <p><strong>捣药</strong>——玉兔持玉杵捣药的形象，象征着对生命与健康的守护。长生不老药是给予善者的恩赐，寓意善有善报。</p>
+            <p><strong>月宫与玉兔的意象组合</strong>——清冷的月宫中有一只温顺的玉兔陪伴嫦娥，为孤寂的月宫带来了温暖与生机。月亮不只是寒冷的天体，更有善意的生命在默默守护。</p>
+          </div>
+          <div class="cdc-panel" data-cdc="yutu" data-panel="lesson">
+            <p>玉兔捣药的道德启示深刻而感人：其一，真正的善良不在于你拥有多少，而在于你愿意付出多少——一无所有的兔子付出了自己的一切；其二，善行不在大小，而在于真诚——兔子能力有限但心意无价；其三，善良终将获得超越性的回报——玉兔获得了永恒的月宫生命，这是对其无私精神的最好嘉奖；其四，慈悲是没有边界的——弱小的兔子依然能够济助比它更"强大"的人类，打破了世俗的强弱观念。</p>
+          </div>
+          <div class="cdc-panel" data-cdc="yutu" data-panel="modern">
+            <p>玉兔在现代中国文化中获得了全新的生命力。中国首辆月球车即命名为"玉兔号"（2013年随嫦娥三号登月），将古老神话与现代航天完美结合。"玉兔"在月球上行驶、探测，仿佛神话成真。这一命名不仅展现了中国航天人的浪漫情怀，也向世界传递了中华文化的美好寓意——玉兔象征着和平、善良与对未知世界的温柔探索。在中秋节庆和日常文创中，玉兔也是最受欢迎的文化符号之一，深受全球华人的喜爱。</p>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /customs-detail-grid -->
+  </div>
+</section>
+
+<!-- 分隔 -->
+<div class="section-transition"><div class="section-separator"><span class="sep-line"></span><span class="sep-dot"></span><span class="sep-line"></span></div></div>
+
+<!-- ====== 详情板块二：中华民间传说 ====== -->
+<section class="legend-detail-section" id="detail-folk">
+  <div class="page-content">
+    <div class="section-title reveal">
+      <span class="cat-badge">文化体系二</span>
+      <h2>中华民间传说</h2>
+      <p class="subtitle">历史与神话交织——从巧传军情到姻缘红线，民间智慧赋予中秋多彩的人文色彩</p>
+      <div class="divider"><span class="dot"></span></div>
+    </div>
+
+    <div class="customs-detail-grid">
+
+      <!-- 月饼起义 -->
+      <div class="cdc-card reveal" id="detail-yuebing">
+        <div class="cdc-header">
+          <span class="cdc-icon">📜</span>
+          <div class="cdc-title-area">
+            <h3>月饼起义</h3>
+            <span class="cdc-badge">中华民间传说 · 食以传信</span>
+          </div>
+        </div>
+        <div class="cdc-tabs">
+          <button class="cdc-tab active" data-cdc="yuebing" data-tab="story">完整故事</button>
+          <button class="cdc-tab" data-cdc="yuebing" data-tab="characters">人物介绍</button>
+          <button class="cdc-tab" data-cdc="yuebing" data-tab="background">历史背景</button>
+          <button class="cdc-tab" data-cdc="yuebing" data-tab="symbolism">文化象征</button>
+          <button class="cdc-tab" data-cdc="yuebing" data-tab="lesson">道德启示</button>
+          <button class="cdc-tab" data-cdc="yuebing" data-tab="modern">现代意义</button>
+        </div>
+        <div class="cdc-panels">
+          <div class="cdc-panel active" data-cdc="yuebing" data-panel="story">
+            <p>元朝末年，蒙古统治者的高压政策使得中原百姓民不聊生。各地反抗力量暗流涌动，朱元璋联合各路义军准备在中秋前后发动统一行动。然而元朝官兵搜查极为严密，任何书信传递都有被截获的风险，起义消息如何安全送达各地成为最棘手的难题。</p>
+            <p>军师刘伯温苦思冥想，终于想出一条妙计。当时正值中秋节前，民间有互赠"月团"（月饼的早期称呼）的习俗。刘伯温命人制作大量月饼，将写有"八月十五夜起义"的纸条藏入饼馅之中，再派人装扮成普通百姓，以中秋馈赠亲友的名义，将这些特制的月饼分送到各地起义军首领手中。</p>
+            <p>八月十五中秋之夜，当元军官兵也在饮酒赏月、放松警惕之时，接到密信的各地起义军在同一时刻揭竿而起——"月光所至，义旗同举"。起义之势如星火燎原，最终在1368年推翻了元朝统治，朱元璋在应天（南京）登基，建立大明王朝。</p>
+            <p>明朝建立后，朱元璋不忘当年月饼传递信息的恩情，下令中秋吃月饼成为国家定制——将这种"救命的饼"作为节令糕点赏赐群臣，并鼓励民间在中秋互赠月饼。从此，中秋吃月饼的习俗在全国广泛流传并延续至今。</p>
+          </div>
+          <div class="cdc-panel" data-cdc="yuebing" data-panel="characters">
+            <p><strong>朱元璋</strong>（1328—1398）——明朝开国皇帝。出身贫苦，曾为僧为丐，深知民间疾苦。在元末群雄逐鹿中最終胜出，建立大明。他以月饼传信为起义的关键一击，体现了他善于利用民俗和民众进行战略布局的智慧。</p>
+            <p><strong>刘伯温</strong>（1311—1375）——名刘基，明朝开国元勋，军事家、政治家、文学家，被誉为"明朝第一谋臣"。藏信于饼的妙计即出自其手，展现了中国传统谋略"寓兵于民""以常掩奇"的精髓。</p>
+          </div>
+          <div class="cdc-panel" data-cdc="yuebing" data-panel="background">
+            <p>月饼起义的故事兼有历史与传说双重属性。从历史角度看，元末确实存在利用民俗传递军情的记载，《明史》等正史中可见朱元璋联合各方力量、统一号令的史实。但"月饼藏信"的具体细节更多地出现在明清笔记小说中，带有民间加工的色彩。</p>
+            <p>值得注意的是，这个故事并非孤例——以食物传递情报的策略在中国历史上多次出现。南宋时，抗金义军曾以"巧饼"传递军事情报；抗日战争时期，也有以月饼和其他食品掩藏情报的真实事例。这些历史片段共同构成了"食以传信"的文化记忆，而月饼起义是其中最著名、流传最广的一个。</p>
+          </div>
+          <div class="cdc-panel" data-cdc="yuebing" data-panel="symbolism">
+            <p><strong>月饼作为信息载体</strong>——食物超越了口腹之欲，成为了传递思想、联络人心的媒介，象征着民间智慧在逆境中的创造力。</p>
+            <p><strong>中秋月夜作为起义时刻</strong>——中秋节是团圆的节日，元军在这一夜放松了警惕，而汉人则借团圆之名聚集行动。这赋予了中秋一层"民族自觉"的深层意涵。</p>
+            <p><strong>从"传信饼"到"团圆饼"的转化</strong>——战争年代的秘密信物，在和平年代转化为阖家团圆的美食，完成了从抗争到祝福的符号转换。</p>
+          </div>
+          <div class="cdc-panel" data-cdc="yuebing" data-panel="lesson">
+            <p>月饼起义的故事传达了多层次的启示：第一，普通事物在关键时刻可以发挥超出想象的作用——块小小的月饼改变了历史进程；第二，团结协作的力量——一个人再强大也无法独自完成大业，需要众人的齐心协力；第三，智慧往往胜于武力——刘伯温的妙计比千军万马更管用，体现了中国文化中"智胜于力"的价值取向。</p>
+          </div>
+          <div class="cdc-panel" data-cdc="yuebing" data-panel="modern">
+            <p>在今天，月饼起义的故事在中秋语境中扮演着独特角色——它赋予了吃月饼这一行为以深厚的民族历史感。当人们在中秋分享月饼时，延续的不仅是团圆的文化，更是一种民族智慧与抗争精神的集体记忆。月饼超越了普通的食品范畴，成为中华文化认同的重要载体。这个故事也启发我们在面对困难时打破常规思维——有时候最有效的解决方案，就隐藏在日常生活最平凡的细节之中。</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- 月下老人 -->
+      <div class="cdc-card reveal" id="detail-yuexialaoren">
+        <div class="cdc-header">
+          <span class="cdc-icon">🧓</span>
+          <div class="cdc-title-area">
+            <h3>月下老人</h3>
+            <span class="cdc-badge">中华民间传说 · 姻缘之神</span>
+          </div>
+        </div>
+        <div class="cdc-tabs">
+          <button class="cdc-tab active" data-cdc="yuexialaoren" data-tab="story">完整故事</button>
+          <button class="cdc-tab" data-cdc="yuexialaoren" data-tab="characters">人物介绍</button>
+          <button class="cdc-tab" data-cdc="yuexialaoren" data-tab="background">历史背景</button>
+          <button class="cdc-tab" data-cdc="yuexialaoren" data-tab="symbolism">文化象征</button>
+          <button class="cdc-tab" data-cdc="yuexialaoren" data-tab="lesson">道德启示</button>
+          <button class="cdc-tab" data-cdc="yuexialaoren" data-tab="modern">现代意义</button>
+        </div>
+        <div class="cdc-panels">
+          <div class="cdc-panel active" data-cdc="yuexialaoren" data-panel="story">
+            <p>唐代有一个名叫韦固的青年书生，自幼父母双亡，一心想要早日娶妻成家。某日他途经宋城（今河南商丘），投宿于城南的一家客栈。客栈中有人向他提亲——宋城县令之女，约定次日清晨在客栈西面的龙兴寺门前相见。</p>
+            <p>韦固求亲心切，天未亮就赶到了龙兴寺。月光如水，四下无人，只见一位白发老翁坐在寺门前的台阶上，就着月光翻阅一本厚厚的书册，身边放着一个装满红绳的布袋。韦固好奇地上前询问。老人告诉他，这是天下人的"姻缘簿"——上面记载着每个人未来配偶的姓名与来历，而他手中的红绳则是用来系住一对对命定夫妻的脚踝。一旦红绳系定，无论两人原本相隔多远、贫富悬殊多大、甚至是仇家世敌，最终都会结为夫妻。</p>
+            <p>韦固急忙询问自己未来妻子是谁。月下老人翻阅簿册后告诉他——是城南卖菜陈婆的女儿，今年才三岁，要等到十七岁时才会嫁给他。韦固大为失望，深夜派仆人去刺杀那个小女孩以改变命运，但仆人只刺伤了女孩的眉心便仓惶逃走。</p>
+            <p>十四年后，韦固已为相州参军，娶了刺史王泰的养女为妻。新婚之夜，他发现妻子眉心总是贴着一片花钿，从未摘下。追问之下才惊恐地得知——她正是十四年前被自己派人刺杀的那个小女孩，眉心留下了疤痕，被王泰收养成人。韦固终于相信姻缘天定，从此与妻子恩爱相守。宋城县令将此事上报朝廷，龙兴寺门前遂改名为"定婚店"，月下老人的传说自此流传天下。</p>
+          </div>
+          <div class="cdc-panel" data-cdc="yuexialaoren" data-panel="characters">
+            <p><strong>月下老人</strong>——简称"月老"，中国民间信仰中专司人间婚姻的神祇。他的形象是一位在月光下翻阅姻缘簿、手执红线的白发老翁。月老的形象融合了道教的神仙体系与民间的婚姻信仰，是"姻缘天定"观念的具象化表达。</p>
+            <p><strong>韦固</strong>——唐代真实人物，曾任相州参军。他的经历记载于唐代李复言《续玄怪录·定婚店》中。韦固从怀疑到刺杀的极端行为，再到十四年后恍然大悟的过程，是"人算不如天算"的生动写照。</p>
+          </div>
+          <div class="cdc-panel" data-cdc="yuexialaoren" data-panel="background">
+            <p>月下老人的故事出自唐代李复言《续玄怪录》卷四"定婚店"篇，是唐代传奇小说中的名篇。唐代是中国古代小说的黄金时期，出现了大量"传奇"作品，其中"姻缘前定"是重要的叙事母题。</p>
+            <p>月老信仰的发展与中秋节密切相关——中秋是月最圆最明的夜晚，而"月圆"象征着"人圆"（姻缘圆满），因此中秋也逐渐成为祈求姻缘的吉日。明清时期，月老庙遍布全国，中秋之夜未婚男女到月老庙烧香祈缘成为流行习俗。月老手中的红线成为中国文化中最具标识性的姻缘符号之一。</p>
+          </div>
+          <div class="cdc-panel" data-cdc="yuexialaoren" data-panel="symbolism">
+            <p><strong>姻缘簿</strong>象征着命运的确定性与不可更改性——每个人的姻缘早已注定，人力无法强求亦无法变更。</p>
+            <p><strong>红线</strong>是月老信仰中最核心的意象。"千里姻缘一线牵"——红线的无形之力可以跨越时间、空间甚至仇恨，将命定的两人联系在一起。红色代表喜庆吉祥，线代表连接与纽带。</p>
+            <p><strong>月光</strong>——月老在月光下工作，赋予了月亮以"人间姻缘见证者"的角色。月有阴晴圆缺，正如姻缘有聚散离合，但最终都会走向圆满。</p>
+          </div>
+          <div class="cdc-panel" data-cdc="yuexialaoren" data-panel="lesson">
+            <p>月下老人的传说传递了深刻的伦理与哲学启示：姻缘不可强求——韦固试图以暴力改变命运，最终反而加速了命运的应验，印证了"人算不如天算"的古训；珍惜眼前人——韦固兜兜转转十四年，最终娶的还是当初那个"命定之人"，告诫人们不必好高骛远；爱与原谅——得知真相后的韦固与妻子选择了真诚相待、相互谅解，诠释了婚姻的真谛。</p>
+          </div>
+          <div class="cdc-panel" data-cdc="yuexialaoren" data-panel="modern">
+            <p>月下老人至今仍是中国文化中最活跃的神祇之一。"月老""红线""牵线"等词汇已融入日常语言，成为婚恋文化的标准隐喻。中秋之夜，许多城市举办"月老牵线"相亲活动，将传统信仰与现代婚恋需求结合。在文学、影视、游戏中，月老形象不断被重新演绎，成为中华文化中关于爱情与缘分的最温暖、最富诗意的表达。</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- 天狗食月 -->
+      <div class="cdc-card reveal" id="detail-tiangou">
+        <div class="cdc-header">
+          <span class="cdc-icon">🐕</span>
+          <div class="cdc-title-area">
+            <h3>天狗食月</h3>
+            <span class="cdc-badge">中华民间传说 · 月食神话</span>
+          </div>
+        </div>
+        <div class="cdc-tabs">
+          <button class="cdc-tab active" data-cdc="tiangou" data-tab="story">完整故事</button>
+          <button class="cdc-tab" data-cdc="tiangou" data-tab="characters">人物介绍</button>
+          <button class="cdc-tab" data-cdc="tiangou" data-tab="background">历史背景</button>
+          <button class="cdc-tab" data-cdc="tiangou" data-tab="symbolism">文化象征</button>
+          <button class="cdc-tab" data-cdc="tiangou" data-tab="lesson">道德启示</button>
+          <button class="cdc-tab" data-cdc="tiangou" data-tab="modern">现代意义</button>
+        </div>
+        <div class="cdc-panels">
+          <div class="cdc-panel active" data-cdc="tiangou" data-panel="story">
+            <p>在中国古老的民间信仰中，天上居住着一只名为"天狗"的凶兽。天狗生性贪婪凶恶，尤喜吞食日月。当它饥饿时，便会张开巨大的嘴巴，将天空中明亮的月亮一点一点吞入腹中。月亮的光芒逐渐黯淡，天空陷入黑暗——这便是月食现象的民间解释。</p>
+            <p>古代先民认为，月亮被天狗吞食是天地秩序的严重破坏——月亮是太阴之精，主管夜间光明、雨水与农业收成。如果月亮被天狗完全吞噬而不再复明，人间将陷入无尽的黑暗与灾异。因此，每当月食发生，全民必须行动起来拯救月亮。</p>
+            <p>传统的"救月"方式声势浩大：人们纷纷跑出家门，拿出家中所有能发出声响的器皿——铜锣、铁锅、木盆、竹筒——拼命敲打，同时燃放爆竹、大声呐喊、甚至向天空射箭。据说这些震耳欲聋的声响能吓退天狗，迫使它将吞下的月亮重新吐出。随着月亮逐渐从阴影中恢复，人们相信是自己的努力拯救了月亮，于是欢呼庆祝。这一习俗在中国延续了数千年，至今在一些偏远乡村仍能见到中秋月食时敲盆救月的传统场面。</p>
+          </div>
+          <div class="cdc-panel" data-cdc="tiangou" data-panel="characters">
+            <p><strong>天狗</strong>——中国民间信仰中的凶兽，与日本传说中的"天狗"（てんぐ）名同而实异。中国的天狗形象更接近于"吞月之兽"，其来源可能与古代对日食、月食这一天文现象的恐惧与解释有关。《山海经》中已有类似天狗的异兽记载。</p>
+            <p><strong>目连</strong>——在佛教传入后的版本中，天狗食月与目连救母的故事发生了融合。目连之母作恶被打入饿鬼道，目连为救母亲闯入地狱，他的孝心感动天地，但也触动了冥界的秩序，天狗因此出现吞月以示惩戒。这个版本体现了佛教孝道观念与中国本土神话的交融。</p>
+          </div>
+          <div class="cdc-panel" data-cdc="tiangou" data-panel="background">
+            <p>天狗食月的传说反映了中国古代先民对天文现象的理解与应对。月食是一种规律性的天文现象，但古人缺乏现代天文学知识，将其解释为天狗吞月。这一解释具有世界范围内的普遍性——几乎所有的古代文明都有类似的"天兽食月"神话，如北欧的"天狼逐月"、印度的"罗睺吞月"等。</p>
+            <p>最有意思的是"敲锣救月"的习俗。先民们在无数次观察中发现——每次月食发生时被吓走的"天狗"最终都会把月亮"吐出来"（月亮总会复明），于是他们将"敲锣"与"月亮复明"建立了因果联系。这种"以人的行动干预天象"的观念，体现了中国传统文化中"人定胜天"的乐观精神。</p>
+          </div>
+          <div class="cdc-panel" data-cdc="tiangou" data-panel="symbolism">
+            <p><strong>天狗</strong>象征自然界中不可控的破坏力量——是一切威胁天地秩序的负面因素的汇集。</p>
+            <p><strong>集体拯救行动</strong>——人们通过敲锣打鼓、燃放爆竹的集体仪式来保卫月亮，象征着社区在面对危机时的团结协作精神。</p>
+            <p><strong>月亮失而复得</strong>——月食中月亮的"被吞-复明"过程，暗示着事物具有自我恢复的能力——黑暗终会过去，光明必将重现。</p>
+          </div>
+          <div class="cdc-panel" data-cdc="tiangou" data-panel="lesson">
+            <p>天狗食月的传说启示我们：面对未知的自然现象，人类不应只是恐惧和被动承受，而应积极地寻求理解与应对——即便这种应对在科学上未必有效，但它给了人们面对恐惧的勇气和团结行动的信念。同时，"天狗食月"也提醒人们敬畏自然——人类的能力再大，也有无法掌控的力量存在，谦卑之心不可丢失。</p>
+          </div>
+          <div class="cdc-panel" data-cdc="tiangou" data-panel="modern">
+            <p>在现代天文学普及的今天，"天狗食月"更多作为文化记忆而存在。但这一传说仍有其独特的价值——它提醒我们祖先如何以想象力对抗对未知的恐惧，如何在科学尚不发达的年代保持对自然的敬畏与对光明的信念。月食之夜，即便是知道真相的现代人，仰望暗红色的月亮时，也不禁会想起那古老传说中的天狗，感受到一种跨越千年的文化连结。</p>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /customs-detail-grid -->
+  </div>
+</section>
+
+<!-- 分隔 -->
+<div class="section-transition"><div class="section-separator"><span class="sep-line"></span><span class="sep-dot"></span><span class="sep-line"></span></div></div>
+
+<!-- ====== 详情板块三：东亚月亮传说 ====== -->
+<section class="legend-detail-section" id="detail-eastasian">
+  <div class="page-content">
+    <div class="section-title reveal">
+      <span class="cat-badge">文化体系三</span>
+      <h2>东亚月亮传说</h2>
+      <p class="subtitle">同一个月亮，不同的故事——中日韩越共享月之浪漫，各自创造独特的月亮神话</p>
+      <div class="divider"><span class="dot"></span></div>
+    </div>
+
+    <div class="customs-detail-grid">
+
+      <!-- 辉夜姬 -->
+      <div class="cdc-card reveal" id="detail-huiyeji">
+        <div class="cdc-header">
+          <span class="cdc-icon">👘</span>
+          <div class="cdc-title-area">
+            <h3>辉夜姬</h3>
+            <span class="cdc-badge">东亚月亮传说 · 日本</span>
+          </div>
+        </div>
+        <div class="cdc-tabs">
+          <button class="cdc-tab active" data-cdc="huiyeji" data-tab="story">完整故事</button>
+          <button class="cdc-tab" data-cdc="huiyeji" data-tab="characters">人物介绍</button>
+          <button class="cdc-tab" data-cdc="huiyeji" data-tab="background">历史背景</button>
+          <button class="cdc-tab" data-cdc="huiyeji" data-tab="symbolism">文化象征</button>
+          <button class="cdc-tab" data-cdc="huiyeji" data-tab="lesson">道德启示</button>
+          <button class="cdc-tab" data-cdc="huiyeji" data-tab="modern">现代意义</button>
+        </div>
+        <div class="cdc-panels">
+          <div class="cdc-panel active" data-cdc="huiyeji" data-panel="story">
+            <p>很久以前，有一位以伐竹为生的老翁名叫赞岐造麻吕（竹取翁）。一日他入山砍竹，发现一根竹子发出奇异的光芒。剖开竹子，里面竟藏着一个只有三寸大小的女婴，容貌绝美、浑身放光。老翁无儿无女，便将女婴带回家中与老妻一同抚养。</p>
+            <p>此后老翁每次入山砍竹，都能在竹节中发现黄金。竹取家迅速富裕起来，而女婴在三个月内就长成了倾国倾城的少女，取名"辉夜姬"（かぐや姫）。她的美貌传遍天下，求婚者络绎不绝。其中五位最为显赫——石作皇子、车持皇子、安倍御主人、大伴御行和石上麻吕——争相登门求亲。</p>
+            <p>辉夜姬不愿嫁人，便给五位求婚者出了五道不可能完成的难题：石作皇子要去天竺取来佛的石钵；车持皇子要去蓬莱山摘下玉树枝；安倍御主人要取来火鼠裘；大伴御行要取来龙头上的五彩玉；石上麻吕要取来燕子的子安贝。五位求婚者或用伪造品蒙混、或在途中放弃、或殒命于途，皆以失败告终。</p>
+            <p>此后连天皇也慕名而来求见。天皇与辉夜姬虽互生情愫，但辉夜姬始终没有应允婚事，只是与天皇保持书信往来。三年后，辉夜姬的行为变得异常——每当望见明月，就会泪流不止。原来她并非凡人，而是月宫的公主，因前世罪业被贬人间赎罪，如今期限已满，月宫使者将在八月十五之夜前来接她归去。</p>
+            <p>八月十五之夜，天皇派遣两千士兵包围竹取翁宅邸试图阻止天兵，但当月宫使者降临时，所有士兵都失去了力量。辉夜姬留下一封书信和不死药给天皇，穿上天羽衣后便忘却了人间一切情感，随月宫使者升天而去。天皇悲痛万分，命人将辉夜姬留下的不死药和书信带到日本最高的山峰——富士山上焚毁，传说富士山的烟至今仍袅袅不绝，那就是不死药燃烧的余烬。</p>
+          </div>
+          <div class="cdc-panel" data-cdc="huiyeji" data-panel="characters">
+            <p><strong>辉夜姬（かぐや姫）</strong>——月宫公主，因前世罪业被贬人间，赎罪期满后被迫返回月宫。她美丽绝伦却无法掌控自己的命运，是日本文学中最早的、也是最深刻的悲剧女性形象之一。她对人间的留恋与对天界的归属之间的撕裂，构成了故事最动人的核心。</p>
+            <p><strong>竹取翁（赞岐造麻吕）</strong>——辉夜姬在人间的养父，一个善良的普通老人。他给了辉夜姬人间最珍贵的亲情，但却无力阻止她回归天界的命运。</p>
+            <p><strong>天皇</strong>——日本最高统治者，也是辉夜姬在人间最真挚的爱慕者。他对辉夜姬的深情与最终的无能为力，象征着人类对命运的抗争与最终的接受。</p>
+          </div>
+          <div class="cdc-panel" data-cdc="huiyeji" data-panel="background">
+            <p>《竹取物语》（たけとりものがたり）成书于平安时代初期（约9世纪末—10世纪初），是日本最古老的物语文学作品，被公认为"日本物语之祖"。故事以平安时代的日本为背景，融合了神话、传奇、恋爱与幽默等多种元素，反映了平安时代贵族社会的审美意识与价值观。</p>
+            <p>故事中的"八月十五月宫使者接回辉夜姬"与中国的中秋节及嫦娥奔月神话存在明显的文化关联——两者都涉及"月宫来客+八月十五+升天"的核心母题。这反映了日本古代文学对中国文化的吸收与创造性转化。但与中国嫦娥奔月不同的是，辉夜姬的故事加入了"五个不可能的任务"这一世界性的民间故事母题（类似于《图兰朵》中的三个谜题），体现了日本对大陆文化素材的本土化再创造。</p>
+          </div>
+          <div class="cdc-panel" data-cdc="huiyeji" data-panel="symbolism">
+            <p><strong>月亮与月宫</strong>象征着超越人类世界的更高秩序——美丽、崇高但冰冷无情。辉夜姬来自月宫，注定要回到月宫，人力无法更改。</p>
+            <p><strong>竹子的意象</strong>——竹子在日本文化中象征生命力与纯洁，辉夜姬从发光的竹子中诞生，暗示其非凡的来历与纯洁的本质。</p>
+            <p><strong>天羽衣</strong>——辉夜姬穿上天羽衣后便忘却了人间一切情感，象征着回归天界必须以割舍人间的羁绊为代价，这是对"神性"与"人性"不可兼得的深刻表达。</p>
+            <p><strong>富士山的不灭烟</strong>——故事结尾将富士山的火山活动与辉夜姬的不死药联系起来，将自然景观赋予了永恒的文化意涵。</p>
+          </div>
+          <div class="cdc-panel" data-cdc="huiyeji" data-panel="lesson">
+            <p>辉夜姬的故事传达的启示跨越时空：美丽与纯洁不应被占有和争夺——五位求婚者的失败正告世人，真正的美和爱无法以权力、财富或诡计获得；父母的养育之恩难以回报——辉夜姬对竹取翁夫妇的眷恋与最终无法报恩的遗憾，体现了"子欲养而亲不待"的伤感；每个人都有身不由己的命运——但即使命运无法改变，依然可以在有限的时光中创造爱的记忆。</p>
+          </div>
+          <div class="cdc-panel" data-cdc="huiyeji" data-panel="modern">
+            <p>《竹取物语》在日本文化中的地位堪比中国的嫦娥奔月或西方的灰姑娘，是日本文学、艺术、动漫取之不尽的灵感源泉。吉卜力工作室导演高畑勋的动画电影《辉夜姬物语》（2013年）以水墨风格细腻再现了这一千年物语，获奥斯卡最佳动画长片提名。在中秋节的语境下，辉夜姬的故事为这个中国节日增添了东亚文化共融的厚度——同一个月亮下，不同的民族文化创造出了各自独特而动人的故事，这正是东亚文化圈丰富多彩的魅力所在。</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- 韩国月兔 -->
+      <div class="cdc-card reveal" id="detail-hanguoyuetu">
+        <div class="cdc-header">
+          <span class="cdc-icon">🇰🇷</span>
+          <div class="cdc-title-area">
+            <h3>韩国月兔传说</h3>
+            <span class="cdc-badge">东亚月亮传说 · 韩国</span>
+          </div>
+        </div>
+        <div class="cdc-tabs">
+          <button class="cdc-tab active" data-cdc="hanguoyuetu" data-tab="story">完整故事</button>
+          <button class="cdc-tab" data-cdc="hanguoyuetu" data-tab="characters">人物介绍</button>
+          <button class="cdc-tab" data-cdc="hanguoyuetu" data-tab="background">历史背景</button>
+          <button class="cdc-tab" data-cdc="hanguoyuetu" data-tab="symbolism">文化象征</button>
+          <button class="cdc-tab" data-cdc="hanguoyuetu" data-tab="lesson">道德启示</button>
+          <button class="cdc-tab" data-cdc="hanguoyuetu" data-tab="modern">现代意义</button>
+        </div>
+        <div class="cdc-panels">
+          <div class="cdc-panel active" data-cdc="hanguoyuetu" data-panel="story">
+            <p>在朝鲜半岛的民间传说中，月亮上也有一只兔子，但与中国玉兔捣制长生不老药不同，韩国月兔（달토끼）在石臼中捣的是年糕（떡）的原料——米粉和糯米粉。</p>
+            <p>相传很久以前，在一个小山村中住着一位善良的年轻农夫。一年秋天遭遇了百年不遇的旱灾，庄稼几乎绝收。农夫自己粒米无存，却依然将仅剩的一点点粮食分享给村中的老人和孩子们。中秋之夜，农夫在空荡荡的院子里独自望着明月，心中默默祈祷来年风调雨顺。</p>
+            <p>月中的玉兔被农夫的善良所感动，在中秋月圆之夜驾着月光来到人间。它将自己亲手捣制的年糕赠予农夫，年糕的香气弥漫了整个村庄。村民们循着香气来到农夫家中，每人都分到了一块年糕。神奇的是，尽管只做了一臼年糕，分给全村人之后依然源源不绝。吃饱之后，村民们感到浑身充满了力量与希望。</p>
+            <p>从此以后，每逢秋夕（추석，韩国的中秋节），韩国家家户户都要制作和分享年糕（松饼 송편），以此纪念月兔的恩赐，同时寄托对丰收与幸福的祈愿。秋夕也成为韩国最重要的传统节日之一——全国放假三天，子孙从全国各地回到故乡祭祀祖先、分享美食、赏月共度。</p>
+          </div>
+          <div class="cdc-panel" data-cdc="hanguoyuetu" data-panel="characters">
+            <p><strong>月兔（달토끼）</strong>——韩国的月中玉兔，形象亲切而勤劳。它不再是孤独的捣药者，而是将劳动果实与人间分享的善良精灵。年糕作为劳动果实，比"长生不老药"更贴近民众的日常生活，反映了韩国民俗文化中"劳动创造价值"的朴素信仰。</p>
+            <p><strong>善良的农夫</strong>——代表了普通百姓的勤劳与善良。他的善举并非英雄壮举，而是将仅有的食物分给更需要的人，这恰恰是东方文化中最推崇的"临难不弃义"的德行。</p>
+          </div>
+          <div class="cdc-panel" data-cdc="hanguoyuetu" data-panel="background">
+            <p>月亮与兔子的关联在东亚文化圈广泛存在——中国、韩国、日本、越南都有"月中有兔"的说法。但韩国月兔故事呈现出鲜明的本土特色：月兔捣的是食用年糕而非仙药，这与韩民族以农业立国、重视食物与丰收的文化传统密切相关。</p>
+            <p>"松饼"（송편）是韩国秋夕最具代表性的食物——以新米磨粉制成半月形的糕团，内馅为芝麻、红豆、栗子等，垫以松针蒸制，散发出松针清香。在韩国文化中，秋夕做松饼是家庭团聚的重要仪式——家人围坐一堂、一起捏制松饼的场景，与中国人中秋包月饼的文化意涵遥相呼应。</p>
+          </div>
+          <div class="cdc-panel" data-cdc="hanguoyuetu" data-panel="symbolism">
+            <p><strong>年糕（松饼）</strong>在韩国文化中象征丰收的喜悦与分享的美德。月兔赠糕、村民共享的情节，体现了韩国社会重视"정"（情谊）与"공동체"（共同体）的文化价值观。</p>
+            <p><strong>月亮与秋夕</strong>——韩国秋夕（农历八月十五）是感恩秋收、祭祀祖先的日子，月亮作为丰饶与团圆的象征，与中国的文化意涵高度一致，展现了东亚农耕文明对月亮的共同崇拜。</p>
+          </div>
+          <div class="cdc-panel" data-cdc="hanguoyuetu" data-panel="lesson">
+            <p>韩国月兔传说的道德启示在于：善良与分享终有善报——农夫在自身难保的情况下依然分享，最终获得了月兔及全村人的回报；劳动果实最为珍贵——月兔赠予的不是仙丹妙药，而是用汗水捣制而成的年糕，强调勤劳的价值；共同体意识——故事最终以全村共享为结局，体现了韩国传统社会中"共渡难关"的村落精神。</p>
+          </div>
+          <div class="cdc-panel" data-cdc="hanguoyuetu" data-panel="modern">
+            <p>韩国秋夕至今仍是韩国最重要的传统节日，放假三天、全民"民族大移动"回故乡扫墓祭祖的盛况世界闻名。松饼作为秋夕的节令食品，其制作与分享仍是韩国家庭的核心仪式。月兔形象在韩国现代文化中频繁出现——从K-pop组合的歌词到热门韩剧的浪漫隐喻，月兔依然是寄托思念与祝福的文化符号。韩国与中国虽共享"月中有兔"的母题，但各自发展出了独具特色的文化表达，这正是东亚文化"和而不同"的生动体现。</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- 越南月童 -->
+      <div class="cdc-card reveal" id="detail-yuenan">
+        <div class="cdc-header">
+          <span class="cdc-icon">🌳</span>
+          <div class="cdc-title-area">
+            <h3>阿贵与榕树</h3>
+            <span class="cdc-badge">东亚月亮传说 · 越南</span>
+          </div>
+        </div>
+        <div class="cdc-tabs">
+          <button class="cdc-tab active" data-cdc="yuenan" data-tab="story">完整故事</button>
+          <button class="cdc-tab" data-cdc="yuenan" data-tab="characters">人物介绍</button>
+          <button class="cdc-tab" data-cdc="yuenan" data-tab="background">历史背景</button>
+          <button class="cdc-tab" data-cdc="yuenan" data-tab="symbolism">文化象征</button>
+          <button class="cdc-tab" data-cdc="yuenan" data-tab="lesson">道德启示</button>
+          <button class="cdc-tab" data-cdc="yuenan" data-tab="modern">现代意义</button>
+        </div>
+        <div class="cdc-panels">
+          <div class="cdc-panel active" data-cdc="yuenan" data-panel="story">
+            <p>很久很久以前，在越南的一个小村庄里住着一个名叫阿贵（Chú Cuội）的年轻樵夫。一天阿贵进山砍柴，在密林深处发现了一棵奇异的小树。这棵树并非寻常——无论树枝怎样被折断，片刻之后便自动愈合如初。阿贵觉得神奇，便将这棵小树挖出，带回家种在院中。</p>
+            <p>阿贵对这棵树悉心照料，用山泉水浇灌，以落叶堆肥。但这棵树有一个奇特的禁忌——绝对不能用脏水浇灌，否则树就会连根拔起飞向天空。阿贵一直铭记在心，从未犯禁。</p>
+            <p>然而一日，阿贵的妻子在清扫院子时忘记了丈夫的叮嘱，顺手将一盆洗过衣服的脏水倒在了榕树的根部。刹那间，土地开始震动，榕树的根从泥土中拔出，整棵树缓缓升向天空。阿贵从屋里冲出来，拼命抓住树根想要把它拉回地面，但榕树的力量太大，竟连阿贵一同带上了天空。</p>
+            <p>榕树越升越高，直到降落在月宫之中。从此，阿贵就住在月亮上，与那棵神奇的榕树为伴。每年中秋之夜，当月亮最圆最亮的时候，越南的孩子们会点亮各式各样的灯笼，仰望明月，寻找阿贵和那棵榕树的身影。越南的中秋节也因此在某种意义上被称为"儿童节"（Tết Trung Thu）——这是一个属于孩子们的美好节日。</p>
+          </div>
+          <div class="cdc-panel" data-cdc="yuenan" data-panel="characters">
+            <p><strong>阿贵（Chú Cuội）</strong>——一个普通的越南樵夫，因意外而成为月宫中的"月童"。他并非英雄也非神仙，而是一个被命运推动的普通人，这种平民性使他的故事在越南家喻户晓、深入人心。阿贵的形象纯真善良，代表了与自然和谐共处的朴素理想。</p>
+            <p><strong>神奇的榕树（Cây Đa thần）</strong>——在越南文化中，榕树（Đa）具有特殊的文化地位——越南许多村庄的村口都有百年大榕树，被视为村庄的守护神。故事中这棵能飞升天际的榕树，将越南人对榕树的崇敬与月亮的向往合为一体。</p>
+          </div>
+          <div class="cdc-panel" data-cdc="yuenan" data-panel="background">
+            <p>阿贵的故事在越南流传甚广、版本众多。上面讲述的是最常见的"禁忌与飞升"版本。另一些版本中，阿贵是一个善良但调皮的少年，他用榕叶治好了许多村民的疾病，却因一个意外事故触犯了禁忌，最终与榕树一起升入月宫。</p>
+            <p>越南中秋节（Tết Trung Thu）的文化内涵与中国的正月初一为主的"成人中秋"有所不同——越南中秋在很大意义上是一个"儿童节"。这一天，孩子们提灯笼游行、参加舞狮表演、享用月饼和玩具。阿贵与榕树的故事正是这一"儿童式中秋"的核心文化叙事——一个关于童心、奇迹和月亮的美好童话。</p>
+          </div>
+          <div class="cdc-panel" data-cdc="yuenan" data-panel="symbolism">
+            <p><strong>神奇的榕树</strong>象征着大自然的生命力与神秘性——它能自愈、会飞升，是对自然伟力的敬畏与想像。</p>
+            <p><strong>"脏水禁忌"</strong>——榕树不能接触脏水的设定，表达了"纯洁不容玷污"的寓意。禁忌的打破导致了无法挽回的后果，是人类学中常见的"禁忌-违背-惩罚"叙事原型。</p>
+            <p><strong>飞向月宫</strong>——阿贵飞向月宫并非惩罚，而更像一场奇异的冒险。这赋予了月亮以童趣和亲切感——月亮上不只是孤独的仙女和苦修的樵夫，还有一个调皮可爱的大男孩和他的榕树。</p>
+          </div>
+          <div class="cdc-panel" data-cdc="yuenan" data-panel="lesson">
+            <p>阿贵的故事蕴含的启示：每一个禁忌背后都有其存在的道理——对于自己不完全了解的事物，应当保持尊重与谨慎；意外与灾难有时也会开启全新的生命篇章——阿贵失去了人间的生活，却在月宫中获得了永恒的存在；纯真与善良是最宝贵的品质——阿贵虽然离开了人间，但每年中秋孩子们都会为他点亮灯笼，这份纯真的思念是人间最美的情感。</p>
+          </div>
+          <div class="cdc-panel" data-cdc="yuenan" data-panel="modern">
+            <p>在当代越南，阿贵的故事依然是中秋节最重要的文化符号。每年中秋，越南各大城市都会举办盛大的灯笼节和儿童游乐活动，阿贵和榕树的形象出现在灯笼、舞台剧和卡通片中。越南政府将中秋节法定为儿童节，全国举行各种面向儿童的庆祝活动。阿贵的故事不仅为越南中秋增添了独特的童话色彩，也成为了越南文化认同的重要组成部分——正如一位越南诗人所写："每一个越南孩子，都是在阿贵的故事中、在月光的陪伴下长大的。"</p>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /customs-detail-grid -->
+  </div>
+</section>
 
 <footer class="footer">
   <div class="footer-content">
@@ -118,36 +795,52 @@
     </div>
   </div>
 </footer>
+
 <div class="back-to-top" title="回到顶部">
   <svg viewBox="0 0 24 24"><path d="M12 19V5M5 12l7-7 7 7" stroke="currentColor" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
 </div>
+
 <script src="/js/common.js"></script>
 <script src="/js/moon-journey.js"></script>
 <script>MoonJourney.start('legends');</script>
 <script>
-// Filter function
-function filterLegends(sys, btn) {
-  document.querySelectorAll('.filter-btn').forEach(function(b) { b.classList.remove('active'); });
-  btn.classList.add('active');
-  document.querySelectorAll('.legend-card-item').forEach(function(item) {
-    item.style.display = (sys === 'all' || item.dataset.sys === sys) ? '' : 'none';
-  });
-}
-// Tab switching logic
-document.querySelectorAll('.cdc-tab').forEach(function(btn) {
-  btn.addEventListener('click', function() {
-    var cdc = this.dataset.cdc;
-    var tab = this.dataset.tab;
-    this.parentElement.querySelectorAll('.cdc-tab').forEach(function(b) { b.classList.remove('active'); });
-    this.classList.add('active');
-    var card = this.closest('.cdc-card');
+/* 详情卡片 Tab 切换 */
+document.querySelectorAll('.cdc-tabs').forEach(function(tabs) {
+  tabs.addEventListener('click', function(e) {
+    var tab = e.target.closest('.cdc-tab');
+    if (!tab) return;
+    var cdc = tab.dataset.cdc;
+    var panelName = tab.dataset.tab;
+    var card = tab.closest('.cdc-card');
+
+    card.querySelectorAll('.cdc-tab').forEach(function(t) { t.classList.remove('active'); });
     card.querySelectorAll('.cdc-panel').forEach(function(p) { p.classList.remove('active'); });
-    card.querySelector('.cdc-panel[data-panel="' + tab + '"]').classList.add('active');
+
+    tab.classList.add('active');
+    var panel = card.querySelector('.cdc-panel[data-cdc="' + cdc + '"][data-panel="' + panelName + '"]');
+    if (panel) panel.classList.add('active');
   });
 });
-document.querySelectorAll('.cdc-card').forEach(function(card) {
-  card.querySelector('.cdc-tab').classList.add('active');
-  card.querySelector('.cdc-panel').classList.add('active');
+
+/* 文化体系标签筛选 */
+document.querySelectorAll('.ls-tag').forEach(function(tag) {
+  tag.addEventListener('click', function() {
+    document.querySelectorAll('.ls-tag').forEach(function(t) { t.classList.remove('active'); });
+    tag.classList.add('active');
+    var sys = tag.textContent.trim();
+    document.querySelectorAll('.legend-flip-card').forEach(function(card) {
+      if (sys === '全部') {
+        card.style.display = '';
+      } else {
+        var sysMap = {
+          '中华汉族神话': 'han',
+          '中华民间传说': 'folk',
+          '东亚月亮传说': 'eastasian'
+        };
+        card.style.display = card.dataset.sys === sysMap[sys] ? '' : 'none';
+      }
+    });
+  });
 });
 </script>
 </body>

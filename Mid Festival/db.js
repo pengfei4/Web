@@ -23,6 +23,7 @@ async function initDB() {
     createTables();
     saveDB();
   }
+  runMigrations();
   return db;
 }
 
@@ -172,6 +173,7 @@ function createTables() {
     step_number INTEGER NOT NULL,
     icon TEXT NOT NULL,
     name TEXT NOT NULL,
+    anchor TEXT,
     description TEXT NOT NULL
   )`);
 
@@ -302,6 +304,25 @@ function createTables() {
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     text TEXT NOT NULL
   )`);
+}
+
+// 数据库迁移
+function runMigrations() {
+  const tableInfo = db.exec("PRAGMA table_info(craft_steps)");
+  if (!tableInfo || tableInfo.length === 0) return;
+  const cols = tableInfo[0].values.map(r => r[1]); // column name is index 1
+  if (!cols.includes('anchor')) {
+    db.run("ALTER TABLE craft_steps ADD COLUMN anchor TEXT");
+    const anchors = ['zhipi', 'zhixian', 'baoxian', 'yamo', 'hongkao'];
+    const result = db.exec("SELECT id FROM craft_steps ORDER BY step_number");
+    if (result && result.length > 0) {
+      result[0].values.forEach((row, i) => {
+        db.run("UPDATE craft_steps SET anchor = ? WHERE id = ?", [anchors[i], row[0]]);
+      });
+    }
+    saveDB();
+    console.log('  ✓ 数据库迁移: craft_steps 添加 anchor 列');
+  }
 }
 
 // 查询辅助函数

@@ -139,6 +139,17 @@ router.get('/fame/:anchor', requireAuth, (req, res) => {
   res.render('fame-detail', { config, nav, user, celebrity, allCelebrities, currentPage: 'food' });
 });
 
+// ========== 匠心手作详情（需登录） ==========
+router.get('/craft/:anchor', requireAuth, (req, res) => {
+  const config = getSiteConfig();
+  const nav = getNav();
+  const user = req.session.user;
+  const step = queryOne('SELECT * FROM craft_steps WHERE anchor = ?', [req.params.anchor]);
+  if (!step) return res.status(404).send('步骤未找到');
+  const allSteps = queryAll('SELECT anchor, name, step_number FROM craft_steps ORDER BY step_number');
+  res.render('craft-detail', { config, nav, user, step, allSteps, currentPage: 'food' });
+});
+
 // ========== 中秋图集（需登录） ==========
 router.get('/gallery', requireAuth, (req, res) => {
   const config = getSiteConfig();

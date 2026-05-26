@@ -548,15 +548,15 @@ async function seed() {
   });
 
   const craftSteps = [
-    { step:1, icon:'🌾', name:'制皮', description:'面粉、糖浆、花生油按比例混合，反复揉制至光滑，静置醒面数小时。面团的软硬度和韧性是决定饼皮品质的关键。' },
-    { step:2, icon:'🥣', name:'制馅', description:'精选莲蓉、豆沙、五仁等上等馅料精心调制。莲蓉要用最好的莲子慢火炒制，火候与配比是馅料成败的关键。' },
-    { step:3, icon:'🤲', name:'包馅', description:'用饼皮包裹馅料，拇指轻压、虎口收拢，将馅料完全包裹后收口捏紧揉成圆球。这一步骤最考验师傅的手艺和耐心。' },
-    { step:4, icon:'🪵', name:'压模', description:'放入雕花木模中均匀压实，脱模后饼面呈现精美花纹与"团圆""福寿"等吉祥字样。传统木模本身就是精美的民间艺术品。' },
-    { step:5, icon:'🔥', name:'烘烤', description:'表面刷上蛋液入炉烘烤，高温使饼皮金黄酥脆。出炉后需冷却回油数日，待饼皮回软油润后方为最佳食用时机。' }
+    { step:1, icon:'🌾', name:'制皮', anchor:'zhipi', description:'面粉、糖浆、花生油按比例混合，反复揉制至光滑，静置醒面数小时。面团的软硬度和韧性是决定饼皮品质的关键。' },
+    { step:2, icon:'🥣', name:'制馅', anchor:'zhixian', description:'精选莲蓉、豆沙、五仁等上等馅料精心调制。莲蓉要用最好的莲子慢火炒制，火候与配比是馅料成败的关键。' },
+    { step:3, icon:'🤲', name:'包馅', anchor:'baoxian', description:'用饼皮包裹馅料，拇指轻压、虎口收拢，将馅料完全包裹后收口捏紧揉成圆球。这一步骤最考验师傅的手艺和耐心。' },
+    { step:4, icon:'🪵', name:'压模', anchor:'yamo', description:'放入雕花木模中均匀压实，脱模后饼面呈现精美花纹与"团圆""福寿"等吉祥字样。传统木模本身就是精美的民间艺术品。' },
+    { step:5, icon:'🔥', name:'烘烤', anchor:'hongkao', description:'表面刷上蛋液入炉烘烤，高温使饼皮金黄酥脆。出炉后需冷却回油数日，待饼皮回软油润后方为最佳食用时机。' }
   ];
   craftSteps.forEach(c => {
-    runSQL("INSERT INTO craft_steps (step_number, icon, name, description) VALUES (?,?,?,?)",
-      [c.step, c.icon, c.name, c.description]);
+    runSQL("INSERT INTO craft_steps (step_number, icon, name, anchor, description) VALUES (?,?,?,?,?)",
+      [c.step, c.icon, c.name, c.anchor, c.description]);
   });
 
   const foodCustomsData = [

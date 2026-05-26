@@ -1,0 +1,541 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="月饼匠心手作——五步成饼，每一道工序都是匠心的沉淀">
+<title>匠心手作深度解析 — <%= config.site_title %></title>
+<link href="/css/common.css" rel="stylesheet">
+<link href="/css/animations.css" rel="stylesheet">
+<style>
+/* ============================================================
+   匠心手作详情页
+   ============================================================ */
+.craft-hero {
+  position: relative;
+  height: 38vh;
+  min-height: 280px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  background: linear-gradient(180deg, rgba(10,14,39,0.3) 0%, rgba(10,14,39,0.6) 50%, var(--deep-blue) 100%);
+}
+.craft-hero::before {
+  content: ''; position: absolute; inset: 0;
+  background: radial-gradient(ellipse at 50% 30%, rgba(245,210,122,0.1) 0%, transparent 55%),
+              radial-gradient(ellipse at 30% 60%, rgba(232,115,74,0.06) 0%, transparent 40%);
+  pointer-events: none;
+}
+.craft-hero .hero-content { text-align: center; position: relative; z-index: 2; animation: fadeInUp 0.8s ease; }
+.craft-hero h1 {
+  font-family: var(--font-title); font-size: 2.8rem; color: var(--moon-gold);
+  letter-spacing: 6px; margin-bottom: 8px; text-shadow: 0 0 40px rgba(245,210,122,0.3);
+}
+.craft-hero .hero-desc { font-family: var(--font-poetry); font-size: 1.15rem; color: var(--text-secondary); letter-spacing: 3px; }
+
+/* 子导航 */
+.craft-subnav {
+  position: sticky; top: 70px; z-index: 998;
+  background: rgba(10,14,39,0.92); backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border-subtle); overflow-x: auto;
+  scrollbar-width: none;
+}
+.craft-subnav::-webkit-scrollbar { display: none; }
+.craft-subnav-inner {
+  display: flex; gap: 0; max-width: 1100px; margin: 0 auto; padding: 0 10px;
+  justify-content: center;
+}
+.craft-subnav a {
+  flex-shrink: 0; padding: 13px 16px; color: var(--text-secondary);
+  font-family: var(--font-title); font-size: 0.82rem; letter-spacing: 1.5px;
+  border-bottom: 2px solid transparent; transition: all 0.3s ease; text-decoration: none; white-space: nowrap;
+}
+.craft-subnav a:hover, .craft-subnav a.active { color: var(--moon-gold); border-bottom-color: var(--moon-gold); }
+
+/* 内容区 */
+.craft-content { max-width: 1000px; margin: 0 auto; padding: 50px 20px 80px; }
+
+/* 步骤详情节 */
+.craft-detail-section { padding: 60px 0; border-bottom: 1px solid var(--border-subtle); }
+.craft-detail-section:last-child { border-bottom: none; }
+
+/* 步骤头部 */
+.craft-step-header {
+  text-align: center; margin-bottom: 40px; padding: 35px;
+  background: var(--card-bg); border: 1px solid var(--border-subtle); border-radius: 16px;
+}
+.craft-step-header .csh-icon {
+  font-size: 4rem; display: block; margin-bottom: 12px;
+}
+.craft-step-header .csh-step-num {
+  display: inline-block; padding: 3px 14px;
+  border: 1px solid rgba(201,169,110,0.3); border-radius: 12px;
+  font-size: 0.78rem; color: var(--text-muted); letter-spacing: 2px; margin-bottom: 8px;
+}
+.craft-step-header .csh-title {
+  font-family: var(--font-title); font-size: 2.2rem; color: var(--moon-gold);
+  letter-spacing: 5px; margin-bottom: 8px;
+}
+.craft-step-header .csh-subtitle {
+  font-family: var(--font-poetry); font-size: 1rem; color: var(--text-secondary); letter-spacing: 2px;
+}
+
+/* 流程图示 */
+.craft-flow-visual {
+  background: linear-gradient(135deg, rgba(20,24,54,0.8), rgba(26,31,74,0.7));
+  border: 1px solid var(--border-subtle); border-radius: 14px;
+  padding: 40px; text-align: center; margin-bottom: 30px;
+}
+.craft-flow-visual .cfv-icon-lg { font-size: 5rem; display: block; margin-bottom: 15px; }
+.craft-flow-visual .cfv-tagline {
+  font-family: var(--font-poetry); font-size: 1.2rem; color: var(--text-primary);
+  letter-spacing: 2px; line-height: 2;
+}
+
+/* 内容卡片网格 */
+.detail-card-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; margin-bottom: 20px; }
+.detail-card {
+  background: var(--card-bg); border: 1px solid var(--border-subtle); border-radius: 12px;
+  padding: 28px; transition: all 0.35s ease;
+}
+.detail-card:hover { border-color: var(--border-glow); box-shadow: 0 4px 20px rgba(245,210,122,0.08); }
+.detail-card.full-width { grid-column: span 2; }
+.detail-card .dc-label {
+  display: flex; align-items: center; gap: 10px; margin-bottom: 16px; padding-bottom: 14px;
+  border-bottom: 1px solid rgba(201,169,110,0.15);
+}
+.dc-label .dc-icon { font-size: 1.6rem; }
+.dc-label .dc-title { font-family: var(--font-title); font-size: 1.15rem; color: var(--moon-gold); letter-spacing: 2px; }
+.detail-card .dc-body { color: var(--text-secondary); font-size: 0.92rem; line-height: 2; letter-spacing: 0.5px; }
+.detail-card .dc-body p + p { margin-top: 12px; }
+
+/* 要点列表 */
+.key-points { list-style: none; padding: 0; }
+.key-points li {
+  position: relative; padding-left: 22px; margin-bottom: 10px;
+  color: var(--text-secondary); font-size: 0.92rem; line-height: 1.8;
+}
+.key-points li::before {
+  content: '◆'; position: absolute; left: 0; top: 0;
+  color: var(--moon-gold); font-size: 0.5rem; line-height: 2;
+}
+
+/* 引用块 */
+.insight-quote {
+  background: rgba(245,210,122,0.04); border-left: 3px solid var(--moon-gold);
+  padding: 16px 22px; border-radius: 0 8px 8px 0; margin-top: 16px;
+  font-family: var(--font-poetry); color: var(--text-primary); font-size: 0.95rem;
+  letter-spacing: 1.5px; line-height: 1.9;
+}
+.insight-quote .iq-src { display: block; text-align: right; color: var(--text-muted); font-size: 0.8rem; margin-top: 6px; font-family: var(--font-body); }
+
+/* 滚动揭示 */
+.craft-reveal { opacity: 0; transform: translateY(30px); transition: opacity 0.7s ease, transform 0.7s ease; }
+.craft-reveal.visible { opacity: 1; transform: translateY(0); }
+
+/* 响应式 */
+@media (max-width: 1024px) {
+  .craft-hero h1 { font-size: 2rem; letter-spacing: 4px; }
+  .detail-card-grid { grid-template-columns: 1fr; }
+  .detail-card.full-width { grid-column: span 1; }
+  .craft-step-header .csh-title { font-size: 1.7rem; }
+}
+@media (max-width: 768px) {
+  .craft-hero { height: 28vh; min-height: 200px; }
+  .craft-hero h1 { font-size: 1.6rem; }
+  .craft-subnav a { padding: 10px 10px; font-size: 0.72rem; letter-spacing: 1px; }
+  .craft-flow-visual { padding: 25px 18px; }
+  .craft-flow-visual .cfv-icon-lg { font-size: 3.5rem; }
+  .craft-step-header { padding: 25px 18px; }
+  .detail-card { padding: 20px 16px; }
+}
+</style>
+</head>
+<body data-journey="craft-detail">
+
+<div class="page-transition active"><div class="moon-loader"></div></div>
+<div class="scroll-progress"></div>
+
+<nav class="navbar">
+  <a href="/" class="nav-logo"><div class="logo-icon"></div><span>月满中华</span></a>
+  <div class="nav-links">
+    <% nav.forEach(function(item) { %>
+      <a href="<%= item.href %>"<%= item.href === '/food' ? ' class="active"' : '' %>><%= item.label %></a>
+    <% }); %>
+  </div>
+  <div class="nav-actions">
+    <div class="nav-user">
+      <% if (user) { %>
+        <div class="user-avatar"><%= user.username.charAt(0).toUpperCase() %></div>
+        <span class="user-name"><%= user.username %></span>
+        <div class="user-dropdown">
+          <a href="/logout">退出登录</a>
+        </div>
+      <% } else { %>
+        <a href="/login" class="nav-login-btn">登录</a>
+      <% } %>
+    </div>
+    <div class="nav-toggle"><span></span><span></span><span></span></div>
+  </div>
+</nav>
+
+<div class="bg-particles"></div>
+
+<section class="craft-hero">
+  <div class="hero-content">
+    <h1>匠心手作</h1>
+    <p class="hero-desc">五步成饼 · 每一步都是匠心的沉淀</p>
+  </div>
+</section>
+
+<nav class="craft-subnav" id="subnav">
+  <div class="craft-subnav-inner">
+    <a href="#zhipi">壹 · 制皮</a>
+    <a href="#zhixian">贰 · 制馅</a>
+    <a href="#baoxian">叁 · 包馅</a>
+    <a href="#yamo">肆 · 压模</a>
+    <a href="#hongkao">伍 · 烘烤</a>
+  </div>
+</nav>
+
+<div class="craft-content">
+
+<!-- ====== 1. 制皮 ====== -->
+<section class="craft-detail-section craft-reveal" id="zhipi">
+  <div class="craft-step-header">
+    <span class="csh-icon">🌾</span>
+    <span class="csh-step-num">第一步</span>
+    <div class="csh-title">制皮</div>
+    <div class="csh-subtitle">饼皮的软硬韧度，决定月饼的第一印象</div>
+  </div>
+  <div class="craft-flow-visual">
+    <span class="cfv-icon-lg">🌾</span>
+    <div class="cfv-tagline">面粉、糖浆、花生油 —— 三材合一<br>揉、醒、擀 —— 三重奏鸣</div>
+  </div>
+  <div class="detail-card-grid">
+    <div class="detail-card">
+      <div class="dc-label"><span class="dc-icon">📋</span><span class="dc-title">原料配比</span></div>
+      <div class="dc-body">
+        <p>传统广式月饼饼皮的配方比例为：低筋面粉500克、转化糖浆350克、花生油125克、枧水（碱水）10克。转化糖浆是饼皮的核心原料——它由白砂糖加水和柠檬酸慢火熬制而成，使饼皮色泽金黄、回油后柔软油润。</p>
+        <p>枧水（碱水）的作用至关重要：中和糖浆中的酸性，使饼皮在烘烤后呈现诱人的红棕色。碱水比例需精确到克——多一分则皮色发黑味苦涩，少一分则上色不足显寡淡。</p>
+      </div>
+    </div>
+    <div class="detail-card">
+      <div class="dc-label"><span class="dc-icon">🤲</span><span class="dc-title">揉制工艺</span></div>
+      <div class="dc-body">
+        <p>先将转化糖浆、花生油和枧水充分搅拌至完全乳化（油水融合不分层）。分三次筛入低筋面粉，用刮刀以切拌方式混合，不可过度揉搓——面筋一旦形成过多，饼皮烘烤后会变硬、回油困难。</p>
+        <p>揉好的面团用保鲜膜包裹，在室温下静置醒面2-3小时。醒面的目的是让面粉充分吸收糖浆和油脂，使面筋充分松弛。醒好的面团柔软有弹性，用手指按压会缓慢回弹——这是最佳状态。</p>
+      </div>
+    </div>
+    <div class="detail-card">
+      <div class="dc-label"><span class="dc-icon">🔑</span><span class="dc-title">关键技巧</span></div>
+      <div class="dc-body">
+        <ul class="key-points">
+          <li>糖浆必须提前一周以上熬制，存放越久越醇厚</li>
+          <li>面粉必须过筛三次以上，确保无结块、口感细腻</li>
+          <li>揉面全程不超过5分钟，防止面筋过度形成</li>
+          <li>醒面时面团表面抹一层薄油，防止干燥结皮</li>
+          <li>面团软硬度以"耳垂软"为标准（轻按如按耳垂）</li>
+        </ul>
+      </div>
+    </div>
+    <div class="detail-card">
+      <div class="dc-label"><span class="dc-icon">📜</span><span class="dc-title">文化背景</span></div>
+      <div class="dc-body">
+        <p>中国面点制作的历史可追溯至新石器时代。小麦粉的使用在商周时期逐渐普及，到了唐宋时期，面点制作技艺日趋成熟。南宋《梦粱录》中已有"月饼"的明确记载，当时的面点师傅已掌握了糖油和面的核心技术。</p>
+        <p>转化糖浆的使用是广式月饼的一大创举——这种技术源于岭南地区的气候特点（高温高湿），糖浆能使饼皮在回油后形成独特的柔软口感。北方月饼则多用酥皮或提浆皮，反映了中国饮食文化的区域多样性。</p>
+      </div>
+    </div>
+  </div>
+  <div class="insight-quote">"三分做，七分醒"——面点师傅的行话道出了制皮的精髓：醒面的时间与耐心，决定了饼皮的最终品质。<span class="iq-src">—— 传统面点工艺口诀</span></div>
+</section>
+
+<!-- ====== 2. 制馅 ====== -->
+<section class="craft-detail-section craft-reveal" id="zhixian">
+  <div class="craft-step-header">
+    <span class="csh-icon">🥣</span>
+    <span class="csh-step-num">第二步</span>
+    <div class="csh-title">制馅</div>
+    <div class="csh-subtitle">馅为月饼之魂，火候与配比是馅料成败的关键</div>
+  </div>
+  <div class="craft-flow-visual">
+    <span class="cfv-icon-lg">🥣</span>
+    <div class="cfv-tagline">精选食材 · 慢火炒制 · 甜咸平衡<br>一味馅料，百般匠心</div>
+  </div>
+  <div class="detail-card-grid">
+    <div class="detail-card">
+      <div class="dc-label"><span class="dc-icon">📋</span><span class="dc-title">经典馅料种类</span></div>
+      <div class="dc-body">
+        <p><strong>莲蓉馅：</strong>选用上等湘莲，去芯后加水煮烂，再用猪油和白糖慢火炒制2-3小时。好的莲蓉色泽金黄透亮、质地细腻如脂、甜而不腻。莲子必须是当年的新莲——陈莲子炒出的莲蓉会有苦味。</p>
+        <p><strong>豆沙馅：</strong>红豆浸泡一夜后煮至软烂，去皮过筛得到细腻豆沙，加糖和油炒至不粘手。豆沙讲究"三炒三晾"——每次炒到水分将干时盛出晾凉，再回锅继续炒，反复三次才能使豆沙达到最佳细腻度。</p>
+        <p><strong>五仁馅：</strong>核桃仁、杏仁、花生仁、瓜子仁、芝麻仁，五种果仁分别烘烤出香，切碎后拌入糖冬瓜、熟糯米粉和油。五仁讲究"仁仁分明，互不夺味"——每种果仁的香气都要能被品尝出来。</p>
+      </div>
+    </div>
+    <div class="detail-card">
+      <div class="dc-label"><span class="dc-icon">🔥</span><span class="dc-title">炒制火候</span></div>
+      <div class="dc-body">
+        <p>炒馅是最考验师傅功力的一道工序。火大了——馅料外焦内生；火小了——水分炒不干，馅料不成型。传统做法使用铜锅慢火炒制：先以中火将水分收至六成，再转小火慢炒，最后用微火"养馅"——让馅料在锅中静置焖10分钟，使油脂充分渗透。</p>
+        <p>判断馅料是否炒好的标准：用铲子铲起馅料，馅料不会从铲子上滑落；用手指轻按馅料表面，能留下清晰的指纹且不粘手。炒好的馅料需在室温下冷却后冷藏12小时以上，让油脂凝固、风味融合——这称为"回润"。</p>
+      </div>
+    </div>
+    <div class="detail-card">
+      <div class="dc-label"><span class="dc-icon">🔑</span><span class="dc-title">核心要点</span></div>
+      <div class="dc-body">
+        <ul class="key-points">
+          <li>莲子必须去芯去衣，否则炒出的莲蓉发苦变黑</li>
+          <li>炒莲蓉必须用猪油——花生油的香气会盖过莲子的清甜</li>
+          <li>五仁的每种果仁各自烤制的时间不同，必须分开烘烤</li>
+          <li>馅料炒好后要测水分含量——理想值为18%-22%</li>
+          <li>做好的馅料冷藏回润一夜，次日再使用风味最佳</li>
+        </ul>
+      </div>
+    </div>
+    <div class="detail-card">
+      <div class="dc-label"><span class="dc-icon">📜</span><span class="dc-title">历史渊源</span></div>
+      <div class="dc-body">
+        <p>月饼馅料的演变史，就是一部中国饮食文化交流史。最早的月饼馅料简单——唐宋时期多用枣泥、豆沙；到了明清时期，随着岭南地区蔗糖业的发展，莲蓉馅开始流行。五仁馅的出现与丝绸之路有关——核桃、杏仁等干果正是通过丝路从西域传入中原。</p>
+        <p>清代袁枚《随园食单》中记载了多种月饼馅料的制法，说明当时的月饼制作已十分讲究。广式月饼的馅料体系在清末民初达到鼎盛，以莲蓉、豆沙、五仁、椰蓉为四大经典，流传至今。</p>
+      </div>
+    </div>
+  </div>
+  <div class="insight-quote">"三分皮，七分馅"——月饼师傅的行话道出了馅料的重要性：好吃的月饼，馅料才是灵魂。<span class="iq-src">—— 广式月饼制作口诀</span></div>
+</section>
+
+<!-- ====== 3. 包馅 ====== -->
+<section class="craft-detail-section craft-reveal" id="baoxian">
+  <div class="craft-step-header">
+    <span class="csh-icon">🤲</span>
+    <span class="csh-step-num">第三步</span>
+    <div class="csh-title">包馅</div>
+    <div class="csh-subtitle">拇指轻压、虎口收拢，以手传心、以心制饼</div>
+  </div>
+  <div class="craft-flow-visual">
+    <span class="cfv-icon-lg">🤲</span>
+    <div class="cfv-tagline">称重分剂 · 掌心压皮 · 虎口收口<br>一双手，一颗心，一团圆</div>
+  </div>
+  <div class="detail-card-grid">
+    <div class="detail-card">
+      <div class="dc-label"><span class="dc-icon">📋</span><span class="dc-title">皮馅比例</span></div>
+      <div class="dc-body">
+        <p>广式月饼的皮馅比通常为2:8或3:7——即20克饼皮配80克馅料（以100克月饼为例）。这个比例看似悬殊，却是广式月饼"薄皮大馅"特色的体现。饼皮必须足够薄（约3-4毫米），才能在烘烤后呈现半透明的质感，隐约透出馅料的颜色。</p>
+        <p>皮馅比看似简单，实则暗含精妙的计算：皮太厚——遮盖了馅料的风味，口感扎实；皮太薄——包馅时容易破裂，烘烤后馅料外溢。2:8是最考验师傅手艺的比例——饼皮被拉伸到极限，力道稍稍失控就会前功尽弃。</p>
+      </div>
+    </div>
+    <div class="detail-card">
+      <div class="dc-label"><span class="dc-icon">🤲</span><span class="dc-title">包馅手法</span></div>
+      <div class="dc-body">
+        <p>包馅是五步之中最考验手工的环节。师傅先将馅料搓成圆球，将饼皮在掌心压成圆片（中间略厚、边缘略薄），然后将馅球置于饼皮中央。左手托底，右手拇指轻压馅球顶部，利用虎口的力量将饼皮从下往上推、将馅料包裹其中。</p>
+        <p>收口时需用虎口将饼皮收紧捏实，再轻轻搓圆——整个过程一气呵成，熟练师傅包一个100克的月饼仅需15秒。收口处不能留有空气——如果包入了空气，烘烤时空气膨胀会使月饼表面鼓起气泡甚至开裂。包好的月饼球表面光滑无褶皱，才是合格品。</p>
+      </div>
+    </div>
+    <div class="detail-card">
+      <div class="dc-label"><span class="dc-icon">🔑</span><span class="dc-title">关键技巧</span></div>
+      <div class="dc-body">
+        <ul class="key-points">
+          <li>饼皮中心厚边缘薄——中心厚约6mm，边缘约3mm</li>
+          <li>虎口推皮时力度均匀，不可一处快一处慢</li>
+          <li>收口处必须捏紧，不留空隙（否则烘烤会鼓包）</li>
+          <li>包好后双手轻轻搓圆，使饼皮厚度均匀一致</li>
+          <li>包好的月饼球表面拍一层薄薄的干面粉防粘</li>
+        </ul>
+      </div>
+    </div>
+    <div class="detail-card">
+      <div class="dc-label"><span class="dc-icon">📜</span><span class="dc-title">技艺传承</span></div>
+      <div class="dc-body">
+        <p>包馅技艺是中国面点文化的精髓之一。"包"这个动作看似简单，实则包含了中国烹饪中"以手传心"的哲学——师傅的手感、经验和对食材的理解，都凝聚在指尖的每一次按压和收拢之中。这门技艺无法用文字完全传达，只能在师徒之间口传心授、经年累月地练习才能掌握。</p>
+        <p>在传统的月饼作坊里，包馅师傅通常是最受尊敬的职位。一个优秀的包馅师傅需要至少3-5年的练习才能独立操作。老师傅常说："包馅不是用手包，是用心包——心到了，手自然就到了。"</p>
+      </div>
+    </div>
+  </div>
+  <div class="insight-quote">"手上无饼，心中有饼"——最优秀的包馅师傅闭着眼睛也能包出完美的月饼，这是万千次重复练习的结果。<span class="iq-src">—— 传统月饼师傅心得</span></div>
+</section>
+
+<!-- ====== 4. 压模 ====== -->
+<section class="craft-detail-section craft-reveal" id="yamo">
+  <div class="craft-step-header">
+    <span class="csh-icon">🪵</span>
+    <span class="csh-step-num">第四步</span>
+    <div class="csh-title">压模</div>
+    <div class="csh-subtitle">一方木模，刻下千年祝福与东方美学</div>
+  </div>
+  <div class="craft-flow-visual">
+    <span class="cfv-icon-lg">🪵</span>
+    <div class="cfv-tagline">木模为纸 · 月饼为墨 · 花纹为诗<br>每一次压模，都是一次文化的烙印</div>
+  </div>
+  <div class="detail-card-grid">
+    <div class="detail-card">
+      <div class="dc-label"><span class="dc-icon">📋</span><span class="dc-title">模具种类与工艺</span></div>
+      <div class="dc-body">
+        <p>传统月饼模具多为木制，选用质地坚硬、纹理细腻的梨木或枣木，由经验丰富的老木匠手工雕刻而成。一个精美的月饼模具需要雕刻7-15天——先用铅笔在木板上画出纹样，再以不同型号的刻刀逐层雕刻，最后打磨上油。模具的使用寿命可达数十年甚至上百年。</p>
+        <p>模具上的纹样种类丰富：花卉类（牡丹、莲花、菊花——寓意富贵、高洁、长寿）、文字类（"团圆"、"福"、"寿"、"中秋"——直接表达吉祥祝福）、动物类（龙凤、玉兔——象征祥瑞与中秋神话）、几何类（回纹、云纹——中国传统装饰纹样）。</p>
+      </div>
+    </div>
+    <div class="detail-card">
+      <div class="dc-label"><span class="dc-icon">🤲</span><span class="dc-title">压模手法</span></div>
+      <div class="dc-body">
+        <p>将包好的月饼球放入模具前，需先在模具内撒一层薄薄的干面粉（防粘）。将月饼球轻轻放入模具中央，用手掌根部将饼坯均匀压实——力度必须恰到好处：力度太轻则花纹不清晰、脱模后图案模糊；力度太重则饼坯被压得太实、烘烤后饼皮发硬。</p>
+        <p>压实后，将模具翻转，在案板上轻敲模具两侧——"啪、啪"两声，一个纹路清晰的月饼生坯就脱模而出。脱模是一个充满仪式感的瞬间——如果花纹清晰完整，师傅会满意地点点头；如果角落没有填满，这个饼坯就要揉回面团重新来一遍。</p>
+      </div>
+    </div>
+    <div class="detail-card">
+      <div class="dc-label"><span class="dc-icon">🔑</span><span class="dc-title">关键技巧</span></div>
+      <div class="dc-body">
+        <ul class="key-points">
+          <li>模具必须保持干燥清洁，每次使用后刷净晾干</li>
+          <li>撒粉要薄而均匀——粉太厚花纹不清晰，粉太少则粘模</li>
+          <li>压实力度从中心向四周均匀扩散，确保花纹深浅一致</li>
+          <li>脱模前轻敲模具时必须左右两侧各敲一下，不可只敲一侧</li>
+          <li>新模具使用前需用食用油浸泡24小时，防止开裂和粘饼</li>
+        </ul>
+      </div>
+    </div>
+    <div class="detail-card">
+      <div class="dc-label"><span class="dc-icon">📜</span><span class="dc-title">文化意蕴</span></div>
+      <div class="dc-body">
+        <p>月饼模具是中国传统版画艺术在日常生活中的延伸——方寸之间，雕刻着中国人对美好生活的全部想象。"团圆"二字是月饼模具上最常见的文字——它不仅是对家庭团聚的祝福，更是中华文化"和合"精神的物化表达。</p>
+        <p>每一块手工雕刻的月饼模具本身就是一件民间艺术品。模具上的纹样往往融合了地方文化特色——苏州的模具多刻园林花卉，广州的模具多刻岭南佳果，北京的模具多刻宫廷纹样。一块月饼模具，就是一个地区、一个时代的文化缩影。</p>
+      </div>
+    </div>
+  </div>
+  <div class="insight-quote">"一饼一模，一模一心"——每一块月饼都是独一无二的，因为它承载了制作者在这个特定时刻的全部心意。<span class="iq-src">—— 传统月饼工艺哲思</span></div>
+</section>
+
+<!-- ====== 5. 烘烤 ====== -->
+<section class="craft-detail-section craft-reveal" id="hongkao">
+  <div class="craft-step-header">
+    <span class="csh-icon">🔥</span>
+    <span class="csh-step-num">第五步</span>
+    <div class="csh-title">烘烤</div>
+    <div class="csh-subtitle">火候的艺术——让饼皮从苍白走向金黄</div>
+  </div>
+  <div class="craft-flow-visual">
+    <span class="cfv-icon-lg">🔥</span>
+    <div class="cfv-tagline">刷蛋液 · 入炉烤 · 出炉凉 · 等回油<br>四步之后，便是时间的魔法</div>
+  </div>
+  <div class="detail-card-grid">
+    <div class="detail-card">
+      <div class="dc-label"><span class="dc-icon">📋</span><span class="dc-title">烘烤流程</span></div>
+      <div class="dc-body">
+        <p>月饼的烘烤分两次进行。第一次（定型烤）：烤箱预热至200℃，将月饼生坯放入烤箱中层，烤5-6分钟至饼皮微微发白定形。取出后在月饼表面薄薄刷一层蛋液（蛋黄与全蛋按2:1的比例混合，过筛去筋）。第二次（上色烤）：烤箱降至180℃，再烤10-12分钟至表面金黄红亮。</p>
+        <p>刷蛋液是决定月饼外观的关键——蛋液刷太厚则花纹被蛋液填满、图案模糊；刷太薄则上色不够、色泽暗淡。刷蛋液时需用细毛刷，轻轻扫过花纹凸起处——只刷花纹表面，不让蛋液流入花纹凹槽。这需要极好的手感和耐心。</p>
+      </div>
+    </div>
+    <div class="detail-card">
+      <div class="dc-label"><span class="dc-icon">⏳</span><span class="dc-title">回油——时间的魔法</span></div>
+      <div class="dc-body">
+        <p>月饼出炉后并非立即可以食用。刚出炉的月饼饼皮干硬、色泽苍白，需要经过"回油"的过程——将月饼在室温下放置2-3天，馅料中的油脂和水分会慢慢渗透到饼皮中，使饼皮变得柔软油润、色泽由浅金变为深琥珀色。</p>
+        <p>回油是广式月饼最神奇的一道工序——它不是人为操作，而是自然发生的物理变化。影响回油效果的因素很多：糖浆的转化程度、饼皮的配方比例、储存环境的温湿度……每一个细节都会影响回油的速度和效果。好月饼回油后，饼皮柔软如绸、光亮如镜——这是广式月饼的标志性特征。</p>
+      </div>
+    </div>
+    <div class="detail-card">
+      <div class="dc-label"><span class="dc-icon">🔑</span><span class="dc-title">关键技巧</span></div>
+      <div class="dc-body">
+        <ul class="key-points">
+          <li>烘烤前烤箱必须充分预热（至少提前20分钟）</li>
+          <li>蛋液必须过筛去筋，否则刷出来的表面会有气泡痕迹</li>
+          <li>刷蛋液时毛刷与饼面呈45度角，只刷花纹的凸起面</li>
+          <li>出炉后月饼必须完全冷却才能移动（热月饼极易碎裂）</li>
+          <li>回油环境温度20-25℃、湿度50-60%为最佳</li>
+          <li>回油期间月饼不能密封（需要透气），但要防尘防虫</li>
+        </ul>
+      </div>
+    </div>
+    <div class="detail-card">
+      <div class="dc-label"><span class="dc-icon">📜</span><span class="dc-title">历史演变</span></div>
+      <div class="dc-body">
+        <p>月饼的烘烤技术经历了从柴火土窑到现代烤箱的演变。传统做法使用砖砌的土烤炉，以木柴为燃料——老师傅通过观察火焰颜色和用手感受炉口热浪来判断温度，全凭经验。每个烤炉都有自己的"脾气"——有的上火旺、有的下火强，师傅需要根据烤炉的特性来调整月饼的摆放位置。</p>
+        <p>"回油"技术的发现是广式月饼发展史上的一个里程碑。相传在清末，一位广州的月饼师傅发现放置了几天的月饼比刚出炉的更好吃——饼皮变得柔软油润、口感更佳。经过反复试验，他总结出了回油的规律，并将其作为广式月饼的核心工艺传承至今。</p>
+      </div>
+    </div>
+  </div>
+  <div class="insight-quote">"三分烤，七分等"——最难的技艺不是烘烤本身，而是等待回油的耐心。大自然的物理变化，比任何人为操作都更精妙。<span class="iq-src">—— 广式月饼老师傅心得</span></div>
+</section>
+
+</div>
+
+<footer class="footer">
+  <div class="footer-content">
+    <div class="footer-links">
+      <% nav.forEach(function(item) { %><a href="<%= item.href %>"><%= item.label %></a><% }); %>
+    </div>
+    <div class="footer-divider"></div>
+    <div class="footer-info">
+      <p><span class="highlight"><%= config.site_title %></span></p>
+      <p><%= config.footer_text %></p>
+    </div>
+  </div>
+</footer>
+
+<div class="back-to-top" title="回到顶部">
+  <svg viewBox="0 0 24 24"><path d="M12 19V5M5 12l7-7 7 7" stroke="currentColor" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+</div>
+
+<script src="/js/common.js"></script>
+<script src="/js/moon-journey.js"></script>
+<script>MoonJourney.start('craft-detail');</script>
+<script>
+(function() {
+  'use strict';
+
+  function initReveal() {
+    var reveals = document.querySelectorAll('.craft-reveal');
+    if (!reveals.length) return;
+    if ('IntersectionObserver' in window) {
+      var obs = new IntersectionObserver(function(entries) {
+        entries.forEach(function(entry) {
+          if (entry.isIntersecting) { entry.target.classList.add('visible'); obs.unobserve(entry.target); }
+        });
+      }, { threshold: 0.08, rootMargin: '0px 0px -30px 0px' });
+      reveals.forEach(function(el) { obs.observe(el); });
+    } else {
+      reveals.forEach(function(el) { el.classList.add('visible'); });
+    }
+  }
+
+  function initSubnav() {
+    var nav = document.getElementById('subnav');
+    if (!nav) return;
+    var links = nav.querySelectorAll('a');
+    var sections = [];
+    links.forEach(function(link) {
+      var id = link.getAttribute('href').replace('#', '');
+      var sec = document.getElementById(id);
+      if (sec) sections.push({ el: sec, link: link });
+    });
+
+    var ticking = false;
+    window.addEventListener('scroll', function() {
+      if (!ticking) {
+        requestAnimationFrame(function() {
+          var scrollY = window.scrollY + 150;
+          var current = null;
+          sections.forEach(function(s) {
+            if (s.el.offsetTop <= scrollY) current = s;
+          });
+          links.forEach(function(l) { l.classList.remove('active'); });
+          if (current) current.link.classList.add('active');
+          ticking = false;
+        });
+        ticking = true;
+      }
+    });
+
+    links.forEach(function(link) {
+      link.addEventListener('click', function(e) {
+        e.preventDefault();
+        var id = link.getAttribute('href').replace('#', '');
+        var target = document.getElementById(id);
+        if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      });
+    });
+  }
+
+  function init() { initReveal(); initSubnav(); }
+  if (document.readyState === 'loading') { document.addEventListener('DOMContentLoaded', init); } else { init(); }
+})();
+</script>
+</body>
+</html>

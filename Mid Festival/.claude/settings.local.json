@@ -16,7 +16,19 @@
       "PowerShell(cd \"D:\\\\zqjie\\\\中秋网站\"; $proc = Start-Process -FilePath \"node\" -ArgumentList \"server.js\" -PassThru -WindowStyle Hidden; Start-Sleep 3; try { $r = Invoke-WebRequest -Uri \"http://localhost:3000/\" -UseBasicParsing; Write-Host \"Server OK: $\\($r.StatusCode\\)\" } catch { Write-Host \"Server FAIL: $_\" })",
       "PowerShell(Copy-Item *)",
       "PowerShell($session = New-Object Microsoft.PowerShell.Commands.WebRequestSession; $r1 = Invoke-WebRequest -Uri \"http://localhost:3000/login\" -Method POST -Body \"username=admin&password=admin123\" -ContentType \"application/x-www-form-urlencoded\" -SessionVariable session -UseBasicParsing; Write-Host \"Login: $\\($r1.StatusCode\\)\"; $r2 = Invoke-WebRequest -Uri \"http://localhost:3000/api/admin/users\" -Method GET -WebSession $session -UseBasicParsing; Write-Host \"Users API: $\\($r2.StatusCode\\)\"; Write-Host $r2.Content)",
-      "PowerShell(Start-Sleep -Seconds 2; try { $r = Invoke-WebRequest -Uri \"http://localhost:3000\" -Method GET -UseBasicParsing -TimeoutSec 3; Write-Host \"Server running: $\\($r.StatusCode\\)\" } catch { Write-Host \"Server not reachable: $_\" })"
+      "PowerShell(Start-Sleep -Seconds 2; try { $r = Invoke-WebRequest -Uri \"http://localhost:3000\" -Method GET -UseBasicParsing -TimeoutSec 3; Write-Host \"Server running: $\\($r.StatusCode\\)\" } catch { Write-Host \"Server not reachable: $_\" })",
+      "Bash(sed -i '989s/.*/\\\\t  .cdc-panel p + p {/' \"D:/zqjie/Web/Mid Festival/css/pages.css\")",
+      "Bash(sed -i '990s/.*/\\\\t    margin-top: 14px;/' \"D:/zqjie/Web/Mid Festival/css/pages.css\")",
+      "Bash(sed -i '991s/.*/\\\\t  }/' \"D:/zqjie/Web/Mid Festival/css/pages.css\")",
+      "Bash(timeout 5 node -e ' *)",
+      "Bash(npx ejs *)",
+      "Bash(node -e ' *)",
+      "Bash(netstat -ano)",
+      "Bash(node *)",
+      "Bash(python *)",
+      "Bash(taskkill /PID 9648 /F)",
+      "Bash(del \"C:\\\\Users\\\\20889\\\\AppData\\\\Local\\\\Temp\\\\test_login.py\")",
+      "Bash(rm -f /tmp/homepage.png /tmp/logged_in.png /tmp/poetry_page.png)"
     ]
   }
 }

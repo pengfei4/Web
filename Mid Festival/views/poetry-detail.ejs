@@ -2,15 +2,157 @@
 <html lang="zh-CN">
 <head>
 <meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="中秋诗词深度赏析">
-<title><%= poem.title %> — 月满中华·情系中秋</title>
+<meta name="description" content="中秋诗词深度赏析——作者生平、逐行解析、情感主题、历史文化背景">
+<title>诗词深度赏析 — <%= config.site_title %></title>
 <link href="/css/common.css" rel="stylesheet">
 <link href="/css/animations.css" rel="stylesheet">
-<link href="/css/pages.css" rel="stylesheet">
+<style>
+/* ============================================================
+   诗词详情页 — 深度赏析
+   ============================================================ */
+.poetry-hero {
+  position: relative;
+  height: 38vh;
+  min-height: 280px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  background: linear-gradient(180deg, rgba(10,14,39,0.3) 0%, rgba(10,14,39,0.6) 50%, var(--deep-blue) 100%);
+}
+.poetry-hero::before {
+  content: ''; position: absolute; inset: 0;
+  background: radial-gradient(ellipse at 50% 30%, rgba(245,210,122,0.1) 0%, transparent 55%),
+              radial-gradient(ellipse at 30% 60%, rgba(232,115,74,0.06) 0%, transparent 40%);
+  pointer-events: none;
+}
+.poetry-hero .hero-content { text-align: center; position: relative; z-index: 2; animation: fadeInUp 0.8s ease; }
+.poetry-hero h1 {
+  font-family: var(--font-title); font-size: 2.8rem; color: var(--moon-gold);
+  letter-spacing: 6px; margin-bottom: 8px; text-shadow: 0 0 40px rgba(245,210,122,0.3);
+}
+.poetry-hero .hero-desc { font-family: var(--font-poetry); font-size: 1.15rem; color: var(--text-secondary); letter-spacing: 3px; }
+
+/* ---- 子导航 ---- */
+.poetry-subnav {
+  position: sticky; top: 70px; z-index: 998;
+  background: rgba(10,14,39,0.92); backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border-subtle); overflow-x: auto;
+  scrollbar-width: none;
+}
+.poetry-subnav::-webkit-scrollbar { display: none; }
+.poetry-subnav-inner {
+  display: flex; gap: 0; max-width: 1300px; margin: 0 auto; padding: 0 10px;
+  justify-content: center;
+}
+.poetry-subnav a {
+  flex-shrink: 0; padding: 13px 14px; color: var(--text-secondary);
+  font-family: var(--font-title); font-size: 0.82rem; letter-spacing: 1.5px;
+  border-bottom: 2px solid transparent; transition: all 0.3s ease; text-decoration: none; white-space: nowrap;
+}
+.poetry-subnav a:hover, .poetry-subnav a.active { color: var(--moon-gold); border-bottom-color: var(--moon-gold); }
+
+/* ---- 内容区 ---- */
+.poetry-content { max-width: 1000px; margin: 0 auto; padding: 50px 20px 80px; }
+
+/* ---- 诗歌详情节 ---- */
+.poem-detail-section { padding: 60px 0; border-bottom: 1px solid var(--border-subtle); }
+.poem-detail-section:last-child { border-bottom: none; }
+
+/* 诗歌标题头 */
+.poem-header {
+  text-align: center; margin-bottom: 40px; padding: 35px;
+  background: var(--card-bg); border: 1px solid var(--border-subtle); border-radius: 16px;
+}
+.poem-header .ph-title {
+  font-family: var(--font-title); font-size: 2.2rem; color: var(--moon-gold);
+  letter-spacing: 5px; margin-bottom: 8px;
+}
+.poem-header .ph-author {
+  font-family: var(--font-poetry); font-size: 1.1rem; color: var(--text-secondary); letter-spacing: 2px;
+}
+.poem-header .ph-dynasty {
+  display: inline-block; margin-top: 10px; padding: 3px 14px;
+  border: 1px solid rgba(201,169,110,0.3); border-radius: 12px;
+  font-size: 0.78rem; color: var(--text-muted); letter-spacing: 2px;
+}
+
+/* 完整诗歌展示 */
+.poem-full-display {
+  background: linear-gradient(135deg, rgba(20,24,54,0.8), rgba(26,31,74,0.7));
+  border: 1px solid var(--border-subtle); border-radius: 14px;
+  padding: 40px; text-align: center; margin-bottom: 30px;
+}
+.poem-full-display .pfd-lines {
+  font-family: var(--font-poetry); font-size: 1.15rem; color: var(--text-primary);
+  line-height: 2.6; letter-spacing: 2px;
+}
+
+/* 内容卡片网格 */
+.detail-card-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; margin-bottom: 20px; }
+.detail-card {
+  background: var(--card-bg); border: 1px solid var(--border-subtle); border-radius: 12px;
+  padding: 28px; transition: all 0.35s ease;
+}
+.detail-card:hover { border-color: var(--border-glow); box-shadow: 0 4px 20px rgba(245,210,122,0.08); }
+.detail-card.full-width { grid-column: span 2; }
+.detail-card .dc-label {
+  display: flex; align-items: center; gap: 10px; margin-bottom: 16px; padding-bottom: 14px;
+  border-bottom: 1px solid rgba(201,169,110,0.15);
+}
+.dc-label .dc-icon { font-size: 1.6rem; }
+.dc-label .dc-title { font-family: var(--font-title); font-size: 1.15rem; color: var(--moon-gold); letter-spacing: 2px; }
+.detail-card .dc-body { color: var(--text-secondary); font-size: 0.92rem; line-height: 2; letter-spacing: 0.5px; }
+.detail-card .dc-body p + p { margin-top: 12px; }
+
+/* 逐行解析表 */
+.line-table { width: 100%; border-collapse: collapse; margin-top: 12px; }
+.line-table td { padding: 10px 12px; border-bottom: 1px solid rgba(201,169,110,0.08); vertical-align: top; }
+.line-table .lt-line {
+  font-family: var(--font-poetry); color: var(--moon-gold); white-space: nowrap;
+  font-size: 0.92rem; letter-spacing: 1px; width: 1%;
+}
+.line-table .lt-explain { color: var(--text-secondary); font-size: 0.9rem; line-height: 1.8; }
+
+/* 引用块 */
+.insight-quote {
+  background: rgba(245,210,122,0.04); border-left: 3px solid var(--moon-gold);
+  padding: 16px 22px; border-radius: 0 8px 8px 0; margin-top: 16px;
+  font-family: var(--font-poetry); color: var(--text-primary); font-size: 0.95rem;
+  letter-spacing: 1.5px; line-height: 1.9;
+}
+.insight-quote .iq-src { display: block; text-align: right; color: var(--text-muted); font-size: 0.8rem; margin-top: 6px; font-family: var(--font-body); }
+
+/* 滚动揭示 */
+.poetry-reveal { opacity: 0; transform: translateY(30px); transition: opacity 0.7s ease, transform 0.7s ease; }
+.poetry-reveal.visible { opacity: 1; transform: translateY(0); }
+
+/* 响应式 */
+@media (max-width: 1024px) {
+  .poetry-hero h1 { font-size: 2rem; letter-spacing: 4px; }
+  .detail-card-grid { grid-template-columns: 1fr; }
+  .detail-card.full-width { grid-column: span 1; }
+  .poem-header .ph-title { font-size: 1.7rem; }
+}
+@media (max-width: 768px) {
+  .poetry-hero { height: 28vh; min-height: 200px; }
+  .poetry-hero h1 { font-size: 1.6rem; }
+  .poetry-subnav a { padding: 10px 10px; font-size: 0.72rem; letter-spacing: 1px; }
+  .poem-full-display { padding: 25px 18px; }
+  .poem-full-display .pfd-lines { font-size: 1rem; line-height: 2.2; }
+  .poem-header { padding: 25px 18px; }
+  .detail-card { padding: 20px 16px; }
+  .line-table .lt-line { font-size: 0.82rem; }
+  .line-table .lt-explain { font-size: 0.82rem; }
+}
+</style>
 </head>
 <body data-journey="poetry-detail">
+
 <div class="page-transition active"><div class="moon-loader"></div></div>
+<div class="scroll-progress"></div>
 
 <nav class="navbar">
   <a href="/" class="nav-logo"><div class="logo-icon"></div><span>月满中华</span></a>
@@ -19,68 +161,774 @@
       <a href="<%= item.href %>"<%= item.href === '/poetry' ? ' class="active"' : '' %>><%= item.label %></a>
     <% }); %>
   </div>
-  <div class="nav-toggle"><span></span><span></span><span></span></div>
+  <div class="nav-actions">
+    <div class="nav-user">
+      <% if (user) { %>
+        <div class="user-avatar"><%= user.username.charAt(0).toUpperCase() %></div>
+        <span class="user-name"><%= user.username %></span>
+        <div class="user-dropdown">
+          <a href="/logout">退出登录</a>
+        </div>
+      <% } else { %>
+        <a href="/login" class="nav-login-btn">登录</a>
+      <% } %>
+    </div>
+    <div class="nav-toggle"><span></span><span></span><span></span></div>
+  </div>
 </nav>
+
 <div class="bg-particles"></div>
 
-<div class="page-content" style="padding-top:100px;">
-  <!-- 子导航 -->
-  <div class="sub-nav" style="position:sticky;top:70px;z-index:100;background:var(--deep-blue);padding:10px 0;border-bottom:1px solid var(--border-subtle);margin-bottom:30px;">
-    <div style="max-width:1200px;margin:0 auto;padding:0 20px;overflow-x:auto;white-space:nowrap;">
-      <% allPoems.forEach(function(p) { %>
-        <a href="/poetry/<%= p.anchor %>" style="display:inline-block;padding:8px 16px;color:<%= p.anchor === poem.anchor ? 'var(--moon-gold)' : 'var(--text-muted)' %>;text-decoration:none;font-size:0.9rem;"><%= p.short_title %></a>
-      <% }); %>
+<section class="poetry-hero">
+  <div class="hero-content">
+    <h1>诗词深度赏析</h1>
+    <p class="hero-desc">逐行解读 · 情感分析 · 文化溯源</p>
+  </div>
+</section>
+
+<nav class="poetry-subnav" id="subnav">
+  <div class="poetry-subnav-inner">
+    <a href="#shuidiaogetou">水调歌头</a><a href="#wangyuehuaiyuan">望月怀远</a>
+    <a href="#yueyeyishedi">月夜忆舍弟</a><a href="#jingyesi">静夜思</a>
+    <a href="#shiwuyewangyue">十五夜望月</a><a href="#chunjianghuayueye">春江花月夜</a>
+    <a href="#zhongqiuyue1">中秋月·晏殊</a><a href="#taichangyin">太常引</a>
+    <a href="#bayuewanli">八月十五夜玩月</a><a href="#zhongqiulipu">中秋·李朴</a>
+    <a href="#pipaxian">琵琶仙·中秋</a><a href="#yijianmei">一剪梅</a>
+    <a href="#zhongqiuduiyue">中秋对月</a><a href="#yangguanqu">阳关曲</a>
+  </div>
+</nav>
+
+<div class="poetry-content">
+
+<!-- ====== 1. 水调歌头 ====== -->
+<section class="poem-detail-section poetry-reveal" id="shuidiaogetou">
+  <div class="poem-header">
+    <div class="ph-title">水调歌头 · 明月几时有</div>
+    <div class="ph-author">【宋】苏轼</div>
+    <span class="ph-dynasty">北宋 · 丙辰年（1076）中秋</span>
+  </div>
+  <div class="poem-full-display">
+    <div class="pfd-lines">
+      明月几时有？把酒问青天。<br>
+      不知天上宫阙，今夕是何年。<br>
+      我欲乘风归去，又恐琼楼玉宇，高处不胜寒。<br>
+      起舞弄清影，何似在人间。<br><br>
+      转朱阁，低绮户，照无眠。<br>
+      不应有恨，何事长向别时圆？<br>
+      人有悲欢离合，月有阴晴圆缺，此事古难全。<br>
+      但愿人长久，千里共婵娟。
     </div>
   </div>
-
-  <!-- 诗词详情 -->
-  <section class="poem-detail-section" id="<%= poem.anchor %>">
-    <div class="poem-header">
-      <h2 class="ph-title"><%= poem.title %></h2>
-      <p class="ph-author"><%= poem.author %></p>
-      <p class="ph-dynasty"><%= poem.dynasty_full %></p>
-    </div>
-
-    <div class="poem-content-display">
-      <div class="pfd-lines"><%- poem.content %></div>
-    </div>
-
+  <div class="detail-card-grid">
     <div class="detail-card">
-      <span class="dc-icon">👤</span>
-      <h3 class="dc-title">作者生平与文学背景</h3>
-      <div class="dc-body"><%- poem.author_bio %></div>
+      <div class="dc-label"><span class="dc-icon">👤</span><span class="dc-title">作者生平与文学背景</span></div>
+      <div class="dc-body">
+        <p>苏轼（1037—1101），字子瞻，号东坡居士，眉州眉山人。北宋中期文坛领袖，在诗、词、文、书、画等方面均有极高造诣。其词开豪放一派，与辛弃疾并称"苏辛"。</p>
+        <p>此词作于宋神宗熙宁九年（1076）中秋，时苏轼在密州（今山东诸城）任知州。因与当权的变法派政见不合，自请外放，与弟弟苏辙（子由）已七年未见。中秋之夜，苏轼欢饮达旦，大醉后写下此词，兼怀子由。</p>
+      </div>
     </div>
-
     <div class="detail-card">
-      <span class="dc-icon">🔍</span>
-      <h3 class="dc-title">逐行解析</h3>
-      <table class="line-table">
-        <% poem.lines.forEach(function(line) { %>
-          <tr>
-            <td class="lt-line"><%= line.verse_line %></td>
-            <td class="lt-explain"><%= line.explanation %></td>
-          </tr>
-        <% }); %>
-      </table>
+      <div class="dc-label"><span class="dc-icon">🔍</span><span class="dc-title">逐行解析</span></div>
+      <div class="dc-body">
+        <table class="line-table">
+          <tr><td class="lt-line">明月几时有？把酒问青天。</td><td class="lt-explain">开篇以问句起兴，将酒与月、人与天连接，气势磅礴</td></tr>
+          <tr><td class="lt-line">不知天上宫阙，今夕是何年。</td><td class="lt-explain">想象天宫的时间维度，暗含对超脱尘世的向往</td></tr>
+          <tr><td class="lt-line">我欲乘风归去…高处不胜寒。</td><td class="lt-explain">出世与入世的矛盾——向往仙境又留恋人间温暖</td></tr>
+          <tr><td class="lt-line">人有悲欢离合…此事古难全。</td><td class="lt-explain">以月之圆缺喻人之离合，揭示自然与人生的普遍规律</td></tr>
+          <tr><td class="lt-line">但愿人长久，千里共婵娟。</td><td class="lt-explain">化遗憾为祝愿，突破空间阻隔，成为千古中秋名句</td></tr>
+        </table>
+      </div>
     </div>
-
     <div class="detail-card">
-      <span class="dc-icon">💛</span>
-      <h3 class="dc-title">中秋情感主题</h3>
-      <div class="dc-body"><%- poem.theme_analysis %></div>
+      <div class="dc-label"><span class="dc-icon">💛</span><span class="dc-title">中秋情感主题</span></div>
+      <div class="dc-body">
+        <p>此词的核心情感是"月圆人未圆"的遗憾与超越。中秋本是团圆佳节，苏轼却与弟弟天各一方。然而词人没有沉溺于伤感，而是以旷达的胸怀将个人情感升华为对天下离人的美好祝愿。</p>
+        <p>"但愿人长久，千里共婵娟"已成为中秋节最具代表性的祝福语，寄托了中国人对亲情、团圆、美好生活的永恒向往。</p>
+      </div>
     </div>
-
     <div class="detail-card">
-      <span class="dc-icon">📜</span>
-      <h3 class="dc-title">历史文化背景</h3>
-      <div class="dc-body"><%- poem.historical_bg %></div>
+      <div class="dc-label"><span class="dc-icon">📜</span><span class="dc-title">历史文化背景</span></div>
+      <div class="dc-body">
+        <p>北宋时期，中秋节已成为重要的民俗节日。文人中秋赏月赋诗是当时的社会风尚。词牌"水调歌头"出自隋炀帝开凿大运河时所制《水调歌》，至宋代演变为流行词牌。</p>
+        <p>苏轼此词一出，"余词尽废"，被誉为中秋词的千古绝唱。南宋胡仔《苕溪渔隐丛话》评价："中秋词，自东坡《水调歌头》一出，余词尽废。"</p>
+      </div>
     </div>
+  </div>
+  <div class="insight-quote">"中秋词，自东坡《水调歌头》一出，余词尽废。"<span class="iq-src">—— 南宋 · 胡仔《苕溪渔隐丛话》</span></div>
+</section>
 
-    <div class="insight-quote">
-      "<%= poem.insight_quote %>"
-      <span class="iq-src">——<%= poem.quote_source %></span>
+<!-- ====== 2. 望月怀远 ====== -->
+<section class="poem-detail-section poetry-reveal" id="wangyuehuaiyuan">
+  <div class="poem-header">
+    <div class="ph-title">望月怀远</div>
+    <div class="ph-author">【唐】张九龄</div>
+    <span class="ph-dynasty">唐代 · 开元年间</span>
+  </div>
+  <div class="poem-full-display">
+    <div class="pfd-lines">
+      海上生明月，天涯共此时。<br>
+      情人怨遥夜，竟夕起相思。<br>
+      灭烛怜光满，披衣觉露滋。<br>
+      不堪盈手赠，还寝梦佳期。
     </div>
-  </section>
+  </div>
+  <div class="detail-card-grid">
+    <div class="detail-card">
+      <div class="dc-label"><span class="dc-icon">👤</span><span class="dc-title">作者生平与文学背景</span></div>
+      <div class="dc-body">
+        <p>张九龄（678—740），字子寿，韶州曲江（今广东韶关）人。唐代开元名相，也是盛唐前期重要诗人。其诗风清澹典雅，以《感遇》十二首和《望月怀远》最为著名。</p>
+        <p>此诗写于张九龄被贬荆州长史期间。远离朝廷和家乡，中秋之夜望月思人，写下这首深情绵邈的怀远之作。</p>
+      </div>
+    </div>
+    <div class="detail-card">
+      <div class="dc-label"><span class="dc-icon">🔍</span><span class="dc-title">逐行解析</span></div>
+      <div class="dc-body">
+        <table class="line-table">
+          <tr><td class="lt-line">海上生明月，天涯共此时。</td><td class="lt-explain">千古名句。"生"字赋予月亮以生命力，天涯之人共享同一轮明月</td></tr>
+          <tr><td class="lt-line">情人怨遥夜，竟夕起相思。</td><td class="lt-explain">多情之人埋怨长夜漫漫，整夜辗转难眠、思念远方之人</td></tr>
+          <tr><td class="lt-line">灭烛怜光满，披衣觉露滋。</td><td class="lt-explain">吹灭蜡烛后更觉月光满室，披衣出户感到夜露已深</td></tr>
+          <tr><td class="lt-line">不堪盈手赠，还寝梦佳期。</td><td class="lt-explain">无法将满手的月光赠予远人，不如回屋在梦中相会</td></tr>
+        </table>
+      </div>
+    </div>
+    <div class="detail-card">
+      <div class="dc-label"><span class="dc-icon">💛</span><span class="dc-title">中秋情感主题</span></div>
+      <div class="dc-body">
+        <p>此诗以月光为纽带，连接了天各一方的思念之人。"海上生明月，天涯共此时"展现了中国文化中"共月"的独特情感表达方式——即使相隔千里，也能在同一轮明月下心意相通。</p>
+        <p>"不堪盈手赠"是全诗最动人的一笔：诗人想将月光掬满双手赠给远方的人，却因无法实现而感伤。这种将无形之情化为有形之举的想象，极具艺术感染力。</p>
+      </div>
+    </div>
+    <div class="detail-card">
+      <div class="dc-label"><span class="dc-icon">📜</span><span class="dc-title">历史文化背景</span></div>
+      <div class="dc-body">
+        <p>唐代是中秋节的成熟期。开元年间，中秋赏月已成为全民习俗。《望月怀远》诞生于这一文化背景下，体现了唐代文人将自然景观、个人情感与节日习俗融为一体的创作特点。</p>
+        <p>张九龄以宰相之才而遭贬谪，诗中含蓄的忧愁也反映了一代名臣在政治失意后的心境。这种将个人际遇融入中秋望月主题的写法，影响了后世无数中秋诗词的创作。</p>
+      </div>
+    </div>
+  </div>
+  <div class="insight-quote">"海上生明月，天涯共此时"——以海与月、天与涯的宏大视角，写出了人类共通的情感体验。<span class="iq-src">—— 文学评析</span></div>
+</section>
+
+<!-- ====== 3. 月夜忆舍弟 ====== -->
+<section class="poem-detail-section poetry-reveal" id="yueyeyishedi">
+  <div class="poem-header">
+    <div class="ph-title">月夜忆舍弟</div>
+    <div class="ph-author">【唐】杜甫</div>
+    <span class="ph-dynasty">唐代 · 乾元二年（759）</span>
+  </div>
+  <div class="poem-full-display">
+    <div class="pfd-lines">
+      戍鼓断人行，边秋一雁声。<br>
+      露从今夜白，月是故乡明。<br>
+      有弟皆分散，无家问死生。<br>
+      寄书长不达，况乃未休兵。
+    </div>
+  </div>
+  <div class="detail-card-grid">
+    <div class="detail-card">
+      <div class="dc-label"><span class="dc-icon">👤</span><span class="dc-title">作者生平与文学背景</span></div>
+      <div class="dc-body">
+        <p>杜甫（712—770），字子美，自号少陵野老，被尊为"诗圣"。其诗深刻反映了唐代由盛转衰的历史变迁，被称为"诗史"。此诗作于安史之乱期间，杜甫与几个弟弟因战乱离散，音信不通。</p>
+        <p>乾元二年（759）秋，杜甫流寓秦州（今甘肃天水）。白露时节，边塞秋寒，战鼓声声中孤雁南飞，诗人望月思弟，写下这首沉郁顿挫的千古名篇。</p>
+      </div>
+    </div>
+    <div class="detail-card">
+      <div class="dc-label"><span class="dc-icon">🔍</span><span class="dc-title">逐行解析</span></div>
+      <div class="dc-body">
+        <table class="line-table">
+          <tr><td class="lt-line">戍鼓断人行，边秋一雁声。</td><td class="lt-explain">戍楼鼓声阻断了行人，边塞秋天传来孤雁哀鸣——悲凉氛围</td></tr>
+          <tr><td class="lt-line">露从今夜白，月是故乡明。</td><td class="lt-explain">今夜起进入白露节气，但只有故乡的月亮才是最明亮的</td></tr>
+          <tr><td class="lt-line">有弟皆分散，无家问死生。</td><td class="lt-explain">兄弟们四散分离，家园已毁，连生死都无法互相打探</td></tr>
+          <tr><td class="lt-line">寄书长不达，况乃未休兵。</td><td class="lt-explain">寄出的书信长久不能到达，更何况战争仍在继续</td></tr>
+        </table>
+      </div>
+    </div>
+    <div class="detail-card">
+      <div class="dc-label"><span class="dc-icon">💛</span><span class="dc-title">中秋情感主题</span></div>
+      <div class="dc-body">
+        <p>"月是故乡明"看似不合物理逻辑，却是最真实的情感逻辑。在战乱流离中，诗人将对家乡和亲人的全部眷恋投射到月亮之上——故乡的月亮就是更亮，因为那里有家、有亲人、有和平的生活。</p>
+        <p>与一般中秋诗词的浪漫氛围不同，杜甫此诗将节日与战乱并置，以中秋之月反衬人间之痛，具有强烈的现实主义精神和人道主义关怀。</p>
+      </div>
+    </div>
+    <div class="detail-card">
+      <div class="dc-label"><span class="dc-icon">📜</span><span class="dc-title">历史文化背景</span></div>
+      <div class="dc-body">
+        <p>安史之乱（755—763）是唐朝由盛转衰的转折点。战争导致人口锐减、家庭离散、通信中断。杜甫以切身经历记录了这一历史悲剧。白露是二十四节气之一，通常在农历八月，与中秋节时间相近。</p>
+        <p>此诗将个人的家族悲剧置于宏大的历史背景中，体现了杜甫"诗史"的创作特质。末句"况乃未休兵"将个人思念升华为对和平的渴望。</p>
+      </div>
+    </div>
+  </div>
+  <div class="insight-quote">"月是故乡明"——五个字写尽了天下游子对故乡的全部眷恋。<span class="iq-src">—— 文学评析</span></div>
+</section>
+
+<!-- ====== 4. 静夜思 ====== -->
+<section class="poem-detail-section poetry-reveal" id="jingyesi">
+  <div class="poem-header">
+    <div class="ph-title">静夜思</div>
+    <div class="ph-author">【唐】李白</div>
+    <span class="ph-dynasty">唐代 · 开元年间</span>
+  </div>
+  <div class="poem-full-display">
+    <div class="pfd-lines">
+      床前明月光，疑是地上霜。<br>
+      举头望明月，低头思故乡。
+    </div>
+  </div>
+  <div class="detail-card-grid">
+    <div class="detail-card">
+      <div class="dc-label"><span class="dc-icon">👤</span><span class="dc-title">作者生平与文学背景</span></div>
+      <div class="dc-body">
+        <p>李白（701—762），字太白，号青莲居士，被尊为"诗仙"。其诗风豪放飘逸、想象奇绝，是中国浪漫主义诗歌的巅峰代表。李白一生大部分时间在漫游中度过，远离家乡蜀中，对故乡的思念贯穿其创作始终。</p>
+        <p>此诗的具体创作年份已不可考，但普遍认为写于李白青年时期离开蜀地后，在扬州或金陵一带旅居时的某个秋夜。全诗仅二十字，却是中国文学史上流传最广、知名度最高的诗歌之一。</p>
+      </div>
+    </div>
+    <div class="detail-card">
+      <div class="dc-label"><span class="dc-icon">🔍</span><span class="dc-title">逐行解析</span></div>
+      <div class="dc-body">
+        <table class="line-table">
+          <tr><td class="lt-line">床前明月光</td><td class="lt-explain">秋夜月光透过窗户洒落床前，营造静谧清冷的氛围</td></tr>
+          <tr><td class="lt-line">疑是地上霜</td><td class="lt-explain">月光皎洁如霜，"疑"字写出半梦半醒间的恍惚感受</td></tr>
+          <tr><td class="lt-line">举头望明月</td><td class="lt-explain">抬头望见窗外一轮明月，视线从地面移向天空</td></tr>
+          <tr><td class="lt-line">低头思故乡</td><td class="lt-explain">低头回到现实，触景生情，勾起对故乡的深深思念</td></tr>
+        </table>
+      </div>
+    </div>
+    <div class="detail-card">
+      <div class="dc-label"><span class="dc-icon">💛</span><span class="dc-title">中秋情感主题</span></div>
+      <div class="dc-body">
+        <p>《静夜思》虽然未明确提及"中秋"二字，但其所描绘的秋夜望月思乡的场景，正是中秋节最核心的情感内核。简洁明快的语言使每一个背井离乡的人都能从中找到自己的影子。</p>
+        <p>"举头—低头"的动作转换，将望月与思乡建立了最直接的心理关联：看到月亮就想到故乡，这是中国文学中"望月思乡"母题的最经典表达。</p>
+      </div>
+    </div>
+    <div class="detail-card">
+      <div class="dc-label"><span class="dc-icon">📜</span><span class="dc-title">历史文化背景</span></div>
+      <div class="dc-body">
+        <p>唐代漫游风气盛行，文人离乡远游是常态。中秋望月思乡因此成为唐诗的重要主题。《静夜思》以其极致的简洁达到了最大的共鸣效果，"床前明月光"已成为中华文化中最具辨识度的诗句。</p>
+        <p>此诗被收入《唐诗三百首》等多种选本，并被翻译成数十种语言，是中国文化走向世界的经典代表。明人评价其"妙绝千古，不假雕饰"。</p>
+      </div>
+    </div>
+  </div>
+  <div class="insight-quote">"妙绝千古，不假雕饰。清水出芙蓉，天然去雕饰。"<span class="iq-src">—— 明 · 胡应麟《诗薮》</span></div>
+</section>
+
+<!-- ====== 5. 十五夜望月 ====== -->
+<section class="poem-detail-section poetry-reveal" id="shiwuyewangyue">
+  <div class="poem-header">
+    <div class="ph-title">十五夜望月</div>
+    <div class="ph-author">【唐】王建</div>
+    <span class="ph-dynasty">唐代 · 中唐时期</span>
+  </div>
+  <div class="poem-full-display">
+    <div class="pfd-lines">
+      中庭地白树栖鸦，冷露无声湿桂花。<br>
+      今夜月明人尽望，不知秋思落谁家。
+    </div>
+  </div>
+  <div class="detail-card-grid">
+    <div class="detail-card">
+      <div class="dc-label"><span class="dc-icon">👤</span><span class="dc-title">作者生平与文学背景</span></div>
+      <div class="dc-body">
+        <p>王建（约767—约830），字仲初，颍川（今河南许昌）人。中唐时期重要诗人，以乐府诗著称，与张籍并称"张王"。其诗擅长以细腻的笔触描写日常生活和民间风俗。</p>
+        <p>此诗是王建的代表作之一，以中秋夜为背景，通过精细的景物描写和含蓄的抒情，展现了中唐文人对节日氛围的独特感受。诗题"十五夜"即指农历八月十五中秋之夜。</p>
+      </div>
+    </div>
+    <div class="detail-card">
+      <div class="dc-label"><span class="dc-icon">🔍</span><span class="dc-title">逐行解析</span></div>
+      <div class="dc-body">
+        <table class="line-table">
+          <tr><td class="lt-line">中庭地白树栖鸦</td><td class="lt-explain">月光洒满中庭使地面泛白，树上栖息着乌鸦——以动衬静</td></tr>
+          <tr><td class="lt-line">冷露无声湿桂花</td><td class="lt-explain">秋露悄然打湿桂花，"冷""无声"渲染空灵寂静的中秋夜</td></tr>
+          <tr><td class="lt-line">今夜月明人尽望</td><td class="lt-explain">今夜人人都在仰望这轮明月——由个人感受推及天下人</td></tr>
+          <tr><td class="lt-line">不知秋思落谁家</td><td class="lt-explain">以设问收束，"秋思"被具象化为可落下的东西，委婉动人</td></tr>
+        </table>
+      </div>
+    </div>
+    <div class="detail-card">
+      <div class="dc-label"><span class="dc-icon">💛</span><span class="dc-title">中秋情感主题</span></div>
+      <div class="dc-body">
+        <p>此诗最精妙之处在末句——"秋思"本是无形无质的情感，诗人却用一个"落"字将其具象化，仿佛秋思如月光一般从天空洒落，不知会降在哪一户人家。这种将抽象情感化为具体意象的手法，使诗歌充满了含蓄悠远的韵味。</p>
+        <p>桂花是中秋的象征性植物。"冷露无声湿桂花"不仅描写了实景，也暗含了中秋时令特征，为整首诗奠定了清幽寂寥的基调。</p>
+      </div>
+    </div>
+    <div class="detail-card">
+      <div class="dc-label"><span class="dc-icon">📜</span><span class="dc-title">历史文化背景</span></div>
+      <div class="dc-body">
+        <p>中唐时期，中秋赏月已成为全民性的节日活动。"今夜月明人尽望"反映了这一民俗的普遍性——不论贫富贵贱，所有人都在同一轮明月下度过中秋。这一认知体现了中国文化中"共情"的人文精神。</p>
+        <p>桂花在中秋文化中具有特殊地位——中秋时节正值桂花盛开，赏桂与赏月共同构成了中秋的完整审美体验。此诗将桂与月并置，是典型的中秋诗歌意象组合。</p>
+      </div>
+    </div>
+  </div>
+  <div class="insight-quote">"今夜月明人尽望，不知秋思落谁家"——以设问收束，将全诗的境界从个人推至天下。<span class="iq-src">—— 文学评析</span></div>
+</section>
+
+<!-- ====== 6. 春江花月夜 ====== -->
+<section class="poem-detail-section poetry-reveal" id="chunjianghuayueye">
+  <div class="poem-header">
+    <div class="ph-title">春江花月夜</div>
+    <div class="ph-author">【唐】张若虚</div>
+    <span class="ph-dynasty">唐代 · 初唐时期</span>
+  </div>
+  <div class="poem-full-display">
+    <div class="pfd-lines">
+      春江潮水连海平，海上明月共潮生。<br>
+      滟滟随波千万里，何处春江无月明。<br>
+      江流宛转绕芳甸，月照花林皆似霰。<br>
+      空里流霜不觉飞，汀上白沙看不见。<br>
+      江天一色无纤尘，皎皎空中孤月轮。<br>
+      江畔何人初见月？江月何年初照人？<br>
+      人生代代无穷已，江月年年望相似。<br>
+      不知江月待何人，但见长江送流水。
+    </div>
+  </div>
+  <div class="detail-card-grid">
+    <div class="detail-card">
+      <div class="dc-label"><span class="dc-icon">👤</span><span class="dc-title">作者生平与文学背景</span></div>
+      <div class="dc-body">
+        <p>张若虚（约670—约730），扬州人。初唐诗人，与贺知章、张旭、包融并称"吴中四士"。其诗作大多散佚，《全唐诗》仅存两首，但《春江花月夜》一首即足以使其"孤篇横绝，竟为大家"。</p>
+        <p>此诗沿用陈隋乐府旧题，却以全新的意境和哲理深度超越了前代所有同题作品。被闻一多先生誉为"诗中的诗，顶峰上的顶峰"。</p>
+      </div>
+    </div>
+    <div class="detail-card">
+      <div class="dc-label"><span class="dc-icon">🔍</span><span class="dc-title">逐行解析</span></div>
+      <div class="dc-body">
+        <table class="line-table">
+          <tr><td class="lt-line">春江潮水连海平…</td><td class="lt-explain">开篇以宏阔的视野描绘春江月夜的壮丽景象</td></tr>
+          <tr><td class="lt-line">江畔何人初见月？</td><td class="lt-explain">从对景物的描写突然转向对宇宙本源的哲学追问</td></tr>
+          <tr><td class="lt-line">人生代代无穷已…</td><td class="lt-explain">个体生命虽短暂，人类作为一个整体却代代相传、无穷无尽</td></tr>
+          <tr><td class="lt-line">不知江月待何人…</td><td class="lt-explain">月亮仿佛在等待什么人，却只见江水奔流不息——永恒的孤独感</td></tr>
+        </table>
+      </div>
+    </div>
+    <div class="detail-card">
+      <div class="dc-label"><span class="dc-icon">💛</span><span class="dc-title">中秋情感主题</span></div>
+      <div class="dc-body">
+        <p>虽然诗歌以"春江"为题，但其所探讨的月亮与人生的关系，与中秋节的精神内核高度契合。"江畔何人初见月？江月何年初照人？"的千古追问，体现了中国古人对宇宙与人生的深邃思考。</p>
+        <p>"人生代代无穷已，江月年年望相似"——面对永恒的自然，人生虽然短暂，但人类作为一个整体是可以代代延续下去的。这种感悟在中秋团圆之时尤能引起共鸣。</p>
+      </div>
+    </div>
+    <div class="detail-card">
+      <div class="dc-label"><span class="dc-icon">📜</span><span class="dc-title">历史文化背景</span></div>
+      <div class="dc-body">
+        <p>此诗诞生于初唐向盛唐过渡的时期，体现了唐人气度恢弘的宇宙意识。它将春、江、花、月、夜五种意象完美融合，以月为线索贯穿全篇，从写景到抒情再到哲理追问，层层递进。</p>
+        <p>闻一多评曰："在这种诗面前，一切的赞叹是饶舌，几乎是亵渎。"《春江花月夜》代表了初唐诗歌的最高成就，对后世产生了深远影响，也是中秋节期间最常被吟诵的经典诗篇之一。</p>
+      </div>
+    </div>
+  </div>
+  <div class="insight-quote">"诗中的诗，顶峰上的顶峰。"<span class="iq-src">—— 闻一多《宫体诗的自赎》</span></div>
+</section>
+
+<!-- ====== 7. 中秋月 (晏殊) ====== -->
+<section class="poem-detail-section poetry-reveal" id="zhongqiuyue1">
+  <div class="poem-header">
+    <div class="ph-title">中秋月</div>
+    <div class="ph-author">【宋】晏殊</div>
+    <span class="ph-dynasty">北宋 · 前期</span>
+  </div>
+  <div class="poem-full-display">
+    <div class="pfd-lines">
+      十轮霜影转庭梧，此夕羁人独向隅。<br>
+      未必素娥无怅恨，玉蟾清冷桂花孤。
+    </div>
+  </div>
+  <div class="detail-card-grid">
+    <div class="detail-card">
+      <div class="dc-label"><span class="dc-icon">👤</span><span class="dc-title">作者生平与文学背景</span></div>
+      <div class="dc-body">
+        <p>晏殊（991—1055），字同叔，抚州临川人。北宋政治家、文学家，官至宰相。其词风含蓄婉丽，语言清雅，是北宋婉约词派的开创者之一。晏殊也是著名的神童，七岁能文，十四岁以神童入试，赐同进士出身。</p>
+        <p>此诗写于晏殊在外任职期间的中秋之夜。以"羁人"自称，表达了身居他乡的孤独与对故土的思念。</p>
+      </div>
+    </div>
+    <div class="detail-card">
+      <div class="dc-label"><span class="dc-icon">🔍</span><span class="dc-title">逐行解析</span></div>
+      <div class="dc-body">
+        <table class="line-table">
+          <tr><td class="lt-line">十轮霜影转庭梧</td><td class="lt-explain">月光如霜，梧桐树的影子在庭院中随月转动——暗示长夜不寐</td></tr>
+          <tr><td class="lt-line">此夕羁人独向隅</td><td class="lt-explain">中秋之夜，漂泊在外的旅人独自面朝墙角，倍感孤独</td></tr>
+          <tr><td class="lt-line">未必素娥无怅恨</td><td class="lt-explain">即使是月宫中的嫦娥也未必没有惆怅和遗憾</td></tr>
+          <tr><td class="lt-line">玉蟾清冷桂花孤</td><td class="lt-explain">月宫中玉蟾清冷，桂花孤单——天上人间同此寂寥</td></tr>
+        </table>
+      </div>
+    </div>
+    <div class="detail-card">
+      <div class="dc-label"><span class="dc-icon">💛</span><span class="dc-title">中秋情感主题</span></div>
+      <div class="dc-body">
+        <p>此诗独特之处在于"反向共情"——诗人不从自身写起，而是想象月宫中的嫦娥也同样寂寞。"未必素娥无怅恨"将天上的仙子与人间游子置于同一种情感状态，天上人间并无不同。</p>
+        <p>这种写法突破了"望月思乡"的传统模式，赋予了诗歌更深的哲学意味——孤独是人类与神明共享的普遍体验，中秋月圆之夜尤甚。</p>
+      </div>
+    </div>
+    <div class="detail-card">
+      <div class="dc-label"><span class="dc-icon">📜</span><span class="dc-title">历史文化背景</span></div>
+      <div class="dc-body">
+        <p>宋代文人宦游频繁，中秋无法归家是常态。"羁人"（旅居在外的人）因此成为中秋诗歌中反复出现的抒情主人公形象。晏殊以宰辅之尊，仍不免宦海漂泊，此诗也反映了他温和外表下的内心孤寂。</p>
+        <p>"素娥"即嫦娥，"玉蟾"指月宫中的蟾蜍，"桂花"指月宫中的桂树——这些都是传统中秋神话的核心意象，晏殊将它们巧妙地编织进了自己的抒情之中。</p>
+      </div>
+    </div>
+  </div>
+  <div class="insight-quote">"未必素娥无怅恨"——嫦娥亦有恨，何况凡人？天上人间，同此寂寥。<span class="iq-src">—— 文学评析</span></div>
+</section>
+
+<!-- ====== 8. 太常引 ====== -->
+<section class="poem-detail-section poetry-reveal" id="taichangyin">
+  <div class="poem-header">
+    <div class="ph-title">太常引 · 建康中秋夜为吕叔潜赋</div>
+    <div class="ph-author">【宋】辛弃疾</div>
+    <span class="ph-dynasty">南宋 · 淳熙年间</span>
+  </div>
+  <div class="poem-full-display">
+    <div class="pfd-lines">
+      一轮秋影转金波，飞镜又重磨。<br>
+      把酒问姮娥：被白发、欺人奈何？<br>
+      乘风好去，长空万里，直下看山河。<br>
+      斫去桂婆娑，人道是、清光更多。
+    </div>
+  </div>
+  <div class="detail-card-grid">
+    <div class="detail-card">
+      <div class="dc-label"><span class="dc-icon">👤</span><span class="dc-title">作者生平与文学背景</span></div>
+      <div class="dc-body">
+        <p>辛弃疾（1140—1207），字幼安，号稼轩，山东历城人。南宋最杰出的词人之一，与苏轼并称"苏辛"。辛弃疾一生以抗金复国为志，却始终未得重用。其词气势豪迈，充满爱国激情，被誉为"词中之龙"。</p>
+        <p>此词作于辛弃疾在建康（今南京）任职期间的中秋之夜，为友人吕叔潜而作。表面上写中秋赏月，实则寄托了收复中原、澄清天下的政治理想。</p>
+      </div>
+    </div>
+    <div class="detail-card">
+      <div class="dc-label"><span class="dc-icon">🔍</span><span class="dc-title">逐行解析</span></div>
+      <div class="dc-body">
+        <table class="line-table">
+          <tr><td class="lt-line">一轮秋影转金波，飞镜又重磨</td><td class="lt-explain">中秋圆月如重新打磨过的铜镜，金光流转</td></tr>
+          <tr><td class="lt-line">把酒问姮娥：被白发、欺人奈何？</td><td class="lt-explain">对月举杯问嫦娥：白发渐生，岁月欺人，为之奈何？</td></tr>
+          <tr><td class="lt-line">乘风好去，长空万里，直下看山河</td><td class="lt-explain">乘风飞上长空，俯瞰万里山河——浪漫主义的豪迈想象</td></tr>
+          <tr><td class="lt-line">斫去桂婆娑，人道是、清光更多</td><td class="lt-explain">砍去遮蔽月光的桂树，让清光普照人间——隐喻清除奸佞</td></tr>
+        </table>
+      </div>
+    </div>
+    <div class="detail-card">
+      <div class="dc-label"><span class="dc-icon">💛</span><span class="dc-title">中秋情感主题</span></div>
+      <div class="dc-body">
+        <p>辛弃疾的中秋词不同于一般的感伤或团圆主题，而是充满了政治理想和英雄气概。"斫去桂婆娑"表面上写月宫桂树遮挡了月光，实则以桂树隐喻朝中主和派（投降派），表达了清除障碍、光复中原的壮志。</p>
+        <p>"乘风好去，长空万里，直下看山河"以超凡的想象力将个人情感与国家命运联结，是中秋词中少有的豪放之作。</p>
+      </div>
+    </div>
+    <div class="detail-card">
+      <div class="dc-label"><span class="dc-icon">📜</span><span class="dc-title">历史文化背景</span></div>
+      <div class="dc-body">
+        <p>南宋时期，半壁江山沦陷于金人之手，主战与主和的朝堂斗争贯穿始终。辛弃疾一生主张北伐收复失地，却屡遭排挤。"斫去桂婆娑"的隐喻在当时读者中不言自明——桂树影即指朝中阻挠北伐的势力。</p>
+        <p>词牌"太常引"为辛弃疾创制，体现了他在词体上的创新精神。全词兼具豪放与浪漫，将中秋赏月的传统题材提升到了政治抒情的高度，扩展了中秋词的表达边界。</p>
+      </div>
+    </div>
+  </div>
+  <div class="insight-quote">"斫去桂婆娑，人道是、清光更多"——以砍桂喻除奸，中秋词中罕见的英雄气概。<span class="iq-src">—— 文学评析</span></div>
+</section>
+
+<!-- ====== 9. 八月十五夜玩月 ====== -->
+<section class="poem-detail-section poetry-reveal" id="bayuewanli">
+  <div class="poem-header">
+    <div class="ph-title">八月十五夜玩月</div>
+    <div class="ph-author">【唐】刘禹锡</div>
+    <span class="ph-dynasty">唐代 · 中唐时期</span>
+  </div>
+  <div class="poem-full-display">
+    <div class="pfd-lines">
+      天将今夜月，一遍洗寰瀛。<br>
+      暑退九霄净，秋澄万景清。<br>
+      星辰让光彩，风露发晶英。<br>
+      能变人间世，翛然是玉京。
+    </div>
+  </div>
+  <div class="detail-card-grid">
+    <div class="detail-card">
+      <div class="dc-label"><span class="dc-icon">👤</span><span class="dc-title">作者生平与文学背景</span></div>
+      <div class="dc-body">
+        <p>刘禹锡（772—842），字梦得，洛阳人。中唐著名诗人、哲学家，被誉为"诗豪"。其诗风雄健豪迈，以咏史怀古和民歌体诗最为出色。刘禹锡一生多次遭贬，却始终保持着乐观旷达的精神。</p>
+        <p>此诗以"玩月"为题，体现了诗人对中秋明月的欣赏与赞美。"玩"字传达出轻松愉悦的赏月姿态，与许多中秋诗的忧愁基调形成鲜明对比。</p>
+      </div>
+    </div>
+    <div class="detail-card">
+      <div class="dc-label"><span class="dc-icon">🔍</span><span class="dc-title">逐行解析</span></div>
+      <div class="dc-body">
+        <table class="line-table">
+          <tr><td class="lt-line">天将今夜月，一遍洗寰瀛</td><td class="lt-explain">上天用今夜的月光，将整个天下都清洗了一遍</td></tr>
+          <tr><td class="lt-line">暑退九霄净，秋澄万景清</td><td class="lt-explain">暑气消退、天空澄净，秋日使万物景致都变得清澈</td></tr>
+          <tr><td class="lt-line">星辰让光彩，风露发晶英</td><td class="lt-explain">星辰在明月前收敛光芒，秋风秋露闪耀着晶莹的光彩</td></tr>
+          <tr><td class="lt-line">能变人间世，翛然是玉京</td><td class="lt-explain">月光能改变人间世界，使人仿佛逍遥于天帝的玉京仙境</td></tr>
+        </table>
+      </div>
+    </div>
+    <div class="detail-card">
+      <div class="dc-label"><span class="dc-icon">💛</span><span class="dc-title">中秋情感主题</span></div>
+      <div class="dc-body">
+        <p>此诗以欢畅明快的笔调描写中秋月色，与其他中秋诗的忧伤基调截然不同。"一遍洗寰瀛"以"洗"字赋予月光净化的力量，中秋之月不仅是美景，更是洗涤尘世、净化心灵的象征。</p>
+        <p>"能变人间世"体现了刘禹锡一贯的乐观主义精神——美好的自然（如中秋明月）具有改变人心的力量。这种积极向上的中秋感受，在古典诗词中独树一帜。</p>
+      </div>
+    </div>
+    <div class="detail-card">
+      <div class="dc-label"><span class="dc-icon">📜</span><span class="dc-title">历史文化背景</span></div>
+      <div class="dc-body">
+        <p>刘禹锡与白居易同年出生，两人交情深厚，常以诗歌唱和。中秋赏月是唐代文人的重要社交活动，此诗可能即写于某次中秋宴会之上。诗中"玉京"指道教传说中的天帝居所，反映了唐代道教文化对文人的影响。</p>
+        <p>刘禹锡虽历经政治挫折（参与永贞革新失败后被贬多年），但其诗始终保持着昂扬向上的精神气质，此诗便是一例。中秋之月在刘禹锡笔下不是忧伤的触媒，而是希望的象征。</p>
+      </div>
+    </div>
+  </div>
+  <div class="insight-quote">"天将今夜月，一遍洗寰瀛"——以"洗"字写月光，赋予中秋之月净化天地的神圣力量。<span class="iq-src">—— 文学评析</span></div>
+</section>
+
+<!-- ====== 10. 中秋 (李朴) ====== -->
+<section class="poem-detail-section poetry-reveal" id="zhongqiulipu">
+  <div class="poem-header">
+    <div class="ph-title">中秋</div>
+    <div class="ph-author">【宋】李朴</div>
+    <span class="ph-dynasty">北宋 · 后期</span>
+  </div>
+  <div class="poem-full-display">
+    <div class="pfd-lines">
+      皓魄当空宝镜升，云间仙籁寂无声。<br>
+      平分秋色一轮满，长伴云衢千里明。<br>
+      狡兔空从弦外落，妖蟆休向眼前生。<br>
+      灵槎拟约同携手，更待银河彻底清。
+    </div>
+  </div>
+  <div class="detail-card-grid">
+    <div class="detail-card">
+      <div class="dc-label"><span class="dc-icon">👤</span><span class="dc-title">作者生平与文学背景</span></div>
+      <div class="dc-body">
+        <p>李朴（1063—1127），字先之，虔州兴国（今江西兴国）人。北宋绍圣元年进士，历任国子监教授等职。其诗以清丽典雅著称，此《中秋》诗是其最为后人传诵的佳作。</p>
+        <p>此诗全方位描绘了中秋之月的美景，从视觉（皓魄、宝镜）到听觉（仙籁、寂无声），从神话典故到人生感慨，展现了宋代文人对中秋的丰富文化想象。</p>
+      </div>
+    </div>
+    <div class="detail-card">
+      <div class="dc-label"><span class="dc-icon">🔍</span><span class="dc-title">逐行解析</span></div>
+      <div class="dc-body">
+        <table class="line-table">
+          <tr><td class="lt-line">皓魄当空宝镜升</td><td class="lt-explain">明月如宝镜一般从天空升起，"皓魄"指月亮的精魄光华</td></tr>
+          <tr><td class="lt-line">云间仙籁寂无声</td><td class="lt-explain">云间的仙乐悄然无声——以声音的缺席衬托月夜的静谧</td></tr>
+          <tr><td class="lt-line">平分秋色一轮满</td><td class="lt-explain">中秋之月恰好平分秋色，一轮圆满——月圆与秋分意象叠加</td></tr>
+          <tr><td class="lt-line">狡兔空从弦外落</td><td class="lt-explain">用典：月宫玉兔在月弦之外跳跃——暗含时光流逝之感</td></tr>
+          <tr><td class="lt-line">妖蟆休向眼前生</td><td class="lt-explain">用典：月中的蟾蜍不要遮挡月光——隐喻小人不要蒙蔽光明</td></tr>
+          <tr><td class="lt-line">灵槎拟约同携手</td><td class="lt-explain">想乘坐仙筏飞向银河，与友人携手同行</td></tr>
+        </table>
+      </div>
+    </div>
+    <div class="detail-card">
+      <div class="dc-label"><span class="dc-icon">💛</span><span class="dc-title">中秋情感主题</span></div>
+      <div class="dc-body">
+        <p>此诗的核心情感是人与自然的和谐共处以及对超脱尘世的美好向往。"平分秋色一轮满"既是对中秋自然现象的精准描述，也暗含了人生圆满的美好期望。</p>
+        <p>"灵槎拟约同携手"表达了与志同道合之人共享美好时光的愿望，与中秋团圆的主题相呼应。末句"更待银河彻底清"寄寓了对清明世界的期盼。</p>
+      </div>
+    </div>
+    <div class="detail-card">
+      <div class="dc-label"><span class="dc-icon">📜</span><span class="dc-title">历史文化背景</span></div>
+      <div class="dc-body">
+        <p>李朴生活在北宋末年，正值朝政日趋腐败、金人威胁日益迫近的时期。"妖蟆休向眼前生"或许暗含了对朝中小人的隐喻式批评。诗中大量使用月宫神话典故——狡兔、蟾蜍、灵槎——体现了宋代文人对月亮文化的深厚学养。</p>
+        <p>"灵槎"典出晋代张华《博物志》，传说有人乘浮槎（木筏）从海上直达银河。李朴借此典故表达了对超脱尘世、追求理想境界的向往。</p>
+      </div>
+    </div>
+  </div>
+  <div class="insight-quote">"平分秋色一轮满，长伴云衢千里明"——秋色由明月平分，千里云路都被照亮。<span class="iq-src">—— 文学评析</span></div>
+</section>
+
+<!-- ====== 11. 琵琶仙 · 中秋 ====== -->
+<section class="poem-detail-section poetry-reveal" id="pipaxian">
+  <div class="poem-header">
+    <div class="ph-title">琵琶仙 · 中秋</div>
+    <div class="ph-author">【清】纳兰性德</div>
+    <span class="ph-dynasty">清代 · 康熙年间</span>
+  </div>
+  <div class="poem-full-display">
+    <div class="pfd-lines">
+      碧海年年，试问取、冰轮为谁圆缺？<br>
+      吹到一片秋香，清辉了如雪。<br>
+      愁中看、好天良夜，知道尽成悲咽。<br>
+      只影而今，那堪重对，旧时明月。
+    </div>
+  </div>
+  <div class="detail-card-grid">
+    <div class="detail-card">
+      <div class="dc-label"><span class="dc-icon">👤</span><span class="dc-title">作者生平与文学背景</span></div>
+      <div class="dc-body">
+        <p>纳兰性德（1655—1685），原名纳兰成德，字容若，满洲正黄旗人。清代最杰出的词人之一，被誉为"清词三大家"之首。其词风凄婉缠绵，以悼亡词最为动人。纳兰性德三十一岁即英年早逝，给后世留下了三百余首词作。</p>
+        <p>此词写于纳兰性德妻子卢氏去世后的某个中秋之夜。面对团圆佳节，词人却只能形单影只，对月怀人，字字含泪。这是纳兰悼亡词中的代表作。</p>
+      </div>
+    </div>
+    <div class="detail-card">
+      <div class="dc-label"><span class="dc-icon">🔍</span><span class="dc-title">逐行解析</span></div>
+      <div class="dc-body">
+        <table class="line-table">
+          <tr><td class="lt-line">碧海年年，试问取、冰轮为谁圆缺？</td><td class="lt-explain">年复一年，试问天上的明月为谁而圆又为谁而缺？</td></tr>
+          <tr><td class="lt-line">吹到一片秋香，清辉了如雪</td><td class="lt-explain">秋风吹来桂花的香气，月光清冷皎洁如同雪光</td></tr>
+          <tr><td class="lt-line">愁中看、好天良夜，知道尽成悲咽</td><td class="lt-explain">满怀愁绪中看这美好的中秋之夜，却知道最终只剩悲泣</td></tr>
+          <tr><td class="lt-line">只影而今，那堪重对，旧时明月</td><td class="lt-explain">如今形单影只，怎么忍心再次面对与故人共赏过的明月</td></tr>
+        </table>
+      </div>
+    </div>
+    <div class="detail-card">
+      <div class="dc-label"><span class="dc-icon">💛</span><span class="dc-title">中秋情感主题</span></div>
+      <div class="dc-body">
+        <p>此词以中秋圆月反衬人世缺憾，将悼亡之痛与中秋团圆的主题形成强烈的反差。"旧时明月"是全词的词眼——月亮还是那个月亮，但一起赏月的人已经不在了。这种"物是人非"的体验，比单纯的思乡更令人心碎。</p>
+        <p>纳兰词中的中秋不再是一个欢乐的节日，而成为触发痛苦回忆的时间节点。"知道尽成悲咽"体现了明知如此却无法摆脱的宿命感。</p>
+      </div>
+    </div>
+    <div class="detail-card">
+      <div class="dc-label"><span class="dc-icon">📜</span><span class="dc-title">历史文化背景</span></div>
+      <div class="dc-body">
+        <p>清代词坛在纳兰性德的推动下迎来了"中兴"。纳兰出身贵胄（其父为康熙朝大学士明珠），却生性敏感多情。"琵琶仙"为姜夔自度曲，纳兰借以抒写中秋悼亡之感，将词牌的婉转凄美特质发挥到了极致。</p>
+        <p>王国维在《人间词话》中评纳兰词"以自然之眼观物，以自然之舌言情"，此中秋词正是这一评价的绝佳例证——用最自然的语言表达了最深沉的情感。</p>
+      </div>
+    </div>
+  </div>
+  <div class="insight-quote">"只影而今，那堪重对，旧时明月"——最深的痛不是见不到月亮，而是月亮依然圆满，人却不再圆满。<span class="iq-src">—— 文学评析</span></div>
+</section>
+
+<!-- ====== 12. 一剪梅 · 中秋无月 ====== -->
+<section class="poem-detail-section poetry-reveal" id="yijianmei">
+  <div class="poem-header">
+    <div class="ph-title">一剪梅 · 中秋无月</div>
+    <div class="ph-author">【宋】辛弃疾</div>
+    <span class="ph-dynasty">南宋 · 中期</span>
+  </div>
+  <div class="poem-full-display">
+    <div class="pfd-lines">
+      忆对中秋丹桂丛，花在杯中，月在杯中。<br>
+      今宵楼上一尊同，云湿纱窗，雨湿纱窗。<br>
+      浑欲乘风问化工，路也难通，信也难通。<br>
+      满堂唯有烛花红，歌且从容，杯且从容。
+    </div>
+  </div>
+  <div class="detail-card-grid">
+    <div class="detail-card">
+      <div class="dc-label"><span class="dc-icon">👤</span><span class="dc-title">作者生平与文学背景</span></div>
+      <div class="dc-body">
+        <p>此词以对比手法写中秋之夜——往年中秋丹桂飘香、花月映杯，今夜却云雨遮月、唯余烛光。看似写天气，实则暗喻人生际遇的无常和壮志难酬的感慨。</p>
+        <p>辛弃疾善于在寻常题材中寄寓深刻的人生感怀。此词以口语化的语言写中秋无月的遗憾，在看似平淡的叙述中蕴含着深沉的情感。</p>
+      </div>
+    </div>
+    <div class="detail-card">
+      <div class="dc-label"><span class="dc-icon">🔍</span><span class="dc-title">逐行解析</span></div>
+      <div class="dc-body">
+        <table class="line-table">
+          <tr><td class="lt-line">忆对中秋丹桂丛，花在杯中，月在杯中</td><td class="lt-explain">回忆往年中秋，桂花与明月的倒影一同映在酒杯之中</td></tr>
+          <tr><td class="lt-line">今宵楼上一尊同，云湿纱窗，雨湿纱窗</td><td class="lt-explain">今夜同样在楼上饮酒，但云雨打湿了纱窗，不见明月</td></tr>
+          <tr><td class="lt-line">浑欲乘风问化工，路也难通，信也难通</td><td class="lt-explain">想乘风去问造物主为何中秋无月，却路不通、信难达</td></tr>
+          <tr><td class="lt-line">满堂唯有烛花红，歌且从容，杯且从容</td><td class="lt-explain">满堂只有红烛的光，姑且从容唱歌饮酒——自我宽慰</td></tr>
+        </table>
+      </div>
+    </div>
+    <div class="detail-card">
+      <div class="dc-label"><span class="dc-icon">💛</span><span class="dc-title">中秋情感主题</span></div>
+      <div class="dc-body">
+        <p>此词以"中秋无月"为切入点，写出了人生中那些不圆满的时刻。中秋本应有月却无月，正如人生本应圆满却充满遗憾。"歌且从容，杯且从容"是在无法改变现实的情况下的自我调节——既然没有月亮，就珍惜眼前的烛光和酒。</p>
+        <p>词中隐含的深层情感是：天公不作美（中秋无月），正如朝廷不给力（北伐无望）。"路也难通，信也难通"或暗喻抗金报国之路被阻断。</p>
+      </div>
+    </div>
+    <div class="detail-card">
+      <div class="dc-label"><span class="dc-icon">📜</span><span class="dc-title">历史文化背景</span></div>
+      <div class="dc-body">
+        <p>辛弃疾写作此词时可能正处于政治失意阶段。"乘风问化工"的"化工"指造物主（大自然的主宰），暗含了对朝廷决策者的委婉质疑。"路也难通，信也难通"既写实（风雨阻隔），也隐喻了言路不通的政治处境。</p>
+        <p>此词以极其通俗的语言表达了深刻的人生哲理，体现了辛弃疾"以俗为雅"的艺术追求，也是中秋词中别具一格的佳作。</p>
+      </div>
+    </div>
+  </div>
+  <div class="insight-quote">"歌且从容，杯且从容"——在缺憾中保持从容，是人生的大智慧。<span class="iq-src">—— 文学评析</span></div>
+</section>
+
+<!-- ====== 13. 中秋对月 ====== -->
+<section class="poem-detail-section poetry-reveal" id="zhongqiuduiyue">
+  <div class="poem-header">
+    <div class="ph-title">中秋对月</div>
+    <div class="ph-author">【唐】曹松</div>
+    <span class="ph-dynasty">唐代 · 晚唐时期</span>
+  </div>
+  <div class="poem-full-display">
+    <div class="pfd-lines">
+      无云世界秋三五，共看蟾盘上海涯。<br>
+      直到天头天尽处，不曾私照一人家。
+    </div>
+  </div>
+  <div class="detail-card-grid">
+    <div class="detail-card">
+      <div class="dc-label"><span class="dc-icon">👤</span><span class="dc-title">作者生平与文学背景</span></div>
+      <div class="dc-body">
+        <p>曹松（约830—903），字梦徵，舒州（今安徽潜山）人。晚唐诗人，一生科举不第，七十余岁才考中进士，是唐代著名的"老进士"。其诗多写社会现实和人生感慨，风格质朴深沉。</p>
+        <p>此诗以简洁有力的语言，赞颂了中秋明月的公正无私——月光普照天下，不偏爱任何一户人家。在晚唐动荡的社会背景下，这种对"公正"的赞美具有特殊的意义。</p>
+      </div>
+    </div>
+    <div class="detail-card">
+      <div class="dc-label"><span class="dc-icon">🔍</span><span class="dc-title">逐行解析</span></div>
+      <div class="dc-body">
+        <table class="line-table">
+          <tr><td class="lt-line">无云世界秋三五</td><td class="lt-explain">中秋之夜万里无云，"三五"指十五日，即中秋</td></tr>
+          <tr><td class="lt-line">共看蟾盘上海涯</td><td class="lt-explain">人们一同看着圆月（蟾盘）从海天相接处升起</td></tr>
+          <tr><td class="lt-line">直到天头天尽处</td><td class="lt-explain">月光一直照射到天的最尽头——覆盖整个天地</td></tr>
+          <tr><td class="lt-line">不曾私照一人家</td><td class="lt-explain">从不曾偏私地只照耀某一户人家——月光对所有人绝对公平</td></tr>
+        </table>
+      </div>
+    </div>
+    <div class="detail-card">
+      <div class="dc-label"><span class="dc-icon">💛</span><span class="dc-title">中秋情感主题</span></div>
+      <div class="dc-body">
+        <p>此诗在中秋诗词中独辟蹊径——不是写思乡、感怀或团圆，而是写月光的"公正无私"。"不曾私照一人家"将自然现象上升为社会理想：如果人间也能像月光一样公平地对待每一个人，那该多好。</p>
+        <p>曹松一生困顿科场，对社会的不公有着深切的体会。中秋之月在他眼中不仅是一个审美对象，更是一种理想的社会秩序的象征——月光不偏不倚，普惠众生。</p>
+      </div>
+    </div>
+    <div class="detail-card">
+      <div class="dc-label"><span class="dc-icon">📜</span><span class="dc-title">历史文化背景</span></div>
+      <div class="dc-body">
+        <p>晚唐时期，藩镇割据、宦官专权、科举腐败，社会矛盾激化。曹松以古稀之年才考中进士，对科举制度的不公有着切肤之痛。"不曾私照一人家"或许正是对人间的不公发出的含蓄抗议。</p>
+        <p>此诗语言质朴却意蕴深远，将自然现象与人文关怀巧妙结合，在中秋诗歌史上占有独特的位置。其思想内涵超越了时代，至今仍能引发共鸣。</p>
+      </div>
+    </div>
+  </div>
+  <div class="insight-quote">"直到天头天尽处，不曾私照一人家"——月光的公平，反衬出人间的不公。<span class="iq-src">—— 文学评析</span></div>
+</section>
+
+<!-- ====== 14. 阳关曲 · 中秋月 ====== -->
+<section class="poem-detail-section poetry-reveal" id="yangguanqu">
+  <div class="poem-header">
+    <div class="ph-title">阳关曲 · 中秋月</div>
+    <div class="ph-author">【宋】苏轼</div>
+    <span class="ph-dynasty">北宋 · 熙宁十年（1077）</span>
+  </div>
+  <div class="poem-full-display">
+    <div class="pfd-lines">
+      暮云收尽溢清寒，银汉无声转玉盘。<br>
+      此生此夜不长好，明月明年何处看。
+    </div>
+  </div>
+  <div class="detail-card-grid">
+    <div class="detail-card">
+      <div class="dc-label"><span class="dc-icon">👤</span><span class="dc-title">作者生平与文学背景</span></div>
+      <div class="dc-body">
+        <p>此词写于熙宁十年（1077）中秋，时苏轼在徐州。就在前一年中秋，苏轼在密州写下了《水调歌头·明月几时有》。与前作的豪放旷达不同，此词写的是与弟弟苏辙短暂团聚后即将再次分别时的感伤。</p>
+        <p>苏轼兄弟感情极为深厚，但各自宦游在外，聚少离多。这年中秋两人难得团聚于徐州，然而次日苏辙就要离开。短暂的团圆让苏轼更加珍惜眼前的中秋之夜，也为即将到来的离别感到惆怅。</p>
+      </div>
+    </div>
+    <div class="detail-card">
+      <div class="dc-label"><span class="dc-icon">🔍</span><span class="dc-title">逐行解析</span></div>
+      <div class="dc-body">
+        <table class="line-table">
+          <tr><td class="lt-line">暮云收尽溢清寒</td><td class="lt-explain">傍晚的云散尽后，寒气四溢——秋夜转凉，天朗气清</td></tr>
+          <tr><td class="lt-line">银汉无声转玉盘</td><td class="lt-explain">银河无声，一轮圆月如玉盘般转动——极写中秋月色的静美</td></tr>
+          <tr><td class="lt-line">此生此夜不长好</td><td class="lt-explain">这一生中的这个夜晚不会长久美好——预感离别将至</td></tr>
+          <tr><td class="lt-line">明月明年何处看</td><td class="lt-explain">明年的中秋月，又将在何处观看？——对未来充满不确定</td></tr>
+        </table>
+      </div>
+    </div>
+    <div class="detail-card">
+      <div class="dc-label"><span class="dc-icon">💛</span><span class="dc-title">中秋情感主题</span></div>
+      <div class="dc-body">
+        <p>此词的核心情感是"珍惜当下"与"对未来的不确定感"。苏轼与弟弟难得中秋团聚，但越是美好的时刻越是短暂。"此生此夜不长好"是对幸福短暂性的清醒认知，"明月明年何处看"是对未来重逢的不确定。</p>
+        <p>与《水调歌头》"但愿人长久"的豪迈祝愿相比，《阳关曲》更多了一份对人生无常的感慨。两首词共同构成了苏轼中秋情感的完整维度——既有旷达超脱，也有人间温情。</p>
+      </div>
+    </div>
+    <div class="detail-card">
+      <div class="dc-label"><span class="dc-icon">📜</span><span class="dc-title">历史文化背景</span></div>
+      <div class="dc-body">
+        <p>"阳关曲"本为唐代送别歌曲，源自王维《送元二使安西》"劝君更尽一杯酒，西出阳关无故人"。苏轼用此调写中秋月，巧妙地将中秋团圆与送别离愁两个主题融为一体。</p>
+        <p>苏轼一生宦海沉浮，与亲人聚少离多。从密州到徐州，虽然地理距离近了，但兄弟二人各自的仕途使他们无法长久相聚。这种体验使得苏轼的中秋词既有豪放的一面，也有深情的另一面。</p>
+      </div>
+    </div>
+  </div>
+  <div class="insight-quote">"此生此夜不长好，明月明年何处看"——相聚的珍贵恰在于它的短暂。<span class="iq-src">—— 文学评析</span></div>
+</section>
+
 </div>
 
 <footer class="footer">
@@ -95,11 +943,76 @@
     </div>
   </div>
 </footer>
+
 <div class="back-to-top" title="回到顶部">
   <svg viewBox="0 0 24 24"><path d="M12 19V5M5 12l7-7 7 7" stroke="currentColor" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
 </div>
+
 <script src="/js/common.js"></script>
 <script src="/js/moon-journey.js"></script>
 <script>MoonJourney.start('poetry-detail');</script>
+<script>
+(function() {
+  'use strict';
+
+  // 滚动揭示
+  function initReveal() {
+    var reveals = document.querySelectorAll('.poetry-reveal');
+    if (!reveals.length) return;
+    if ('IntersectionObserver' in window) {
+      var obs = new IntersectionObserver(function(entries) {
+        entries.forEach(function(entry) {
+          if (entry.isIntersecting) { entry.target.classList.add('visible'); obs.unobserve(entry.target); }
+        });
+      }, { threshold: 0.08, rootMargin: '0px 0px -30px 0px' });
+      reveals.forEach(function(el) { obs.observe(el); });
+    } else {
+      reveals.forEach(function(el) { el.classList.add('visible'); });
+    }
+  }
+
+  // 子导航高亮
+  function initSubnav() {
+    var nav = document.getElementById('subnav');
+    if (!nav) return;
+    var links = nav.querySelectorAll('a');
+    var sections = [];
+    links.forEach(function(link) {
+      var id = link.getAttribute('href').replace('#', '');
+      var sec = document.getElementById(id);
+      if (sec) sections.push({ el: sec, link: link });
+    });
+
+    var ticking = false;
+    window.addEventListener('scroll', function() {
+      if (!ticking) {
+        requestAnimationFrame(function() {
+          var scrollY = window.scrollY + 150;
+          var current = null;
+          sections.forEach(function(s) {
+            if (s.el.offsetTop <= scrollY) current = s;
+          });
+          links.forEach(function(l) { l.classList.remove('active'); });
+          if (current) current.link.classList.add('active');
+          ticking = false;
+        });
+        ticking = true;
+      }
+    });
+
+    links.forEach(function(link) {
+      link.addEventListener('click', function(e) {
+        e.preventDefault();
+        var id = link.getAttribute('href').replace('#', '');
+        var target = document.getElementById(id);
+        if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      });
+    });
+  }
+
+  function init() { initReveal(); initSubnav(); }
+  if (document.readyState === 'loading') { document.addEventListener('DOMContentLoaded', init); } else { init(); }
+})();
+</script>
 </body>
 </html>

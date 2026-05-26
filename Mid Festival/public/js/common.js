@@ -37,14 +37,29 @@
   }
 
   (function highlightNav() {
-    if (!navLinks) return;
-    var currentPath = window.location.pathname.split('/').pop() || 'index.html';
-    navLinks.querySelectorAll('a').forEach(function(link) {
-      var href = link.getAttribute('href');
-      if (href === currentPath || (currentPath === '' && href === 'index.html')) {
-        link.classList.add('active');
-      }
-    });
+    var pathname = window.location.pathname;
+    var activeHref = '/';
+    if (pathname.startsWith('/origin')) activeHref = '/origin';
+    else if (pathname.startsWith('/customs')) activeHref = '/customs';
+    else if (pathname.startsWith('/legends')) activeHref = '/legends';
+    else if (pathname.startsWith('/food') || pathname.startsWith('/fame')) activeHref = '/food';
+    else if (pathname.startsWith('/poetry')) activeHref = '/poetry';
+    else if (pathname.startsWith('/gallery')) activeHref = '/gallery';
+    else if (pathname.startsWith('/blessing')) activeHref = '/blessing';
+    else if (pathname.startsWith('/admin')) activeHref = '/admin';
+
+    function applyActive(container) {
+      if (!container) return;
+      container.querySelectorAll('a').forEach(function(link) {
+        link.classList.remove('active');
+        if (link.getAttribute('href') === activeHref) {
+          link.classList.add('active');
+        }
+      });
+    }
+
+    applyActive(document.querySelector('.nav-links'));
+    applyActive(document.querySelector('.footer-links'));
   })();
 
   /* ================================================================

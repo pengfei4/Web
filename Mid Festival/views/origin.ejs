@@ -2,26 +2,47 @@
 <html lang="zh-CN">
 <head>
 <meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="中秋节的千年起源与演变历程">
-<title>节日起源 — 月满中华·情系中秋</title>
+<meta name="description" content="中秋节的千年起源与演变历程——穿针引线，追溯三千年时光">
+<title>节日起源 — <%= config.site_title %></title>
 <link href="/css/common.css" rel="stylesheet">
 <link href="/css/animations.css" rel="stylesheet">
 <link href="/css/pages.css" rel="stylesheet">
 </head>
 <body data-journey="origin">
+
 <div class="page-transition active"><div class="moon-loader"></div></div>
+
 <nav class="navbar">
-  <a href="/" class="nav-logo"><div class="logo-icon"></div><span>月满中华</span></a>
+  <a href="/" class="nav-logo">
+    <div class="logo-icon"></div>
+    <span>月满中华</span>
+  </a>
   <div class="nav-links">
     <% nav.forEach(function(item) { %>
       <a href="<%= item.href %>"<%= item.href === '/origin' ? ' class="active"' : '' %>><%= item.label %></a>
     <% }); %>
   </div>
-  <div class="nav-toggle"><span></span><span></span><span></span></div>
+  <div class="nav-actions">
+    <div class="nav-user">
+      <% if (user) { %>
+        <div class="user-avatar"><%= user.username.charAt(0).toUpperCase() %></div>
+        <span class="user-name"><%= user.username %></span>
+        <div class="user-dropdown">
+          <a href="/logout">退出登录</a>
+        </div>
+      <% } else { %>
+        <a href="/login" class="nav-login-btn">登录</a>
+      <% } %>
+    </div>
+    <div class="nav-toggle"><span></span><span></span><span></span></div>
+  </div>
 </nav>
+
 <div class="bg-particles"></div>
 
+<!-- Hero -->
 <section class="page-hero">
   <div class="cloud-pattern"></div>
   <div class="hero-content">
@@ -31,6 +52,7 @@
   </div>
 </section>
 
+<!-- 曲线穿针时间轴 -->
 <div class="page-content">
   <div class="section-title reveal">
     <h2>中秋节的千年演变</h2>
@@ -39,30 +61,184 @@
   </div>
 
   <div class="era-timeline-wrapper">
+    <!-- SVG 直线轴层 -->
     <svg class="era-axis-svg" preserveAspectRatio="none">
       <path class="axis-glow" d="" />
       <path class="axis-line" d="" />
     </svg>
 
+    <!-- 时代卡片 -->
     <div class="era-cards">
-      <% eras.forEach(function(era) { %>
-        <div class="era-card" data-era="<%= era.era_key %>">
-          <span class="era-illustration"><%= era.icon %></span>
-          <span class="era-badge"><%= era.badge %></span>
-          <div class="era-year"><%= era.name %></div>
-          <div class="era-title"><%= era.title %></div>
-          <div class="era-desc"><%- era.desc_html %></div>
-          <% era.quotes.forEach(function(q) { %>
-            <div class="era-quote"<% if (era.quotes.indexOf(q) > 0) { %> style="margin-top:10px;"<% } %>>
-              "<%= q.text %>"
-              <span class="quote-source">——<%= q.source %></span>
-            </div>
-          <% }); %>
+
+      <!-- 上古时期 -->
+      <div class="era-card" data-era="era-ancient">        <span class="era-illustration">🌌</span>
+        <span class="era-badge">起源</span>
+        <div class="era-year">上古时期</div>
+        <div class="era-title">秋夕祭月 · 天象崇拜</div>
+        <div class="era-desc">
+          <p>中秋节的根脉深植于华夏先民对天象的崇敬与观测。上古时期，人们相信月亮的盈亏暗合天地运行的规律——月满则盈、月缺则亏，这种循环被视为天神意志的显现。每逢秋分前后、月华最盛之夜，先民们聚集于高地，燃起篝火、献上谷稷，举行庄严的"秋夕祭月"仪式，祈求来年风调雨顺、五谷丰登。</p>
+          <p>这一古老的祭月传统，是农耕文明对自然节律敬畏的集中体现。在文字尚未普及的年代，月亮就是悬挂在天穹之上的"公共历法"——月相变化指导着播种与收获的节奏。"中秋"二字的雏形在此时虽未定型，但八月中旬月圆之夜的特殊意义，已悄然烙印在华夏民族的文化基因之中。</p>
         </div>
-      <% }); %>
-    </div>
-  </div>
-</div>
+        <div class="era-quote">
+          "中秋夜迎寒，击土鼓吹豳诗，以御田祖。"
+          <span class="quote-source">——《周礼·春官·籥章》</span>
+        </div>
+        <div class="era-quote" style="margin-top:10px;">
+          "天子春朝日，秋夕月。朝日以朝，夕月以夕。"
+          <span class="quote-source">——《礼记·祭义》</span>
+        </div>
+      </div>
+
+      <!-- 汉代 -->
+      <div class="era-card" data-era="era-han">        <span class="era-illustration">🏛️</span>
+        <span class="era-badge">发展</span>
+        <div class="era-year">汉代</div>
+        <div class="era-title">普及民间 · 渐成风俗</div>
+        <div class="era-desc">
+          <p>汉代是中秋节从宫廷走向民间的关键转折期。随着大一统王朝的建立与社会经济的繁荣，原先局限于皇家典礼的祭月活动，逐渐向士大夫阶层和普通百姓扩散。人们在秋高气爽的八月夜晚自发地走出家门，在庭院楼阁之中仰望明月，将庄重的祭祀仪式转变为更为亲民的"赏月"活动。</p>
+          <p>这一时期，中秋与二十四节气中的"秋分"开始分离，慢慢固定在农历八月十五。汉代枚乘在其名篇《七发》中已有观潮的详尽描绘，说明中秋时节的自然奇观已经成为人们生活的一部分。汉代人对月亮的情感也从"敬畏"逐渐转向"欣赏"与"寄托"，为后来魏晋南北朝时期"玩月""赏月"风气的盛行奠定了基础。</p>
+        </div>
+        <div class="era-quote">
+          "朝朝日，夕夕月，则揖。"
+          <span class="quote-source">——《史记·封禅书》</span>
+        </div>
+      </div>
+
+      <!-- 魏晋南北朝 -->
+      <div class="era-card" data-era="era-weijin">        <span class="era-illustration">🖋️</span>
+        <span class="era-badge">转折</span>
+        <div class="era-year">魏晋南北朝</div>
+        <div class="era-title">文人玩月 · 诗意萌生</div>
+        <div class="era-desc">
+          <p>魏晋南北朝是中秋节演变过程中一个独特而关键的"文人化"转折期。社会动荡与政治分裂反而催生了思想解放与个体意识的觉醒，士人阶层在山水自然中寻求精神寄托。月亮以其清冷、皎洁、永恒的特质，成为文人墨客最钟爱的审美对象。曹植"明月照高楼，流光正徘徊"、谢庄"隔千里兮共明月"等咏月名句，将此前单纯的祭月仪式升华为个人化的"玩月""赏月"审美活动。</p>
+          <p>这一时期，"中秋"虽尚未被正式确立为节日名称，但八月十五赏月已在上层社会和文人圈中蔚然成风。宗懔《荆楚岁时记》中记录了八月十五的民间活动雏形。文人们将月夜与思乡、怀人、感时等丰富情感相融合，开创了中国文学中"望月怀远"的抒情范式。魏晋风度中的清谈、饮酒、赏月三位一体，为唐代中秋诗的全面繁荣准备了丰厚的文化土壤。</p>
+        </div>
+        <div class="era-quote">
+          "美人迈兮音尘阙，隔千里兮共明月。"
+          <span class="quote-source">—— 谢庄《月赋》</span>
+        </div>
+      </div>
+
+      <!-- 唐代 -->
+      <div class="era-card" data-era="era-tang">        <span class="era-illustration">📜</span>
+        <span class="era-badge">定型</span>
+        <div class="era-year">唐代</div>
+        <div class="era-title">正式定型 · 诗词传世</div>
+        <div class="era-desc">
+          <p>唐朝是中国历史上文化最为繁盛的时期之一，也是中秋节发展史上的里程碑。《唐书·太宗记》中明确出现了"八月十五中秋节"的记载，这是中秋作为正式节日名称首次见诸于史册。从此，八月十五不再仅仅是民间自发的赏月之夜，而是被官方认定为一个正式的岁时节日，全国共庆。</p>
+          <p>唐代文人将中秋赏月推向了艺术的巅峰。张九龄的"海上生明月，天涯共此时"以宏大意境写尽望月思远之情；杜甫的"露从今夜白，月是故乡明"将个人情感与天地景象高度融合；王建的"今夜月明人尽望，不知秋思落谁家"以委婉之笔触碰了人类共通的思念之情。这些传世诗篇将中秋节从一个时令节日升华为承载深情的文化符号，真正奠定了中秋在中国文化中的特殊地位。</p>
+        </div>
+        <div class="era-quote">
+          "八月十五中秋节，三公以下献镜及盛露囊。"
+          <span class="quote-source">——《唐书·太宗记》</span>
+        </div>
+        <div class="era-quote" style="margin-top:10px;">
+          "海上生明月，天涯共此时。"
+          <span class="quote-source">—— 张九龄《望月怀远》</span>
+        </div>
+      </div>
+
+      <!-- 宋代 -->
+      <div class="era-card" data-era="era-song">        <span class="era-illustration">🏮</span>
+        <span class="era-badge">繁荣</span>
+        <div class="era-year">宋代</div>
+        <div class="era-title">盛况空前 · 民俗丰富</div>
+        <div class="era-desc">
+          <p>宋代的商品经济高度发达，市民文化蓬勃兴起，中秋节迎来了空前繁荣的黄金时代。据孟元老《东京梦华录》记载，中秋之夜的汴京城"贵家结饰台榭，民间争占酒楼玩月"，整个城市沉浸在狂欢之中——丝竹之声不绝于耳，夜市通宵达旦营业，人们"嬉戏连坐至晓"，其盛况远超前代。</p>
+          <p>宋代吴自牧在《梦粱录》中第一次系统解释了"中秋"之名的由来：八月十五日恰好位于孟秋、仲秋、季秋这"三秋之半"，故称"中秋"。吃月饼的习俗也在宋代开始在民间普及——当时称为"小饼"或"月团"，以酥油和糖为馅，是中秋宴饮不可或缺的点心。苏轼在中秋之夜大醉后写下的《水调歌头·明月几时有》成为千古绝唱，"但愿人长久，千里共婵娟"道出了中秋最核心的情感内涵——团圆与思念。</p>
+        </div>
+        <div class="era-quote">
+          "中秋夜，贵家结饰台榭，民间争占酒楼玩月……闾里儿童，连宵嬉戏，夜市骈阗，至于通晓。"
+          <span class="quote-source">—— 孟元老《东京梦华录》</span>
+        </div>
+        <div class="era-quote" style="margin-top:10px;">
+          "但愿人长久，千里共婵娟。"
+          <span class="quote-source">—— 苏轼《水调歌头·明月几时有》</span>
+        </div>
+      </div>
+
+      <!-- 元代 -->
+      <div class="era-card" data-era="era-yuan">        <span class="era-illustration">🐎</span>
+        <span class="era-badge">融合</span>
+        <div class="era-year">元代</div>
+        <div class="era-title">多元交融 · 节俗延续</div>
+        <div class="era-desc">
+          <p>元代是由蒙古族建立的大一统王朝，多元民族文化的碰撞与交融为中秋节的传承带来了新的面貌。尽管统治者来自草原游牧传统，但中秋节作为汉地悠久的文化习俗不仅未被取缔，反而在民间持续传承。元代杂剧大家关汉卿创作了以中秋为背景的经典剧目《拜月亭》，讲述战乱中一对青年男女对月盟誓的爱情故事，表明中秋拜月的习俗已深入人心、融入民间叙事。</p>
+          <p>元代也是中秋节俗向边疆和少数民族地区扩散的重要时期。随着驿道交通的发达和商业网络的扩展，中原的赏月、吃月饼等习俗沿着丝绸之路和茶马古道向四周辐射。元大都（今北京）的中秋夜市尤为热闹，《析津志》中记载了元大都居民的节日盛况。这一时期的多元文化融合，赋予了中秋节更加开放包容的气质，为明清两代的全面鼎盛奠定了社会基础。</p>
+        </div>
+        <div class="era-quote">
+          "您看那月儿圆圆，人儿远远，怎不教人心中惨切……"
+          <span class="quote-source">—— 关汉卿《拜月亭》</span>
+        </div>
+      </div>
+
+      <!-- 明代 -->
+      <div class="era-card" data-era="era-ming">        <span class="era-illustration">🎭</span>
+        <span class="era-badge">鼎盛</span>
+        <div class="era-year">明代</div>
+        <div class="era-title">民俗大成 · 月饼定型</div>
+        <div class="era-desc">
+          <p>明代是中秋节俗全面系统化、规范化的关键时期。经过宋元的积累，中秋在明代正式成为与春节、端午并重的全民性节日。明代刘侗《帝京景物略》中详细记述了京城中秋祭月的完整仪式——祭桌必须朝向月亮升起的方向，供品中的果饼必须做成圆形以象征团圆，西瓜要切成莲花瓣状，其讲究程度远超前代。北京城的"兔儿爷"泥塑也在此时出现并迅速风靡，成为中秋节最具辨识度的民间工艺品。</p>
+          <p>月饼在明代完成了从普通点心到中秋专属节令食品的转变。明代田汝成《西湖游览志余》中明确记载："八月十五日谓之中秋……民间以月饼相遗，取团圆之义。"——这是"月饼"之名与"团圆"寓意正式见诸文献的重要记录。此时的月饼已经发展出酥皮、果馅等多种品类，亲友间互赠月饼成为不可或缺的节日礼俗。祭月、赏月、吃月饼、送月饼这一整套完整的节俗链条，在明代基本定型并沿用至今。</p>
+        </div>
+        <div class="era-quote">
+          "八月十五祭月，其祭果饼必圆，分瓜必牙错瓣刻之，如莲华。"
+          <span class="quote-source">—— 刘侗《帝京景物略》</span>
+        </div>
+      </div>
+
+      <!-- 清代 -->
+      <div class="era-card" data-era="era-qing">        <span class="era-illustration">🌕</span>
+        <span class="era-badge">传承</span>
+        <div class="era-year">清代</div>
+        <div class="era-title">盛况空前 · 百花齐放</div>
+        <div class="era-desc">
+          <p>清代将中秋节俗推向了前所未有的繁荣高度。满族统治者积极吸收汉文化，宫廷中的中秋庆典极为隆重——乾隆皇帝曾在避暑山庄连续多日举办中秋宴席，皇家祭月仪式庄严盛大。而在民间，各地形成了独具特色的地方风俗：江南女子中秋之夜结伴出游赏月，称为"走月亮"；广东一带家家户户将灯笼高悬于竹竿之上，称为"树中秋"；福建地区则有"烧塔"祈愿的壮观习俗——砖塔内燃起熊熊大火，火光与月光交相辉映，场面极为震撼。</p>
+          <p>清代商品经济的繁荣推动了月饼制作的精细化与多样化。据《燕京岁时记》等文献记载，北京的月饼以前门致美斋所制最为驰名，从宫廷御膳房到各地民间饼铺，"月饼战"成为中秋前夕一道独特的商业景观。月饼的馅料也从简单的酥油白糖发展为枣泥、豆沙、五仁、火腿等丰富品类，月饼模子（饼印）的雕刻艺术日臻精美。清代中叶以后，中秋节的地位达到历史顶峰，与春节、端午并列为中国最重要的三大传统节日。</p>
+        </div>
+        <div class="era-quote">
+          "中秋夕，妇女盛妆出游，互相往还，谓之走月亮。"
+          <span class="quote-source">—— 顾禄《清嘉录》</span>
+        </div>
+        <div class="era-quote" style="margin-top:10px;">
+          "八月十五日祭月，香灯、月饼、瓜果陈列满案，家人团坐，饮酒赏月。"
+          <span class="quote-source">—— 富察敦崇《燕京岁时记》</span>
+        </div>
+      </div>
+
+      <!-- 近现代 -->
+      <div class="era-card" data-era="era-recent">        <span class="era-illustration">📰</span>
+        <span class="era-badge">变革</span>
+        <div class="era-year">近现代</div>
+        <div class="era-title">时代变迁 · 文化坚守</div>
+        <div class="era-desc">
+          <p>进入近现代，中秋节经历了从传统农业社会向现代工业社会转型的深刻洗礼。清末民初，西风东渐，传统节日一度被视为"旧俗"而遭到冲击。然而中秋节所承载的"团圆""思乡""感恩"等核心价值深入人心，使其在时代巨变中展现出强大的文化韧性。即使在战火纷飞的年代，一轮明月依然是离乱中的人们寄托乡愁与希望的精神支柱——"烽火连三月，家书抵万金"，中秋望月更添思念之情。</p>
+          <p>新中国成立后，中秋节的文化价值被重新审视与肯定。改革开放以来，随着经济腾飞和文化自信的提升，中秋节迎来了全面复兴。2006年5月20日，中秋节经国务院批准列入首批国家级非物质文化遗产名录，获得国家层面的制度化保护。2008年起，中秋节正式成为国家法定节假日，亿万中国人在这天得以放下工作、与家人团聚，古老的"团圆"主题在快节奏的现代社会中重新焕发光彩，千年传统在当代社会中找到了新的支点。</p>
+        </div>
+        <div class="era-quote">
+          "中秋节，列入首批国家级非物质文化遗产名录，是中华民族文化认同的重要载体。"
+          <span class="quote-source">—— 国务院公告（2006年5月20日）</span>
+        </div>
+      </div>
+
+      <!-- 当代 -->
+      <div class="era-card" data-era="era-modern">        <span class="era-illustration">🌟</span>
+        <span class="era-badge">弘扬</span>
+        <div class="era-year">当代</div>
+        <div class="era-title">走向世界 · 月映全球</div>
+        <div class="era-desc">
+          <p>进入二十一世纪，中秋节已不仅是中国人的传统佳节，更成为向世界展示中华文化的重要窗口。随着全球化进程加速和海外华人社区的蓬勃发展，中秋节的庆祝活动遍布世界各大洲——纽约的时代广场点亮中秋灯笼，悉尼歌剧院为中秋亮起金色灯光，伦敦唐人街的中秋庆典吸引各族裔市民共同参与。日本、韩国、越南、新加坡、马来西亚等东亚和东南亚国家都有各自独特的中秋庆祝方式。中秋节所承载的"团圆、和谐、感恩、思念"的普世价值，跨越语言与文化的藩篱，引发全人类的情感共鸣。</p>
+          <p>在数字时代，中秋节的庆祝方式也在不断创新。视频通话让远隔重洋的亲人得以"云端团圆"；社交媒体上的"晒月亮""晒月饼"成为年轻一代新的节日仪式；文创月饼、数字藏品、登月主题中秋活动等新形态层出不穷。然而无论形式如何变化，"但愿人长久，千里共婵娟"的核心情感始终如一。从上古的祭月篝火到今天的手机屏幕，三千年来中国人对月亮的深情凝望从未改变——月是故乡明，无论身在何方，八月十五的满月总是牵动着每个中华儿女的心。</p>
+        </div>
+        <div class="era-quote">
+          "但愿人长久，千里共婵娟。"
+          <span class="quote-source">—— 苏轼《水调歌头·明月几时有》</span>
+        </div>
+      </div>
+
+    </div><!-- .era-cards -->
+  </div><!-- .era-timeline-wrapper -->
+</div><!-- .page-content -->
 
 <footer class="footer">
   <div class="footer-content">
@@ -76,9 +252,11 @@
     </div>
   </div>
 </footer>
+
 <div class="back-to-top" title="回到顶部">
   <svg viewBox="0 0 24 24"><path d="M12 19V5M5 12l7-7 7 7" stroke="currentColor" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
 </div>
+
 <script src="/js/common.js"></script>
 <script src="/js/moon-journey.js"></script>
 <script>MoonJourney.start('origin');</script>

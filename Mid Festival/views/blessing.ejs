@@ -2,17 +2,38 @@
 <html lang="zh-CN">
 <head>
 <meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="description" content="中秋祝福寄语，写下心愿与祝福">
-<title>祝福寄语 — 月满中华·情系中秋</title>
+<title>祝福寄语 — <%= config.site_title %></title>
 <link href="/css/common.css" rel="stylesheet">
 <link href="/css/animations.css" rel="stylesheet">
 <link href="/css/pages.css" rel="stylesheet">
 <style>
-  .blessing-hero-mini { text-align: center; padding: 60px 20px; position: relative; }
-  .blessing-hero-mini .bh-illustration { font-size: 6rem; display: block; margin-bottom: 20px; animation: float 4s ease-in-out infinite; }
-  .lantern-release-animation { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 5000; }
-  .flying-lantern { position: absolute; pointer-events: none; animation: lanternFlyUp 8s ease-out forwards; font-size: 2rem; }
+  .blessing-hero-mini {
+    text-align: center;
+    padding: 60px 20px;
+    position: relative;
+  }
+  .blessing-hero-mini .bh-illustration {
+    font-size: 6rem;
+    display: block;
+    margin-bottom: 20px;
+    animation: float 4s ease-in-out infinite;
+  }
+  .lantern-release-animation {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    pointer-events: none;
+    z-index: 5000;
+  }
+  .flying-lantern {
+    position: absolute;
+    pointer-events: none;
+    animation: lanternFlyUp 8s ease-out forwards;
+    font-size: 2rem;
+  }
   @keyframes lanternFlyUp {
     0% { transform: translateY(0) translateX(0) scale(1); opacity: 1; }
     20% { transform: translateY(-15vh) translateX(30px) scale(1.1); opacity: 0.95; }
@@ -20,25 +41,59 @@
     80% { transform: translateY(-80vh) translateX(15px) scale(0.7); opacity: 0.3; }
     100% { transform: translateY(-120vh) translateX(0) scale(0.3); opacity: 0; }
   }
-  .blessing-stats { display: flex; justify-content: center; gap: 40px; margin-bottom: 40px; flex-wrap: wrap; }
-  .blessing-stat { text-align: center; padding: 20px 30px; background: var(--card-bg); border: 1px solid var(--border-subtle); border-radius: 12px; min-width: 120px; }
-  .blessing-stat .bs-num { font-family: var(--font-title); font-size: 2rem; color: var(--moon-gold); }
+  .blessing-stats {
+    display: flex; justify-content: center; gap: 40px;
+    margin-bottom: 40px; flex-wrap: wrap;
+  }
+  .blessing-stat {
+    text-align: center;
+    padding: 20px 30px;
+    background: var(--card-bg);
+    border: 1px solid var(--border-subtle);
+    border-radius: 12px;
+    min-width: 120px;
+  }
+  .blessing-stat .bs-num {
+    font-family: var(--font-title);
+    font-size: 2rem;
+    color: var(--moon-gold);
+  }
   .blessing-stat .bs-label { color: var(--text-muted); font-size: 0.85rem; margin-top: 5px; }
 </style>
 </head>
 <body data-journey="blessing">
+
 <div class="page-transition active"><div class="moon-loader"></div></div>
+
 <nav class="navbar">
-  <a href="/" class="nav-logo"><div class="logo-icon"></div><span>月满中华</span></a>
+  <a href="/" class="nav-logo">
+    <div class="logo-icon"></div>
+    <span>月满中华</span>
+  </a>
   <div class="nav-links">
     <% nav.forEach(function(item) { %>
       <a href="<%= item.href %>"<%= item.href === '/blessing' ? ' class="active"' : '' %>><%= item.label %></a>
     <% }); %>
   </div>
-  <div class="nav-toggle"><span></span><span></span><span></span></div>
+  <div class="nav-actions">
+    <div class="nav-user">
+      <% if (user) { %>
+        <div class="user-avatar"><%= user.username.charAt(0).toUpperCase() %></div>
+        <span class="user-name"><%= user.username %></span>
+        <div class="user-dropdown">
+          <a href="/logout">退出登录</a>
+        </div>
+      <% } else { %>
+        <a href="/login" class="nav-login-btn">登录</a>
+      <% } %>
+    </div>
+    <div class="nav-toggle"><span></span><span></span><span></span></div>
+  </div>
 </nav>
+
 <div class="bg-particles"></div>
 
+<!-- 孔明灯动画层 -->
 <div class="lantern-release-animation" id="lanternLayer"></div>
 
 <section class="page-hero" style="height:40vh; min-height:300px;">
@@ -53,17 +108,19 @@
 <div class="page-content">
   <div class="blessing-hero-mini reveal">
     <span class="bh-illustration">🏮</span>
-    <p style="color:var(--text-secondary);font-size:1.1rem;letter-spacing:2px;max-width:600px;margin:0 auto;line-height:2;">
+    <p style="color:var(--text-secondary); font-size:1.1rem; letter-spacing:2px; max-width:600px; margin:0 auto; line-height:2;">
       写下你的中秋祝福，让心愿化作孔明灯<br>飘向月空，传递最真挚的情感
     </p>
   </div>
 
   <div class="blessing-container">
+    <!-- 统计 -->
     <div class="blessing-stats reveal">
-      <div class="blessing-stat"><span class="bs-num" id="blessingCount"><%= stats.blessingCount %></span><span class="bs-label">祝福数</span></div>
+      <div class="blessing-stat"><span class="bs-num" id="blessingCount">0</span><span class="bs-label">祝福数</span></div>
       <div class="blessing-stat"><span class="bs-num" id="lanternCount">0</span><span class="bs-label">孔明灯</span></div>
     </div>
 
+    <!-- 输入区 -->
     <div class="blessing-input-area reveal">
       <textarea id="blessingText" placeholder="写下你的中秋祝福……" maxlength="100"></textarea>
       <div class="blessing-actions">
@@ -72,6 +129,7 @@
       </div>
     </div>
 
+    <!-- 祝福墙 -->
     <div class="section-title reveal" style="margin-top:50px;">
       <h2>祝福墙</h2>
       <p class="subtitle">每一份祝福都值得被看见</p>
@@ -79,12 +137,22 @@
     </div>
 
     <div class="blessing-wall" id="blessingWall">
-      <% blessings.forEach(function(b) { %>
-        <div class="blessing-card">
-          <p class="bc-text"><%= b.text %></p>
-          <p class="bc-time"><%= b.author %> · <%= b.created_at %></p>
-        </div>
-      <% }); %>
+      <div class="blessing-card">
+        <p class="bc-text">但愿人长久，千里共婵娟。祝所有远方的亲人中秋快乐，平安幸福！</p>
+        <p class="bc-time">中秋寄语</p>
+      </div>
+      <div class="blessing-card">
+        <p class="bc-text">月圆人团圆，祝大家中秋快乐，阖家幸福，万事如意！</p>
+        <p class="bc-time">中秋寄语</p>
+      </div>
+      <div class="blessing-card">
+        <p class="bc-text">海上生明月，天涯共此时。无论身在何方，我们共赏同一轮明月。</p>
+        <p class="bc-time">中秋寄语</p>
+      </div>
+      <div class="blessing-card">
+        <p class="bc-text">愿月光照亮每一个思乡的夜晚，愿团圆温暖每一颗漂泊的心。</p>
+        <p class="bc-time">中秋寄语</p>
+      </div>
     </div>
   </div>
 </div>
@@ -101,111 +169,14 @@
     </div>
   </div>
 </footer>
+
 <div class="back-to-top" title="回到顶部">
   <svg viewBox="0 0 24 24"><path d="M12 19V5M5 12l7-7 7 7" stroke="currentColor" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
 </div>
+
 <script src="/js/common.js"></script>
 <script src="/js/moon-journey.js"></script>
 <script>MoonJourney.start('blessing');</script>
-<script>
-(function() {
-  'use strict';
-  var blessingCount = <%= stats.blessingCount %>;
-  var lanternTotal = 0;
-  var quickBlessings = <%- JSON.stringify(quickBlessings.map(function(b) { return b.text; })) %>;
-
-  function launchLantern(text) {
-    var layer = document.getElementById('lanternLayer');
-    if (!layer) return;
-    var lantern = document.createElement('div');
-    lantern.className = 'flying-lantern';
-    lantern.textContent = '🏮';
-    lantern.style.left = (Math.random() * 60 + 20) + '%';
-    lantern.style.bottom = '-50px';
-    lantern.style.animationDuration = (Math.random() * 4 + 6) + 's';
-    lantern.title = text;
-    layer.appendChild(lantern);
-    lanternTotal++;
-    document.getElementById('lanternCount').textContent = lanternTotal;
-    setTimeout(function() {
-      if (lantern.parentNode) lantern.parentNode.removeChild(lantern);
-    }, 9000);
-  }
-
-  function addBlessingCard(text, author, time) {
-    var wall = document.getElementById('blessingWall');
-    if (!wall) return;
-    var card = document.createElement('div');
-    card.className = 'blessing-card';
-    card.innerHTML = '<p class="bc-text">' + escapeHTML(text) + '</p><p class="bc-time">' + (author || '匿名') + ' · ' + (time || '刚刚') + '</p>';
-    wall.insertBefore(card, wall.firstChild);
-  }
-
-  function escapeHTML(str) {
-    var div = document.createElement('div');
-    div.appendChild(document.createTextNode(str));
-    return div.innerHTML;
-  }
-
-  window.sendBlessing = function() {
-    var textarea = document.getElementById('blessingText');
-    if (!textarea) return;
-    var text = textarea.value.trim();
-    if (!text) {
-      textarea.style.borderColor = '#e8734a';
-      textarea.placeholder = '请先写下您的祝福再放飞哦~';
-      setTimeout(function() { textarea.style.borderColor = ''; textarea.placeholder = '写下你的中秋祝福……'; }, 2000);
-      return;
-    }
-    fetch('/api/blessings', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ text: text, author: '匿名' })
-    }).then(function(r) { return r.json(); }).then(function(data) {
-      if (data.success) {
-        addBlessingCard(text, '匿名', '刚刚');
-        launchLantern(text);
-        blessingCount++;
-        document.getElementById('blessingCount').textContent = blessingCount;
-      }
-    });
-    textarea.value = '';
-  };
-
-  window.sendQuickBlessing = function() {
-    var idx = Math.floor(Math.random() * quickBlessings.length);
-    var text = quickBlessings[idx];
-    fetch('/api/blessings', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ text: text, author: '中秋祝福' })
-    }).then(function(r) { return r.json(); }).then(function(data) {
-      if (data.success) {
-        addBlessingCard(text, '中秋祝福', '刚刚');
-        launchLantern(text);
-        blessingCount++;
-        document.getElementById('blessingCount').textContent = blessingCount;
-      }
-    });
-  };
-
-  var textarea = document.getElementById('blessingText');
-  if (textarea) {
-    textarea.addEventListener('keydown', function(e) {
-      if (e.key === 'Enter' && !e.shiftKey) {
-        e.preventDefault();
-        window.sendBlessing();
-      }
-    });
-  }
-
-  setInterval(function() {
-    if (lanternTotal < 30) {
-      var idx = Math.floor(Math.random() * quickBlessings.length);
-      launchLantern(quickBlessings[idx]);
-    }
-  }, 8000);
-})();
-</script>
+<script src="/js/blessing.js"></script>
 </body>
 </html>

@@ -5,72 +5,20 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="description" content="中秋节专题网站 - 月满中华·情系中秋，弘扬中华优秀传统文化，展示中秋节作为国家级非物质文化遗产的深厚底蕴">
-<title>月满中华 · 情系中秋 — 中秋节非物质文化遗产专题网站</title>
+<title><%= config.site_title %></title>
 <link href="/css/common.css" rel="stylesheet">
 <link href="/css/animations.css" rel="stylesheet">
 <link href="/css/index.css" rel="stylesheet">
-<style>
-  .nav-login-btn {
-    position: relative;
-    display: inline-flex; align-items: center; gap: 6px;
-    padding: 8px 18px;
-    color: var(--moon-gold);
-    text-decoration: none;
-    border-radius: 24px;
-    border: 2px solid var(--moon-gold);
-    background: transparent;
-    font-family: var(--font-title);
-    font-size: 0.95rem;
-    letter-spacing: 1px;
-    transition: all 0.4s ease;
-    overflow: hidden;
-    white-space: nowrap;
-  }
-  .nav-login-btn::before {
-    content: '';
-    position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-    background: radial-gradient(circle at center, rgba(245,210,122,0.15) 0%, transparent 70%);
-    opacity: 0; transition: opacity 0.4s ease;
-  }
-  .nav-login-btn:hover {
-    box-shadow: 0 0 20px rgba(245,210,122,0.3), 0 0 40px rgba(245,210,122,0.1), inset 0 0 20px rgba(245,210,122,0.08);
-    border-color: #fde68a;
-    color: #fde68a;
-    transform: translateY(-1px);
-  }
-  .nav-login-btn:hover::before { opacity: 1; }
-  .nav-login-btn .moon-icon {
-    display: inline-block;
-    font-size: 1.1rem;
-    animation: moonBreathe 3s ease-in-out infinite;
-  }
-  @keyframes moonBreathe { 0%,100% { transform: scale(1); opacity: 0.8; } 50% { transform: scale(1.15); opacity: 1; } }
-  .nav-user-info {
-    display: inline-flex; align-items: center; gap: 8px;
-    color: var(--moon-gold); font-size: 0.9rem;
-  }
-  .nav-user-info .user-avatar {
-    width: 32px; height: 32px; border-radius: 50%;
-    background: radial-gradient(circle at 40% 40%, #fde68a, #c9a44a);
-    display: flex; align-items: center; justify-content: center;
-    font-size: 1rem; border: 2px solid var(--moon-gold);
-  }
-  .nav-user-info .logout-link {
-    color: var(--text-muted); text-decoration: none; font-size: 0.8rem; margin-left: 4px;
-    transition: color 0.3s;
-  }
-  .nav-user-info .logout-link:hover { color: var(--warm-orange); }
-  @media (max-width: 768px) {
-    .nav-login-btn { padding: 6px 14px; font-size: 0.85rem; }
-    .nav-user-info { font-size: 0.8rem; }
-  }
-</style>
 </head>
 <body data-journey="index-hero">
 
+<!-- 页面加载过渡 -->
 <div class="page-transition active"><div class="moon-loader"></div></div>
+
+<!-- 滚动进度条 -->
 <div class="scroll-progress"></div>
 
+<!-- 导航栏 -->
 <nav class="navbar">
   <a href="/" class="nav-logo">
     <div class="logo-icon"></div>
@@ -80,24 +28,26 @@
     <% nav.forEach(function(item) { %>
       <a href="<%= item.href %>"<%= item.href === '/' ? ' class="active"' : '' %>><%= item.label %></a>
     <% }); %>
-    <% if (user) { %>
-      <span class="nav-user-info">
-        <span class="user-avatar">👤</span>
-        <span><%= user.username %></span>
-        <a href="/logout" class="logout-link">退出</a>
-      </span>
-    <% } else { %>
-      <a href="/login" class="nav-login-btn">
-        <span class="moon-icon">🌙</span>登录
-      </a>
-    <% } %>
   </div>
-  <div class="nav-toggle"><span></span><span></span><span></span></div>
+  <div class="nav-actions">
+    <div class="nav-user">
+      <% if (user) { %>
+        <div class="user-avatar"><%= user.username.charAt(0).toUpperCase() %></div>
+        <span class="user-name"><%= user.username %></span>
+        <div class="user-dropdown">
+          <a href="/logout">退出登录</a>
+        </div>
+      <% } else { %>
+        <a href="/login" class="nav-login-btn">登录</a>
+      <% } %>
+    </div>
+    <div class="nav-toggle"><span></span><span></span><span></span></div>
+  </div>
 </nav>
 
 <div class="bg-particles"></div>
 
-<!-- Section 1: Hero -->
+<!-- ====== Section 1: Hero 全屏入口 ====== -->
 <section class="hero" id="home">
   <canvas class="hero-canvas" id="heroCanvas"></canvas>
   <div class="moon-parallax-layer"></div>
@@ -118,27 +68,41 @@
   </div>
 </section>
 
+<!-- 转场分隔 -->
 <div class="section-transition"><div class="section-separator"><span class="sep-line"></span><span class="sep-dot"></span><span class="sep-line"></span></div></div>
 
-<!-- Section 2: 倒计时 -->
+<!-- ====== Section 2: 中秋倒计时 + 月相 ====== -->
 <section class="countdown-section" id="countdown">
   <div class="section-inner">
     <div class="moon-phase-indicator reveal"></div>
-    <h2 class="countdown-title reveal">距离 <span id="midAutumnDateDisplay" style="color:var(--moon-gold);"><%= config.countdown_label %></span> 中秋节</h2>
+    <h2 class="countdown-title reveal">距离 <span id="midAutumnDateDisplay" style="color:var(--moon-gold);">2026年9月25日</span> 中秋节</h2>
     <p class="countdown-date-info reveal">农历八月十五 · 月圆人团圆</p>
     <div class="countdown-grid reveal">
-      <div class="countdown-item"><span class="cd-number" id="cd-days">00</span><span class="cd-label">天</span></div>
-      <div class="countdown-item"><span class="cd-number" id="cd-hours">00</span><span class="cd-label">时</span></div>
-      <div class="countdown-item"><span class="cd-number" id="cd-minutes">00</span><span class="cd-label">分</span></div>
-      <div class="countdown-item"><span class="cd-number" id="cd-seconds">00</span><span class="cd-label">秒</span></div>
+      <div class="countdown-item">
+        <span class="cd-number" id="cd-days">00</span>
+        <span class="cd-label">天</span>
+      </div>
+      <div class="countdown-item">
+        <span class="cd-number" id="cd-hours">00</span>
+        <span class="cd-label">时</span>
+      </div>
+      <div class="countdown-item">
+        <span class="cd-number" id="cd-minutes">00</span>
+        <span class="cd-label">分</span>
+      </div>
+      <div class="countdown-item">
+        <span class="cd-number" id="cd-seconds">00</span>
+        <span class="cd-label">秒</span>
+      </div>
     </div>
     <p class="countdown-target reveal">每一秒，都在靠近团圆</p>
   </div>
 </section>
 
+<!-- 转场分隔 -->
 <div class="section-transition"><div class="section-separator"><span class="sep-line"></span><span class="sep-dot"></span><span class="sep-line"></span></div></div>
 
-<!-- Section 3: 节日起源概述 -->
+<!-- ====== Section 3: 节日起源概述 ====== -->
 <section class="origin-overview section" id="origin">
   <div class="section-inner">
     <div class="section-title reveal">
@@ -148,21 +112,27 @@
     </div>
     <div class="origin-layout">
       <div class="origin-timeline-mini reveal">
-        <% hpTimeline.forEach(function(t) { %>
-          <div class="origin-node"><div class="on-year"><%= t.year_label %></div><p class="on-text"><%= t.description %></p></div>
-        <% }); %>
+        <div class="origin-node"><div class="on-year">上古时期</div><p class="on-text">天象崇拜，秋夕祭月。《周礼》记载"中秋夜迎寒"，是最早的文字记录。</p></div>
+        <div class="origin-node"><div class="on-year">汉代</div><p class="on-text">祭月从宫廷走向民间，与秋分节气逐渐分离，固定于八月十五。</p></div>
+        <div class="origin-node"><div class="on-year">唐代</div><p class="on-text">正式成为全国性节日。《唐书·太宗记》首次记载"八月十五中秋节"。</p></div>
+        <div class="origin-node"><div class="on-year">宋代</div><p class="on-text">盛况空前。《东京梦华录》载中秋夜"嬉戏连坐至晓"，吃月饼普及民间。</p></div>
+        <div class="origin-node"><div class="on-year">明清时期</div><p class="on-text">与春节、清明、端午并称中国四大传统节日，习俗丰富多彩。</p></div>
+        <div class="origin-node"><div class="on-year">当代</div><p class="on-text">2006年列入首批国家级非遗，2008年成为国家法定节假日。</p></div>
         <p style="margin-top:20px;"><a href="/origin" class="btn">深入了解节日起源 →</a></p>
       </div>
       <div class="origin-visual reveal">
-        <div class="origin-moon-art"><span class="oma-text">中秋</span></div>
+        <div class="origin-moon-art">
+          <span class="oma-text">中秋</span>
+        </div>
       </div>
     </div>
   </div>
 </section>
 
+<!-- 转场分隔 -->
 <div class="section-transition"><div class="section-separator"><span class="sep-line"></span><span class="sep-dot"></span><span class="sep-line"></span></div></div>
 
-<!-- Section 4: 四大神话传说 -->
+<!-- ====== Section 4: 四大神话传说 ====== -->
 <section class="legends-preview section" id="legends">
   <div class="section-inner">
     <div class="section-title reveal">
@@ -171,20 +141,34 @@
       <div class="divider"><span class="dot"></span></div>
     </div>
     <div class="legends-grid-4">
-      <% hpLegends.forEach(function(l) { %>
-        <a href="/legends" class="legend-pcard reveal">
-          <div class="lp-illustration"><%= l.icon %></div>
-          <h3 class="lp-title"><%= l.title %></h3>
-          <p class="lp-desc"><%= l.description %></p>
-        </a>
-      <% }); %>
+      <a href="/legends" class="legend-pcard reveal">
+        <div class="lp-illustration">🌙</div>
+        <h3 class="lp-title">嫦娥奔月</h3>
+        <p class="lp-desc">后羿射日救苍生，嫦娥吞下仙药飞向月宫。从此月宫中有了一位美丽的仙子，后羿每年中秋摆糕点遥祭爱妻。</p>
+      </a>
+      <a href="/legends" class="legend-pcard reveal">
+        <div class="lp-illustration">🪓</div>
+        <h3 class="lp-title">吴刚伐桂</h3>
+        <p class="lp-desc">汉朝吴刚学仙犯错，被贬月宫砍伐五百丈桂树。桂树随砍随合，永无休止。只有中秋月圆之夜才能稍歇。</p>
+      </a>
+      <div class="legend-pcard reveal" onclick="location.href='/legends'">
+        <div class="lp-illustration">🐰</div>
+        <h3 class="lp-title">玉兔捣药</h3>
+        <p class="lp-desc">兔子舍身济助饥饿老人，神仙感动送其入月宫。玉兔用玉杵捣制长生不老药，陪伴嫦娥至今。</p>
+      </div>
+      <div class="legend-pcard reveal" onclick="location.href='/legends'">
+        <div class="lp-illustration">📜</div>
+        <h3 class="lp-title">月饼起义</h3>
+        <p class="lp-desc">元末朱元璋将起义密信藏入饼中传递消息，八月十五夜各路义军一齐响应。明朝建立后，月饼成为节令赏赐。</p>
+      </div>
     </div>
   </div>
 </section>
 
+<!-- 转场分隔 -->
 <div class="section-transition"><div class="section-separator"><span class="sep-line"></span><span class="sep-dot"></span><span class="sep-line"></span></div></div>
 
-<!-- Section 5: 八大民间习俗 -->
+<!-- ====== Section 5: 八大民间习俗 ====== -->
 <section class="customs-preview section" id="customs">
   <div class="section-inner">
     <div class="section-title reveal">
@@ -193,54 +177,70 @@
       <div class="divider"><span class="dot"></span></div>
     </div>
     <div class="customs-icon-grid">
-      <% hpCustoms.forEach(function(c) { %>
-        <a href="/customs" class="custom-item reveal"><span class="ci-icon"><%= c.icon %></span><span class="ci-name"><%= c.name %></span><span class="ci-brief"><%= c.description %></span></a>
-      <% }); %>
+      <a href="/customs" class="custom-item reveal"><span class="ci-icon">🌕</span><span class="ci-name">赏月</span><span class="ci-brief">源于魏晋盛于唐宋，中秋夜阖家赏月</span></a>
+      <a href="/customs" class="custom-item reveal"><span class="ci-icon">🙏</span><span class="ci-name">祭月</span><span class="ci-brief">设香案摆祭品，拜祭月神祈求福佑</span></a>
+      <a href="/customs" class="custom-item reveal"><span class="ci-icon">🥮</span><span class="ci-name">吃月饼</span><span class="ci-brief">月团象征团圆，中秋必备节令美食</span></a>
+      <a href="/customs" class="custom-item reveal"><span class="ci-icon">🏮</span><span class="ci-name">燃灯</span><span class="ci-brief">满城灯火不啻琉璃世界，祈福光明</span></a>
+      <a href="/customs" class="custom-item reveal"><span class="ci-icon">🌊</span><span class="ci-name">观潮</span><span class="ci-brief">钱塘江大潮汹涌，天下第一潮奇观</span></a>
+      <a href="/customs" class="custom-item reveal"><span class="ci-icon">🌸</span><span class="ci-name">赏桂饮酒</span><span class="ci-brief">中秋桂花盛开，饮桂花蜜酒欢庆</span></a>
+      <a href="/customs" class="custom-item reveal"><span class="ci-icon">🔥</span><span class="ci-name">烧塔</span><span class="ci-brief">瓦砾垒塔点燃，寓意生活红红火火</span></a>
+      <a href="/customs" class="custom-item reveal"><span class="ci-icon">🐇</span><span class="ci-name">兔儿爷</span><span class="ci-brief">老北京非遗名片，兔首人身泥塑</span></a>
     </div>
   </div>
 </section>
 
+<!-- 转场分隔 -->
 <div class="section-transition"><div class="section-separator"><span class="sep-line"></span><span class="sep-dot"></span><span class="sep-line"></span></div></div>
 
-<!-- Section 6: 美食文化轮播 -->
+<!-- ====== Section 6: 美食文化轮播 ====== -->
 <section class="food-preview section" id="food">
   <div class="section-inner">
     <div class="section-title reveal">
       <h2>团圆味道</h2>
-      <p class="subtitle">舌尖上的中秋，品味六大月饼流派的独特风味</p>
+      <p class="subtitle">舌尖上的中秋，品味四大月饼流派的独特风味</p>
       <div class="divider"><span class="dot"></span></div>
     </div>
-    <div class="food-carousel-wrapper reveal">
-      <button class="food-carousel-btn prev" aria-label="上一张">◀</button>
-      <div class="food-carousel">
-        <div class="food-carousel-track">
-          <% hpMooncakes.forEach(function(m) { %>
-            <div class="food-carousel-slide">
-              <span class="fcs-icon"><%= m.icon %></span>
-              <h3 class="fcs-name"><%= m.name %></h3>
-              <p class="fcs-desc"><%= m.description %></p>
-            </div>
-          <% }); %>
+    <div class="food-carousel reveal">
+      <button class="food-carousel-btn prev">◀</button>
+      <div class="food-carousel-track">
+        <div class="food-carousel-slide">
+          <span class="fcs-icon">🥮</span>
+          <h3 class="fcs-name">广式月饼</h3>
+          <p class="fcs-desc">皮薄馅足、松软细腻，莲蓉蛋黄为经典代表。流行于广东、香港、澳门，是全国最受欢迎的月饼品种，占据了月饼市场的半壁江山。</p>
         </div>
-        <div class="food-carousel-dots">
-          <% hpMooncakes.forEach(function(m, i) { %>
-            <span class="dot<%= i === 0 ? ' active' : '' %>"></span>
-          <% }); %>
+        <div class="food-carousel-slide">
+          <span class="fcs-icon">🍘</span>
+          <h3 class="fcs-name">苏式月饼</h3>
+          <p class="fcs-desc">酥皮层次分明、入口即化。鲜肉月饼趁热食用最为美味，咸甜兼备，流行于江浙沪地区，是江南中秋的经典味道。</p>
+        </div>
+        <div class="food-carousel-slide">
+          <span class="fcs-icon">🍪</span>
+          <h3 class="fcs-name">京式月饼</h3>
+          <p class="fcs-desc">甜度适中、口感酥松，自来红、自来白是经典代表。传承宫廷风味，流行于北京及华北地区，历史悠久、古法制作。</p>
+        </div>
+        <div class="food-carousel-slide">
+          <span class="fcs-icon">🥞</span>
+          <h3 class="fcs-name">滇式月饼</h3>
+          <p class="fcs-desc">火腿入馅、咸香独特，云腿月饼搭配玫瑰花瓣。流行于云南及西南地区，咸甜交融的地方风味，极具西南特色。</p>
         </div>
       </div>
-      <button class="food-carousel-btn next" aria-label="下一张">▶</button>
+      <button class="food-carousel-btn next">▶</button>
+      <div class="food-carousel-dots">
+        <span class="dot active"></span><span class="dot"></span><span class="dot"></span><span class="dot"></span>
+      </div>
     </div>
     <div class="food-tags">
-      <% foodTags.forEach(function(t) { %>
-        <span class="food-tag"><%= t.icon %> <%= t.name %></span>
-      <% }); %>
+      <span class="food-tag">🦆 桂花鸭</span><span class="food-tag">🐚 中秋田螺</span><span class="food-tag">🍠 中秋芋头</span>
+      <span class="food-tag">🍶 桂花酒</span><span class="food-tag">🍊 柚子</span><span class="food-tag">🦀 大闸蟹</span>
+      <span class="food-tag">🥜 糖炒栗子</span><span class="food-tag">🍈 西瓜</span>
     </div>
   </div>
 </section>
 
+<!-- 转场分隔 -->
 <div class="section-transition"><div class="section-separator"><span class="sep-line"></span><span class="sep-dot"></span><span class="sep-line"></span></div></div>
 
-<!-- Section 7: 诗词展示 -->
+<!-- ====== Section 7: 诗词错落展示 ====== -->
 <section class="poetry-showcase section" id="poetry">
   <div class="ink-wash-bg">
     <div class="ink-blot"></div><div class="ink-blot"></div><div class="ink-blot"></div>
@@ -252,21 +252,45 @@
       <div class="divider"><span class="dot"></span></div>
     </div>
     <div class="poetry-stagger">
-      <% hpPoems.forEach(function(p) { %>
-        <div class="poem-block reveal">
-          <p class="pb-title"><%= p.title %></p>
-          <p class="pb-lines"><%- p.excerpt %></p>
-          <p class="pb-author">—— <%= p.author %></p>
-        </div>
-      <% }); %>
+      <div class="poem-block reveal">
+        <p class="pb-title">《水调歌头》</p>
+        <p class="pb-lines">明月几时有？把酒问青天。<br>不知天上宫阙，今夕是何年。<br>但愿人长久，千里共婵娟。</p>
+        <p class="pb-author">—— 宋 · 苏轼</p>
+      </div>
+      <div class="poem-block reveal">
+        <p class="pb-title">《望月怀远》</p>
+        <p class="pb-lines">海上生明月，天涯共此时。<br>情人怨遥夜，竟夕起相思。<br>不堪盈手赠，还寝梦佳期。</p>
+        <p class="pb-author">—— 唐 · 张九龄</p>
+      </div>
+      <div class="poem-block reveal">
+        <p class="pb-title">《静夜思》</p>
+        <p class="pb-lines">床前明月光，疑是地上霜。<br>举头望明月，低头思故乡。</p>
+        <p class="pb-author">—— 唐 · 李白</p>
+      </div>
+      <div class="poem-block reveal">
+        <p class="pb-title">《十五夜望月》</p>
+        <p class="pb-lines">中庭地白树栖鸦，冷露无声湿桂花。<br>今夜月明人尽望，不知秋思落谁家。</p>
+        <p class="pb-author">—— 唐 · 王建</p>
+      </div>
+      <div class="poem-block reveal">
+        <p class="pb-title">《春江花月夜》节选</p>
+        <p class="pb-lines">春江潮水连海平，海上明月共潮生。<br>江畔何人初见月？江月何年初照人？<br>人生代代无穷已，江月年年望相似。</p>
+        <p class="pb-author">—— 唐 · 张若虚</p>
+      </div>
+      <div class="poem-block reveal">
+        <p class="pb-title">《太常引》</p>
+        <p class="pb-lines">一轮秋影转金波，飞镜又重磨。<br>乘风好去，长空万里，直下看山河。<br>斫去桂婆娑，人道是、清光更多。</p>
+        <p class="pb-author">—— 宋 · 辛弃疾</p>
+      </div>
     </div>
     <div class="poetry-more reveal"><a href="/poetry" class="btn">查看更多中秋诗词 →</a></div>
   </div>
 </section>
 
+<!-- 转场分隔 -->
 <div class="section-transition"><div class="section-separator"><span class="sep-line"></span><span class="sep-dot"></span><span class="sep-line"></span></div></div>
 
-<!-- Section 8: 中秋图集预览 -->
+<!-- ====== Section 8: 中秋图集预览 ====== -->
 <section class="gallery-preview section" id="gallery">
   <div class="section-inner">
     <div class="section-title reveal">
@@ -275,20 +299,33 @@
       <div class="divider"><span class="dot"></span></div>
     </div>
     <div class="gallery-preview-grid">
-      <% var gradients = ['#1a1f4a,#0d1530','#2a1520,#1a0d15','#1a202a,#0d1820','#1a2a1a,#0d200d','#2a1a1a,#200d0d','#202020,#151515']; %>
-      <% hpGallery.forEach(function(g, i) { %>
-        <div class="gallery-preview-item reveal" style="background:linear-gradient(135deg,<%= gradients[i % 6] %>);" onclick="location.href='/gallery'">
-          <%= g.icon %><div class="gpi-overlay"><span class="gpi-label"><%= g.label %></span></div>
-        </div>
-      <% }); %>
+      <div class="gallery-preview-item reveal" style="background:linear-gradient(135deg,#1a1f4a,#0d1530);" onclick="location.href='/gallery'">
+        🌕<div class="gpi-overlay"><span class="gpi-label">海上明月</span></div>
+      </div>
+      <div class="gallery-preview-item reveal" style="background:linear-gradient(135deg,#2a1520,#1a0d15);" onclick="location.href='/gallery'">
+        🏮<div class="gpi-overlay"><span class="gpi-label">灯笼高挂</span></div>
+      </div>
+      <div class="gallery-preview-item reveal" style="background:linear-gradient(135deg,#1a202a,#0d1820);" onclick="location.href='/gallery'">
+        🎑<div class="gpi-overlay"><span class="gpi-label">中秋拜月</span></div>
+      </div>
+      <div class="gallery-preview-item reveal" style="background:linear-gradient(135deg,#1a2a1a,#0d200d);" onclick="location.href='/gallery'">
+        🐲<div class="gpi-overlay"><span class="gpi-label">舞火龙</span></div>
+      </div>
+      <div class="gallery-preview-item reveal" style="background:linear-gradient(135deg,#2a1a1a,#200d0d);" onclick="location.href='/gallery'">
+        👨‍👩‍👧‍👦<div class="gpi-overlay"><span class="gpi-label">阖家团圆</span></div>
+      </div>
+      <div class="gallery-preview-item reveal" style="background:linear-gradient(135deg,#202020,#151515);" onclick="location.href='/gallery'">
+        🥮<div class="gpi-overlay"><span class="gpi-label">分享月饼</span></div>
+      </div>
     </div>
     <div class="gallery-preview-more reveal"><a href="/gallery" class="btn">查看完整中秋图集 →</a></div>
   </div>
 </section>
 
+<!-- 转场分隔 -->
 <div class="section-transition"><div class="section-separator"><span class="sep-line"></span><span class="sep-dot"></span><span class="sep-line"></span></div></div>
 
-<!-- Section 9: 非遗传承 -->
+<!-- ====== Section 9: 非遗传承 ====== -->
 <section class="heritage-section section" id="heritage">
   <div class="section-inner">
     <div class="section-title reveal">
@@ -306,20 +343,27 @@
         </div>
       </div>
       <div class="heritage-milestones reveal">
-        <% heritage.forEach(function(h) { %>
-          <div class="heritage-milestone">
-            <div class="hm-year"><%= h.year_label %></div>
-            <div class="hm-info"><h4><%= h.title %></h4><p><%= h.description %></p></div>
-          </div>
-        <% }); %>
+        <div class="heritage-milestone">
+          <div class="hm-year">2006</div>
+          <div class="hm-info"><h4>首批国家级非遗</h4><p>5月20日，中秋节列入首批国家级非物质文化遗产名录</p></div>
+        </div>
+        <div class="heritage-milestone">
+          <div class="hm-year">2008</div>
+          <div class="hm-info"><h4>国家法定节假日</h4><p>中秋节正式成为国家法定节假日，全民共享团圆</p></div>
+        </div>
+        <div class="heritage-milestone">
+          <div class="hm-year">全球</div>
+          <div class="hm-info"><h4>世界文化影响力</h4><p>东亚、东南亚多国共同庆祝，成为跨国界的文化纽带</p></div>
+        </div>
       </div>
     </div>
   </div>
 </section>
 
+<!-- 转场分隔 -->
 <div class="section-transition"><div class="section-separator"><span class="sep-line"></span><span class="sep-dot"></span><span class="sep-line"></span></div></div>
 
-<!-- Section 10: 世界中秋 -->
+<!-- ====== Section 10: 世界中秋 ====== -->
 <section class="world-midautumn section" id="world">
   <div class="section-inner">
     <div class="section-title reveal">
@@ -328,21 +372,38 @@
       <div class="divider"><span class="dot"></span></div>
     </div>
     <div class="world-grid">
-      <% world.forEach(function(w) { %>
-        <div class="world-card reveal">
-          <span class="wc-flag"><%= w.flag %></span>
-          <h3 class="wc-country"><%= w.country %></h3>
-          <p class="wc-name"><%= w.local_name %></p>
-          <p class="wc-desc"><%= w.description %></p>
-        </div>
-      <% }); %>
+      <div class="world-card reveal">
+        <span class="wc-flag">🇯🇵</span>
+        <h3 class="wc-country">日本</h3>
+        <p class="wc-name">十五夜 · 月見</p>
+        <p class="wc-desc">农历八月十五和九月十三两次赏月。供奉月见团子、芒草，感谢丰收。这一习俗源自唐朝，已融入日本文化千年。</p>
+      </div>
+      <div class="world-card reveal">
+        <span class="wc-flag">🇰🇷</span>
+        <h3 class="wc-country">韩国</h3>
+        <p class="wc-name">秋夕 · 추석</p>
+        <p class="wc-desc">韩国最重要的传统节日之一，全国放假三天。制作松饼祭祀祖先，举行摔跤、跳板等传统活动，阖家团聚扫墓。</p>
+      </div>
+      <div class="world-card reveal">
+        <span class="wc-flag">🇻🇳</span>
+        <h3 class="wc-country">越南</h3>
+        <p class="wc-name">Tết Trung Thu</p>
+        <p class="wc-desc">被称为"儿童节"。孩子们提灯笼游行、舞狮、吃月饼。传说源于一位仙女在中秋之夜下凡与孩童玩耍的故事。</p>
+      </div>
+      <div class="world-card reveal">
+        <span class="wc-flag">🇸🇬</span>
+        <h3 class="wc-country">新加坡</h3>
+        <p class="wc-name">中秋节</p>
+        <p class="wc-desc">华人社区盛大庆祝。牛车水、裕廊湖等地举办大型灯会、提灯游行，商场举办月饼展销会，多元文化共庆佳节。</p>
+      </div>
     </div>
   </div>
 </section>
 
+<!-- 转场分隔 -->
 <div class="section-transition"><div class="section-separator"><span class="sep-line"></span><span class="sep-dot"></span><span class="sep-line"></span></div></div>
 
-<!-- Section 11: 祝福寄语 -->
+<!-- ====== Section 11: 祝福寄语互动 ====== -->
 <section class="blessing-preview section" id="blessing">
   <div class="section-inner">
     <div class="section-title reveal">
@@ -368,22 +429,21 @@
   </div>
 </section>
 
-<!-- Footer -->
+<!-- ====== Section 12: Footer ====== -->
 <footer class="footer">
   <div class="footer-content">
     <div class="footer-links">
-      <% nav.forEach(function(item) { %>
-        <a href="<%= item.href %>"><%= item.label %></a>
-      <% }); %>
+      <% nav.forEach(function(item) { %><a href="<%= item.href %>"><%= item.label %></a><% }); %>
     </div>
     <div class="footer-divider"></div>
     <div class="footer-info">
-      <p><span class="highlight"><%= config.site_title %></span> — <%= config.site_subtitle %></p>
-      <p><%= config.footer_text %></p>
+      <p><span class="highlight"><%= config.site_title %></span> — 中秋节非物质文化遗产专题网站</p>
+      <p>弘扬中华优秀传统文化 · 传承非物质文化遗产 · 守护人类共同记忆</p>
     </div>
   </div>
 </footer>
 
+<!-- 回到顶部 -->
 <div class="back-to-top" title="回到顶部">
   <svg viewBox="0 0 24 24"><path d="M12 19V5M5 12l7-7 7 7" stroke="currentColor" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
 </div>
@@ -393,6 +453,7 @@
 <script src="/js/index.js"></script>
 <script src="/js/moon-journey.js"></script>
 <script>
+// 月华流转：首页根据滚动位置在 hero 与 main 阶段间切换
 (function() {
   var currentPhase = 'index-hero';
   MoonJourney.start(currentPhase);
